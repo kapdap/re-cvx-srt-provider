@@ -214,7 +214,7 @@ namespace SRTPluginProviderRECVX
             {
                 EnemyEnumeration type = GetEnemyType(_process.ReadValue<short>(IntPtr.Add(pointer, 0x0004), Emulator.IsBigEndian));
 
-                if (type == EnemyEnumeration.Unknown)
+                if (type != EnemyEnumeration.Unknown)
                 {
                     EnemyEntry entry = new EnemyEntry(type);
 
