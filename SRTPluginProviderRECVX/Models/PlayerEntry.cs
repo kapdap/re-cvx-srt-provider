@@ -30,6 +30,21 @@ namespace SRTPluginProviderRECVX.Models
                     _character = value;
                     OnPropertyChanged();
                     OnPropertyChanged("CharacterName");
+                    OnPropertyChanged("CharacterFirstName");
+                }
+            }
+        }
+
+        private InventoryEntry _equipment;
+        public InventoryEntry Equipment
+        {
+            get => _equipment;
+            set
+            {
+                if (_equipment != value)
+                {
+                    _equipment = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -82,7 +97,7 @@ namespace SRTPluginProviderRECVX.Models
             => Math.Max(CurrentHP, 0);
 
         public bool IsAlive
-            => CurrentHP > 0;
+            => CurrentHP >= 0;
 
         public float Percentage
             => IsAlive ? (float)DisplayHP / (float)MaximumHP : 0f;

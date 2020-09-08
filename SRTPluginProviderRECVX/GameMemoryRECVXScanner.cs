@@ -164,6 +164,7 @@ namespace SRTPluginProviderRECVX
 
         public void RefreshInventory()
         {
+            InventoryEntry equipment = new InventoryEntry(0);
             InventoryEntry[] inventory = new InventoryEntry[12];
 
             IntPtr pointer = IntPtr.Add(Pointers.Inventory, (int)Memory.Player.Character * 0x40);
@@ -182,15 +183,15 @@ namespace SRTPluginProviderRECVX
                     inventory[++index] = new InventoryEntry(index, data, equip == index);
 
                     if (inventory[index].IsEquipped)
-                        inventory[0] = new InventoryEntry(0, data);
+                        equipment = new InventoryEntry(0, data);
                 }
 
                 pointer = IntPtr.Add(pointer, 0x4);
             }
 
-            if (inventory[0] == null)
-                inventory[0] = new InventoryEntry(0);
+            inventory[0] = equipment;
 
+            Memory.Player.Equipment = equipment;
             Memory.Player.Inventory = inventory;
         }
 
