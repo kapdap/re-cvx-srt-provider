@@ -1,4 +1,5 @@
 ﻿using SRTPluginProviderRECVX.Enumerations;
+using System;
 
 namespace SRTPluginProviderRECVX
 {
@@ -17,7 +18,7 @@ namespace SRTPluginProviderRECVX
         public ConsoleEnumeration Console { get; private set; }
         public bool Supported { get; private set; }
 
-        public GameVersion() => Update();
+        public GameVersion() => Update("None");
 
         public GameVersion(string code) => Update(code);
 
@@ -26,7 +27,7 @@ namespace SRTPluginProviderRECVX
             if (Code == code)
                 return;
 
-            Code = code;
+            Code = String.IsNullOrEmpty(code) ? "None" : code;
             Supported = true;
 
             switch (Code)

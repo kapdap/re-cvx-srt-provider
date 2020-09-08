@@ -33,17 +33,8 @@ namespace SRTPluginProviderRECVX
                 UpdatePointerAddresses();
         }
 
-        public void UpdateGameVersion()
-        {
-            try
-            {
-                string code = Process.ReadString(Emulator.ProductPointer, Emulator.ProductLength);
-
-                if (Memory.Version.Code != code)
-                    Memory.Version = new GameVersion(code);
-            }
-            catch { }
-        }
+        public void UpdateGameVersion() =>
+            Memory.Version = new GameVersion(Process.ReadString(Emulator.ProductPointer, Emulator.ProductLength));
 
         public void UpdatePointerAddresses()
         {

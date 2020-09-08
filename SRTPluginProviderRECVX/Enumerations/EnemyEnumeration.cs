@@ -1,6 +1,6 @@
 ﻿namespace SRTPluginProviderRECVX.Enumerations
 {
-    public enum EnemyEnumeration : byte
+    public enum EnemyEnumeration : short
     {
         Zombie = 1,
         GlupWorm = 2, // Boss
@@ -24,6 +24,7 @@
         //BabyBlackWidow = 24,
         AnatomistZombie = 26, // Boss
         Tenticle = 29,
-        AlexiaBaby = 30
+        AlexiaBaby = 30,
+        Unknown = 0x7FFF
     }
 }
