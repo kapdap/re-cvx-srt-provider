@@ -52,7 +52,7 @@ namespace SRTPluginProviderRECVX
                 // 2. Compare the leftmost window text of them with a string "GSdx".
                 if (Process.ProcessName == PCSX2)
                 {
-                    string title = WindowHelper.GetTitle(windowHandle);
+                    string title = WindowHelper.GetWindowTitle(windowHandle);
 
                     if (title.Contains("GSdx"))
                         return windowHandle;
@@ -62,7 +62,7 @@ namespace SRTPluginProviderRECVX
                     if (WindowHelper.GetClassName(windowHandle) != "Qt5QWindowIcon")
                         continue;
 
-                    string windowTitle = WindowHelper.GetTitle(windowHandle);
+                    string windowTitle = WindowHelper.GetWindowTitle(windowHandle);
 
                     if (windowTitle.StartsWith("FPS") || windowTitle.EndsWith("| SRT"))
                         return windowHandle;
