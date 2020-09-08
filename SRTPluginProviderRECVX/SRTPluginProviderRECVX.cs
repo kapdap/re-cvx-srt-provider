@@ -7,43 +7,43 @@ namespace SRTPluginProviderRECVX
 {
     public class SRTPluginProviderRECVX : IPluginProvider
     {
-        private GameEmulator Emulator;
-        private GameMemoryRECVXScanner MemoryScanner;
-        private Stopwatch Stopwatch;
-        private IPluginHostDelegates HostDelegates;
+        private GameEmulator _emulator;
+        private GameMemoryRECVXScanner _memoryScanner;
+        private Stopwatch _stopwatch;
+        private IPluginHostDelegates _hostDelegates;
         public IPluginInfo Info => new PluginInfo();
 
         public bool GameRunning
         {
             get
             {
-                if (MemoryScanner != null && !MemoryScanner.ProcessRunning)
+                if (_memoryScanner != null && !_memoryScanner.ProcessRunning)
                 {
-                    Emulator = GetEmulator();
-                    if (Emulator != null)
-                        MemoryScanner.Initialize(Emulator); // Re-initialize and attempt to continue.
+                    _emulator = GetEmulator();
+                    if (_emulator != null)
+                        _memoryScanner.Initialize(_emulator); // Re-initialize and attempt to continue.
                 }
 
-                return MemoryScanner != null && MemoryScanner.ProcessRunning;
+                return _memoryScanner != null && _memoryScanner.ProcessRunning;
             }
         }
 
         public int Startup(IPluginHostDelegates hostDelegates)
         {
-            HostDelegates = hostDelegates;
-            Emulator = GetEmulator();
-            MemoryScanner = new GameMemoryRECVXScanner(Emulator);
-            Stopwatch = new Stopwatch();
-            Stopwatch.Start();
+            _hostDelegates = hostDelegates;
+            _emulator = GetEmulator();
+            _memoryScanner = new GameMemoryRECVXScanner(_emulator);
+            _stopwatch = new Stopwatch();
+            _stopwatch.Start();
             return 0;
         }
 
         public int Shutdown()
         {
-            MemoryScanner?.Dispose();
-            MemoryScanner = null;
-            Stopwatch?.Stop();
-            Stopwatch = null;
+            _memoryScanner?.Dispose();
+            _memoryScanner = null;
+            _stopwatch?.Stop();
+            _stopwatch = null;
             return 0;
         }
 
@@ -54,13 +54,13 @@ namespace SRTPluginProviderRECVX
                 if (!GameRunning) // Not running? Bail out!
                     return null;
 
-                if (Stopwatch.ElapsedMilliseconds >= 2000L)
+                if (_stopwatch.ElapsedMilliseconds >= 2000L)
                 {
-                    MemoryScanner.UpdatePointerAddresses();
-                    Stopwatch.Restart();
+                    _memoryScanner.UpdatePointerAddresses();
+                    _stopwatch.Restart();
                 }
 
-                return MemoryScanner.Refresh();
+                return _memoryScanner.Refresh();
             }
             catch (Win32Exception ex)
             {
@@ -69,13 +69,13 @@ namespace SRTPluginProviderRECVX
                 // program exits or reading right as the pointers are changing
                 // (i.e. switching back to main menu).
                 if (ex.NativeErrorCode != 0x0000012B)
-                    HostDelegates.ExceptionMessage(ex);
+                    _hostDelegates.ExceptionMessage(ex);
 
                 return null;
             }
             catch (Exception ex)
             {
-                HostDelegates.ExceptionMessage(ex);
+                _hostDelegates.ExceptionMessage(ex);
                 return null;
             }
         }

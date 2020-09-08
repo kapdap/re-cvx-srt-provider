@@ -13,9 +13,9 @@ namespace SRTPluginProviderRECVX
         public GamePointers Pointers { get; private set; } = new GamePointers();
         public GameEmulator Emulator { get; private set; }
 
-        private Process Process { get; set; }
-        public bool ProcessRunning => Process != null && Process.IsRunning();
-        public int ProcessExitCode => Process != null ? Process.ExitCode() : 0;
+        private Process _process;
+        public bool ProcessRunning => _process != null && _process.IsRunning();
+        public int ProcessExitCode => _process != null ? _process.ExitCode() : 0;
 
         public bool HasScanned { get; private set; }
 
@@ -27,14 +27,14 @@ namespace SRTPluginProviderRECVX
             if ((Emulator = emulator) == null)
                 return;
 
-            Process = Emulator.Process;
+            _process = Emulator.Process;
 
             if (ProcessRunning)
                 UpdatePointerAddresses();
         }
 
         public void UpdateGameVersion() =>
-            Memory.Version = new GameVersion(Process.ReadString(Emulator.ProductPointer, Emulator.ProductLength));
+            Memory.Version = new GameVersion(_process.ReadString(Emulator.ProductPointer, Emulator.ProductLength));
 
         public void UpdatePointerAddresses()
         {
@@ -136,18 +136,18 @@ namespace SRTPluginProviderRECVX
 
         public IGameMemoryRECVX Refresh()
         {
-            Memory.Difficulty = GetDifficulty(Process.ReadValue<byte>(Pointers.Difficulty));
+            Memory.Difficulty = GetDifficulty(_process.ReadValue<byte>(Pointers.Difficulty));
 
-            Memory.IGT.RunningTimer = Process.ReadValue<int>(Pointers.Time, Emulator.IsBigEndian);
+            Memory.IGT.RunningTimer = _process.ReadValue<int>(Pointers.Time, Emulator.IsBigEndian);
 
-            Memory.Room.Id = Process.ReadValue<short>(Pointers.Room, true); // Room Id bytes are always swapped!
-            Memory.Room.IsLoaded = Process.ReadValue<int>(Pointers.RDXHeader, true) == GetRDXHeader();
+            Memory.Room.Id = _process.ReadValue<short>(Pointers.Room, true); // Room Id bytes are always swapped!
+            Memory.Room.IsLoaded = _process.ReadValue<int>(Pointers.RDXHeader, true) == GetRDXHeader();
 
-            Memory.Player.Character = GetCharacter(Process.ReadValue<byte>(Pointers.Character));
-            Memory.Player.CurrentHP = Process.ReadValue<int>(Pointers.Health, Emulator.IsBigEndian);
-            Memory.Player.Status = Process.ReadValue<byte>(Pointers.Status);
-            Memory.Player.Saves = Process.ReadValue<int>(Pointers.Saves, Emulator.IsBigEndian);
-            Memory.Player.Retry = Process.ReadValue<short>(Pointers.Retry, Emulator.IsBigEndian);
+            Memory.Player.Character = GetCharacter(_process.ReadValue<byte>(Pointers.Character));
+            Memory.Player.CurrentHP = _process.ReadValue<int>(Pointers.Health, Emulator.IsBigEndian);
+            Memory.Player.Status = _process.ReadValue<byte>(Pointers.Status);
+            Memory.Player.Saves = _process.ReadValue<int>(Pointers.Saves, Emulator.IsBigEndian);
+            Memory.Player.Retry = _process.ReadValue<short>(Pointers.Retry, Emulator.IsBigEndian);
 
             if (Memory.Version.Country == CountryEnumeration.JP)
                 Memory.Player.MaximumHP = Memory.Difficulty == DifficultyEnumeration.VeryEasy ? 400 : 200;
@@ -173,7 +173,7 @@ namespace SRTPluginProviderRECVX
 
             for (int i = 0; i < 12; ++i)
             {
-                byte[] data = Process.ReadBytes(pointer, 4, Emulator.IsBigEndian);
+                byte[] data = _process.ReadBytes(pointer, 4, Emulator.IsBigEndian);
 
                 if (i <= 0)
                     equip = BitConverter.ToInt32(data, 0);
@@ -205,27 +205,27 @@ namespace SRTPluginProviderRECVX
             }
 
             IntPtr pointer = new IntPtr(Pointers.Enemy.ToInt64());
-            int count = Process.ReadValue<int>(Pointers.EnemyCount, Emulator.IsBigEndian);
+            int count = _process.ReadValue<int>(Pointers.EnemyCount, Emulator.IsBigEndian);
 
             int entryOffset = Memory.Version.Console == ConsoleEnumeration.PS2 ? 0x0580 : 0x0578;
             int modelOffset = Memory.Version.Console == ConsoleEnumeration.PS2 ? 0x008B : 0x0088;
 
             for (int i = 0; i < count; ++i)
             {
-                EnemyEnumeration type = GetEnemyType(Process.ReadValue<short>(IntPtr.Add(pointer, 0x0004), Emulator.IsBigEndian));
+                EnemyEnumeration type = GetEnemyType(_process.ReadValue<short>(IntPtr.Add(pointer, 0x0004), Emulator.IsBigEndian));
 
                 if (type == EnemyEnumeration.Unknown)
                 {
                     EnemyEntry entry = new EnemyEntry(type);
 
-                    entry.Slot = Process.ReadValue<int>(IntPtr.Add(pointer, 0x039C), Emulator.IsBigEndian);
-                    entry.Damage = Process.ReadValue<int>(IntPtr.Add(pointer, 0x0574), Emulator.IsBigEndian);
-                    entry.CurrentHP = Process.ReadValue<int>(IntPtr.Add(pointer, 0x041C), Emulator.IsBigEndian);
+                    entry.Slot = _process.ReadValue<int>(IntPtr.Add(pointer, 0x039C), Emulator.IsBigEndian);
+                    entry.Damage = _process.ReadValue<int>(IntPtr.Add(pointer, 0x0574), Emulator.IsBigEndian);
+                    entry.CurrentHP = _process.ReadValue<int>(IntPtr.Add(pointer, 0x041C), Emulator.IsBigEndian);
 
                     // Not sure what to call these values. They are useful to help determine enemy life status.
-                    entry.Action = Process.ReadValue<byte>(IntPtr.Add(pointer, 0x000C));
-                    entry.Status = Process.ReadValue<byte>(IntPtr.Add(pointer, 0x000F));
-                    entry.Model = Process.ReadValue<byte>(IntPtr.Add(pointer, modelOffset));
+                    entry.Action = _process.ReadValue<byte>(IntPtr.Add(pointer, 0x000C));
+                    entry.Status = _process.ReadValue<byte>(IntPtr.Add(pointer, 0x000F));
+                    entry.Model = _process.ReadValue<byte>(IntPtr.Add(pointer, modelOffset));
 
                     switch (entry.Type)
                     {
