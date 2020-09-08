@@ -34,7 +34,7 @@ namespace SRTPluginProviderRECVX.Utilities
 {
     using SizeT = UIntPtr;
 
-    public enum ReadStringType
+    public enum StringEnumType
     {
         AutoDetect,
         ASCII,
@@ -47,7 +47,7 @@ namespace SRTPluginProviderRECVX.Utilities
         public static bool Is64Bit(this Process process)
         {
             bool procWow64;
-            WinAPI.IsWow64Process(process.Handle, out procWow64);
+            NativeWrappers.IsWow64Process(process.Handle, out procWow64);
             if (Environment.Is64BitOperatingSystem && !procWow64)
                 return true;
             return false;
@@ -56,13 +56,13 @@ namespace SRTPluginProviderRECVX.Utilities
         public static bool IsRunning(this Process process)
         {
             int exitCode = 0;
-            return WinAPI.GetExitCodeProcess(process.Handle, ref exitCode) && exitCode == 259;
+            return NativeWrappers.GetExitCodeProcess(process.Handle, ref exitCode) && exitCode == 259;
         }
 
         public static int ExitCode(this Process process)
         {
             int exitCode = 0;
-            WinAPI.GetExitCodeProcess(process.Handle, ref exitCode);
+            NativeWrappers.GetExitCodeProcess(process.Handle, ref exitCode);
             return exitCode;
         }
 
@@ -101,7 +101,7 @@ namespace SRTPluginProviderRECVX.Utilities
 
             SizeT read;
             val = null;
-            if (!WinAPI.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
+            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
                 || read != (SizeT)bytes.Length)
                 return false;
 
@@ -124,7 +124,7 @@ namespace SRTPluginProviderRECVX.Utilities
 
             SizeT read;
             val = IntPtr.Zero;
-            if (!WinAPI.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
+            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
                 || read != (SizeT)bytes.Length)
                 return false;
 
@@ -138,10 +138,10 @@ namespace SRTPluginProviderRECVX.Utilities
 
         public static bool ReadString(this Process process, IntPtr addr, int numBytes, out string str, bool swapBytes = false)
         {
-            return ReadString(process, addr, ReadStringType.AutoDetect, numBytes, out str, swapBytes);
+            return ReadString(process, addr, StringEnumType.AutoDetect, numBytes, out str, swapBytes);
         }
 
-        public static bool ReadString(this Process process, IntPtr addr, ReadStringType type, int numBytes, out string str, bool swapBytes = false)
+        public static bool ReadString(this Process process, IntPtr addr, StringEnumType type, int numBytes, out string str, bool swapBytes = false)
         {
             var sb = new StringBuilder(numBytes);
             if (!ReadString(process, addr, type, sb, swapBytes))
@@ -157,30 +157,30 @@ namespace SRTPluginProviderRECVX.Utilities
 
         public static bool ReadString(this Process process, IntPtr addr, StringBuilder sb, bool swapBytes = false)
         {
-            return ReadString(process, addr, ReadStringType.AutoDetect, sb, swapBytes);
+            return ReadString(process, addr, StringEnumType.AutoDetect, sb, swapBytes);
         }
 
-        public static bool ReadString(this Process process, IntPtr addr, ReadStringType type, StringBuilder sb, bool swapBytes = false)
+        public static bool ReadString(this Process process, IntPtr addr, StringEnumType type, StringBuilder sb, bool swapBytes = false)
         {
             var bytes = new byte[sb.Capacity];
             SizeT read;
-            if (!WinAPI.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
+            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
                 || read != (SizeT)bytes.Length)
                 return false;
 
             if (swapBytes)
                 Array.Reverse(bytes);
 
-            if (type == ReadStringType.AutoDetect)
+            if (type == StringEnumType.AutoDetect)
             {
                 if (read.ToUInt64() >= 2 && bytes[1] == '\x0')
                     sb.Append(Encoding.Unicode.GetString(bytes));
                 else
                     sb.Append(Encoding.UTF8.GetString(bytes));
             }
-            else if (type == ReadStringType.UTF8)
+            else if (type == StringEnumType.UTF8)
                 sb.Append(Encoding.UTF8.GetString(bytes));
-            else if (type == ReadStringType.UTF16)
+            else if (type == StringEnumType.UTF16)
                 sb.Append(Encoding.Unicode.GetString(bytes));
             else
                 sb.Append(Encoding.ASCII.GetString(bytes));
@@ -229,7 +229,7 @@ namespace SRTPluginProviderRECVX.Utilities
             return str;
         }
 
-        public static string ReadString(this Process process, IntPtr addr, ReadStringType type, int numBytes, bool swapBytes = false, string default_ = null)
+        public static string ReadString(this Process process, IntPtr addr, StringEnumType type, int numBytes, bool swapBytes = false, string default_ = null)
         {
             string str;
             if (!process.ReadString(addr, type, numBytes, out str, swapBytes))

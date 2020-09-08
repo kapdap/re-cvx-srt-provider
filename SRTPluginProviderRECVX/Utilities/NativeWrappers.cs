@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SRTPluginProviderRECVX.Utilities
 {
-    public static class WinAPI
+    public static class NativeWrappers
     {
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]

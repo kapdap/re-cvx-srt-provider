@@ -33,7 +33,7 @@ namespace SRTPluginProviderRECVX.Utilities
             return handles;
         }
 
-        public static string GetTitle(IntPtr hWnd)
+        public static string GetWindowTitle(IntPtr hWnd)
         {
             int length = GetWindowTextLength(hWnd);
             StringBuilder title = new StringBuilder(length);
