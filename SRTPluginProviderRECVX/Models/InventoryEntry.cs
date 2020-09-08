@@ -25,6 +25,8 @@ namespace SRTPluginProviderRECVX.Models
         public int Slot { get; private set; }
         public byte[] Data { get; private set; }
 
+        public ItemPositionEnumeration Position { get; private set; }
+
         public ItemEnumeration ItemID { get; private set; }
         public int Quantity { get; private set; }
 
@@ -43,6 +45,8 @@ namespace SRTPluginProviderRECVX.Models
         {
             Slot = slot;
             Data = data;
+
+            Position = (ItemPositionEnumeration)Slot;
 
             if (Data.Length < 4)
                 return;

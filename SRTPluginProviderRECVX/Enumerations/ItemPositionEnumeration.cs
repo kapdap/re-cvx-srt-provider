@@ -2,21 +2,28 @@
 {
     public enum ItemPositionEnumeration : byte
     {
+        // Equipment
+        InvEquipment = 0,
+
         // Standard Item
-        InvItemSlot1 = 0x00,
+        InvItemSlot1 = 1,
 
         // Main Inventory
-        InvItemSlot2 = 0x01,
-        InvItemSlot3 = 0x02,
-        InvItemSlot4 = 0x03,
-        InvItemSlot5 = 0x04,
-        InvItemSlot6 = 0x05,
-        InvItemSlot7 = 0x06,
-        InvItemSlot8 = 0x07,
-        InvItemSlot9 = 0x08,
+        InvItemSlot2 = 2,
+        InvItemSlot3 = 3,
+        InvItemSlot4 = 4,
+        InvItemSlot5 = 5,
+        InvItemSlot6 = 6,
+        InvItemSlot7 = 7,
 
-        // Side pack
-        InvItemSlot10 = 0x09,
-        InvItemSlot11 = 0x0A
+        // Side Pack
+        InvItemSlot8 = 8,
+        InvItemSlot9 = 9,
+
+        // Overflow Slots
+        InvItemSlot10 = 10,
+        InvItemSlot11 = 11,
+        InvItemSlot12 = 12,
+        InvItemSlot13 = 13
     }
 }
