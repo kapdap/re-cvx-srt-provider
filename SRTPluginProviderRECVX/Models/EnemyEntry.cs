@@ -55,7 +55,7 @@ namespace SRTPluginProviderRECVX.Models
         public bool HasMaxHP { get; private set; }
         public bool IsAlive { get; set; }
         public float Percentage
-            => (IsAlive && DisplayHP > 0) ? (float)DisplayHP / (float)MaximumHP : 0f;
+            => (IsAlive && CurrentHP > 0) ? (float)DisplayHP / (float)MaximumHP : 0f;
 
         public int Damage { get; set; }
 
