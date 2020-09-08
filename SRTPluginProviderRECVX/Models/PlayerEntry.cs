@@ -141,21 +141,6 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        private int _health;
-        public int Health
-        {
-            get => _health;
-            set
-            {
-                if (_health != value)
-                {
-                    _health = value;
-                    OnPropertyChanged();
-                    UpdateScore();
-                }
-            }
-        }
-
         // ToDo
         private int _map;
         public int Map
@@ -234,6 +219,24 @@ namespace SRTPluginProviderRECVX.Models
                         return "Albert Wesker";
                     default:
                         return "Claire Redfield";
+                }
+            }
+        }
+
+        public string CharacterFirstName
+        {
+            get
+            {
+                switch (Character)
+                {
+                    case CharacterEnumeration.Chris:
+                        return "Chris";
+                    case CharacterEnumeration.Steve:
+                        return "Steve";
+                    case CharacterEnumeration.Wesker:
+                        return "Albert";
+                    default:
+                        return "Claire";
                 }
             }
         }
