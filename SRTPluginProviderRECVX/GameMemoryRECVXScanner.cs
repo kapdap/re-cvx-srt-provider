@@ -208,7 +208,10 @@ namespace SRTPluginProviderRECVX
             List<EnemyEntry> enemy = new List<EnemyEntry>();
 
             if (!Memory.Room.IsLoaded)
+            {
+                Memory.Enemy = enemy;
                 return;
+            }
 
             IntPtr pointer = new IntPtr(Pointers.Enemy.ToInt64());
             int count = Process.ReadValue<int>(Pointers.EnemyCount, Emulator.IsBigEndian);
@@ -218,11 +221,11 @@ namespace SRTPluginProviderRECVX
 
             for (int i = 0; i < count; ++i)
             {
-                short type = Process.ReadValue<short>(IntPtr.Add(pointer, 0x0004), Emulator.IsBigEndian);
+                EnemyEnumeration type = GetEnemyType(Process.ReadValue<short>(IntPtr.Add(pointer, 0x0004), Emulator.IsBigEndian));
 
-                if (Enum.IsDefined(typeof(EnemyEnumeration), (EnemyEnumeration)type))
+                if (type == EnemyEnumeration.Unknown)
                 {
-                    EnemyEntry entry = new EnemyEntry((EnemyEnumeration)type);
+                    EnemyEntry entry = new EnemyEntry(type);
 
                     entry.Slot = Process.ReadValue<int>(IntPtr.Add(pointer, 0x039C), Emulator.IsBigEndian);
                     entry.Damage = Process.ReadValue<int>(IntPtr.Add(pointer, 0x0574), Emulator.IsBigEndian);
@@ -320,6 +323,13 @@ namespace SRTPluginProviderRECVX
             if (Enum.IsDefined(typeof(CharacterEnumeration), (CharacterEnumeration)data))
                 return (CharacterEnumeration)data;
             return CharacterEnumeration.Claire;
+        }
+
+        private EnemyEnumeration GetEnemyType(short data)
+        {
+            if (Enum.IsDefined(typeof(EnemyEnumeration), (EnemyEnumeration)data))
+                return (EnemyEnumeration)data;
+            return EnemyEnumeration.Unknown;
         }
 
         private int GetRDXHeader()
