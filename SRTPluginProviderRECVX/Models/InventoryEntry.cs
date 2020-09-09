@@ -25,7 +25,7 @@ namespace SRTPluginProviderRECVX.Models
         public int Slot { get; private set; }
         public byte[] Data { get; private set; }
 
-        public ItemEnumeration ItemID { get; private set; }
+        public ItemEnumeration ItemID { get; private set; } = ItemEnumeration.None;
         public int Quantity { get; private set; }
 
         public bool IsInfinite { get; private set; }
@@ -48,7 +48,7 @@ namespace SRTPluginProviderRECVX.Models
                 return;
 
             Quantity = BitConverter.ToInt16(Data, 0);
-            ItemID = (ItemEnumeration)Data[2];
+            ItemID = GetItemID(Data[2]);
 
             IsInfinite = (Data?[3] & (byte)ItemStatusEnumeration.Infinite) != 0;
             IsFlame = (Data?[3] & (byte)ItemStatusEnumeration.Flame) != 0;
@@ -73,6 +73,13 @@ namespace SRTPluginProviderRECVX.Models
             else if (IsBOW)
                 return ItemStatusEnumeration.BOW;
             return ItemStatusEnumeration.Normal;
+        }
+
+        private ItemEnumeration GetItemID(byte data)
+        {
+            if (Enum.IsDefined(typeof(ItemEnumeration), (ItemEnumeration)data))
+                return (ItemEnumeration)data;
+            return ItemEnumeration.Unknown;
         }
     }
 }

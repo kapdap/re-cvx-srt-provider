@@ -155,6 +155,7 @@
         SquareSocket = 0x96,
         QuestionE = 0x97,
         CrestKeyS = 0x98,
-        CrestKeyG = 0x99
+        CrestKeyG = 0x99,
+        Unknown = 0xFF
     }
 }
