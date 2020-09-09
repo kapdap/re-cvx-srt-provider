@@ -50,10 +50,10 @@ namespace SRTPluginProviderRECVX.Models
             Quantity = BitConverter.ToInt16(Data, 0);
             ItemID = GetItemID(Data[2]);
 
-            IsInfinite = (Data?[3] & (byte)ItemStatusEnumeration.Infinite) != 0;
-            IsFlame = (Data?[3] & (byte)ItemStatusEnumeration.Flame) != 0;
-            IsAcid = (Data?[3] & (byte)ItemStatusEnumeration.Acid) != 0;
-            IsBOW = (Data?[3] & (byte)ItemStatusEnumeration.BOW) != 0;
+            IsInfinite = (Data[3] & (byte)ItemStatusEnumeration.Infinite) != 0;
+            IsFlame = (Data[3] & (byte)ItemStatusEnumeration.Flame) != 0;
+            IsAcid = (Data[3] & (byte)ItemStatusEnumeration.Acid) != 0;
+            IsBOW = (Data[3] & (byte)ItemStatusEnumeration.BOW) != 0;
 
             IsEquipped = isEquipped;
         }
