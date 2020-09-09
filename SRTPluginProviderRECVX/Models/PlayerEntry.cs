@@ -189,15 +189,15 @@ namespace SRTPluginProviderRECVX.Models
         }
 
         // ToDo
-        private bool _rodorigo;
-        public bool Rodorigo
+        private bool _rodrigo;
+        public bool Rodrigo
         {
-            get => _rodorigo;
+            get => _rodrigo;
             set
             {
-                if (_rodorigo != value)
+                if (_rodrigo != value)
                 {
-                    _rodorigo = value;
+                    _rodrigo = value;
                     OnPropertyChanged();
                     UpdateScore();
                 }
@@ -215,7 +215,7 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _score = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("ScoreName");
+                    OnPropertyChanged("Rank");
                 }
             }
         }
@@ -270,7 +270,7 @@ namespace SRTPluginProviderRECVX.Models
         }
 
         // ToDo
-        public string ScoreName
+        public string Rank
         {
             get
             {
