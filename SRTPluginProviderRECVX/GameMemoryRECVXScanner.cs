@@ -136,6 +136,9 @@ namespace SRTPluginProviderRECVX
 
         public IGameMemoryRECVX Refresh()
         {
+            Memory.Process.Id = _process.Id;
+            Memory.Process.ProcessName = _process.ProcessName;
+
             Memory.Difficulty = GetDifficulty(_process.ReadValue<byte>(Pointers.Difficulty));
 
             Memory.IGT.RunningTimer = _process.ReadValue<int>(Pointers.Time, Emulator.IsBigEndian);

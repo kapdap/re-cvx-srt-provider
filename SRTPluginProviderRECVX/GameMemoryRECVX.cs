@@ -6,6 +6,8 @@ namespace SRTPluginProviderRECVX
 {
     public class GameMemoryRECVX : BaseNotifyModel, IGameMemoryRECVX
     {
+        public ProcessEntry Process { get; set; } = new ProcessEntry();
+
         public GameVersion _version = new GameVersion();
         public GameVersion Version
         {
