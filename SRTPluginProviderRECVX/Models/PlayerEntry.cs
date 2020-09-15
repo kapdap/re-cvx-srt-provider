@@ -19,7 +19,7 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        private CharacterEnumeration _character;
+        private CharacterEnumeration _character = CharacterEnumeration.Claire;
         public CharacterEnumeration Character
         {
             get => _character;
@@ -35,31 +35,21 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        private InventoryEntry _equipment;
-        public InventoryEntry Equipment
-        {
-            get => _equipment;
-            set
-            {
-                if (_equipment != value)
-                {
-                    _equipment = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public InventoryEntry Equipment { get; } = new InventoryEntry(0);
 
-        private InventoryEntry[] _inventory;
+        private InventoryEntry[] _inventory = new InventoryEntry[12];
         public InventoryEntry[] Inventory
         {
-            get => _inventory;
-            set
+            get
             {
-                if (_inventory != value)
+                if (_inventory[0] == null)
                 {
-                    _inventory = value;
+                    for (int i = 0; i < _inventory.Length; i++)
+                        _inventory[i] = new InventoryEntry(i);
                     OnPropertyChanged();
                 }
+
+                return _inventory;
             }
         }
 
@@ -73,6 +63,7 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _maximumHP = value;
                     OnPropertyChanged();
+                    OnPropertyChanged("Percentage");
                 }
             }
         }
@@ -87,17 +78,20 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _currentHP = value;
                     OnPropertyChanged();
+                    OnPropertyChanged("IsAlive");
+                    OnPropertyChanged("IsFine");
+                    OnPropertyChanged("IsCautionYellow");
+                    OnPropertyChanged("IsCautionOrange");
+                    OnPropertyChanged("IsDanger");
                     OnPropertyChanged("DisplayHP");
                     OnPropertyChanged("Percentage");
+                    OnPropertyChanged("StatusName");
                 }
             }
         }
 
         public int DisplayHP
             => Math.Max(CurrentHP, 0);
-
-        public bool IsAlive
-            => CurrentHP >= 0;
 
         public float Percentage
             => IsAlive ? (float)DisplayHP / (float)MaximumHP : 0f;
@@ -112,18 +106,33 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _status = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("Poison");
-                    OnPropertyChanged("Gassed");
+                    OnPropertyChanged("IsPoison");
+                    OnPropertyChanged("IsGassed");
                     OnPropertyChanged("StatusName");
                 }
             }
         }
 
-        public bool Poison
+        public bool IsPoison
             => (Status & 0x08) != 0;
 
-        public bool Gassed
+        public bool IsGassed
             => (Status & 0x20) != 0;
+
+        public bool IsAlive
+            => CurrentHP >= 0;
+
+        public bool IsFine
+            => CurrentHP >= 120;
+
+        public bool IsCautionYellow
+            => CurrentHP < 120 && CurrentHP >= 60;
+
+        public bool IsCautionOrange
+            => CurrentHP < 60 && CurrentHP >= 30;
+
+        public bool IsDanger
+            => CurrentHP < 30;
 
         // S rank requirments
         private int _retry;
@@ -150,6 +159,22 @@ namespace SRTPluginProviderRECVX.Models
                 if (_saves != value)
                 {
                     _saves = value;
+                    OnPropertyChanged();
+                    UpdateScore();
+                }
+            }
+        }
+
+        // ToDo
+        private int _fas;
+        public int FAS
+        {
+            get => _fas;
+            set
+            {
+                if (_fas != value)
+                {
+                    _fas = value;
                     OnPropertyChanged();
                     UpdateScore();
                 }
@@ -220,6 +245,15 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
+        // ToDo
+        public string Rank
+        {
+            get
+            {
+                return String.Empty;
+            }
+        }
+
         public string CharacterName
         {
             get
@@ -260,26 +294,25 @@ namespace SRTPluginProviderRECVX.Models
         {
             get
             {
-                if (Gassed)
+                if (!IsAlive)
+                    return "Dead";
+                else if (IsGassed)
                     return "Gassed";
-                else if (Poison)
+                else if (IsPoison)
                     return "Poison";
+                else if (IsDanger)
+                    return "Danger";
+                else if (IsCautionOrange)
+                    return "Caution";
+                else if (IsCautionYellow)
+                    return "Caution";
                 else
-                    return "Normal";
+                    return "Fine";
             }
         }
 
         // ToDo
-        public string Rank
-        {
-            get
-            {
-                return String.Empty;
-            }
-        }
-
-        // ToDo
-        public void UpdateScore()
+        private void UpdateScore()
         {
             Score = 0;
         }

@@ -2,15 +2,14 @@
 using SRTPluginProviderRECVX.Models;
 using SRTPluginProviderRECVX.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SRTPluginProviderRECVX
 {
     public class GameMemoryRECVXScanner : IDisposable
     {
-        public GameMemoryRECVX Memory { get; private set; } = new GameMemoryRECVX();
-        public GamePointers Pointers { get; private set; } = new GamePointers();
+        public GameMemoryRECVX Memory { get; } = new GameMemoryRECVX();
+        public GamePointers Pointers { get; } = new GamePointers();
         public GameEmulator Emulator { get; private set; }
 
         private Process _process;
@@ -34,7 +33,7 @@ namespace SRTPluginProviderRECVX
         }
 
         public void UpdateGameVersion() =>
-            Memory.Version = new GameVersion(_process.ReadString(Emulator.ProductPointer, Emulator.ProductLength));
+            Memory.Version.Update(_process.ReadString(Emulator.ProductPointer, Emulator.ProductLength));
 
         public void UpdatePointerAddresses()
         {
@@ -167,15 +166,13 @@ namespace SRTPluginProviderRECVX
 
         public void RefreshInventory()
         {
-            InventoryEntry equipment = new InventoryEntry(0);
-            InventoryEntry[] inventory = new InventoryEntry[12];
-
             IntPtr pointer = IntPtr.Add(Pointers.Inventory, (int)Memory.Player.Character * 0x40);
 
             int index = 0;
             int equip = 0;
+            int position = 1;
 
-            for (int i = 0; i < 12; ++i)
+            for (int i = 0; i < Memory.Player.Inventory.Length; ++i)
             {
                 byte[] data = _process.ReadBytes(pointer, 4, Emulator.IsBigEndian);
 
@@ -183,36 +180,39 @@ namespace SRTPluginProviderRECVX
                     equip = BitConverter.ToInt32(data, 0);
                 else
                 {
-                    inventory[++index] = new InventoryEntry(index, data, equip == index);
+                    Memory.Player.Inventory[++index].UpdateEntry(data, position, equip == index);
 
-                    if (inventory[index].IsEquipped)
-                        equipment = new InventoryEntry(0, data);
+                    position += Memory.Player.Inventory[index].SlotSize;
+
+                    if (Memory.Player.Inventory[index].IsEquipped)
+                    {
+                        Memory.Player.Inventory[0].UpdateEntry(data);
+                        Memory.Player.Equipment.UpdateEntry(data);
+                    }
                 }
 
                 pointer = IntPtr.Add(pointer, 0x4);
             }
 
-            inventory[0] = equipment;
-
-            Memory.Player.Equipment = equipment;
-            Memory.Player.Inventory = inventory;
+            if (equip <= 0)
+            {
+                Memory.Player.Inventory[0].UpdateEntry(new byte[4]);
+                Memory.Player.Equipment.UpdateEntry(new byte[4]);
+            }
         }
 
         public void RefreshEnemy()
         {
-            List<EnemyEntry> enemy = new List<EnemyEntry>();
-
             if (!Memory.Room.IsLoaded)
-            {
-                Memory.Enemy = enemy;
                 return;
-            }
 
             IntPtr pointer = new IntPtr(Pointers.Enemy.ToInt64());
-            int count = _process.ReadValue<int>(Pointers.EnemyCount, Emulator.IsBigEndian);
 
             int entryOffset = Memory.Version.Console == ConsoleEnumeration.PS2 ? 0x0580 : 0x0578;
             int modelOffset = Memory.Version.Console == ConsoleEnumeration.PS2 ? 0x008B : 0x0088;
+
+            int index = 0;
+            int count = _process.ReadValue<int>(Pointers.EnemyCount, Emulator.IsBigEndian);
 
             for (int i = 0; i < count; ++i)
             {
@@ -220,7 +220,10 @@ namespace SRTPluginProviderRECVX
 
                 if (type != EnemyEnumeration.Unknown)
                 {
-                    EnemyEntry entry = new EnemyEntry(type);
+                    EnemyEntry entry = Memory.Enemy[index];
+
+                    entry.Type = type;
+                    entry.Room = Memory.Room;
 
                     entry.Slot = _process.ReadValue<int>(IntPtr.Add(pointer, 0x039C), Emulator.IsBigEndian);
                     entry.Damage = _process.ReadValue<int>(IntPtr.Add(pointer, 0x0574), Emulator.IsBigEndian);
@@ -235,7 +238,7 @@ namespace SRTPluginProviderRECVX
                     {
                         case EnemyEnumeration.Tenticle:
                             entry.MaximumHP = 160;
-                            entry.IsAlive = entry.Active && entry.CurrentHP >= 0 && entry.Model == 0 && Memory.Room.Id != 0x091E;
+                            entry.IsAlive = entry.Active && entry.CurrentHP >= 0 && entry.Model == 0 && entry.Room.Id != 0x091E;
                             break;
 
                         case EnemyEnumeration.GlupWorm:
@@ -249,7 +252,7 @@ namespace SRTPluginProviderRECVX
                             break;
 
                         case EnemyEnumeration.Tyrant:
-                            entry.MaximumHP = Memory.Room.Id == 0x0501 ? 700 : 500;
+                            entry.MaximumHP = entry.Room.Id == 0x0501 ? 700 : 500;
                             entry.IsAlive = entry.Active && entry.CurrentHP >= 0;
                             break;
 
@@ -271,7 +274,7 @@ namespace SRTPluginProviderRECVX
 
                         case EnemyEnumeration.AlexiaAshford:
                             entry.MaximumHP = 300;
-                            entry.IsAlive = entry.Active && Memory.Room.Id != 0x091E;
+                            entry.IsAlive = entry.Active && entry.Room.Id != 0x091E;
                             break;
 
                         case EnemyEnumeration.AlexiaAshfordB:
@@ -297,13 +300,23 @@ namespace SRTPluginProviderRECVX
                             break;
                     }
 
-                    enemy.Add(entry);
+                    entry.IsEmpty = false;
+
+                    entry.SendUpdateEntryEvent();
+
+                    if (++index >= Memory.Enemy.Length)
+                        break;
                 }
 
                 pointer = IntPtr.Add(pointer, entryOffset);
             }
 
-            Memory.Enemy = enemy;
+            if (index <= 0)
+                for (int i = 0; i < index; i++)
+                    Memory.Enemy[i].Clear();
+
+            for (int i = index; i < Memory.Enemy.Length; i++)
+                Memory.Enemy[i].Clear();
         }
 
         private DifficultyEnumeration GetDifficulty(byte data)

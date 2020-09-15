@@ -1,43 +1,34 @@
 ﻿using SRTPluginProviderRECVX.Enumerations;
 using SRTPluginProviderRECVX.Models;
-using System.Collections.Generic;
+using System;
 
 namespace SRTPluginProviderRECVX
 {
     public class GameMemoryRECVX : BaseNotifyModel, IGameMemoryRECVX
     {
-        public ProcessEntry Process { get; set; } = new ProcessEntry();
+        public ProcessEntry Process { get; } = new ProcessEntry();
+        public GameVersion Version { get; } = new GameVersion();
+        public TimeEntry IGT { get; } = new TimeEntry();
+        public RoomEntry Room { get; } = new RoomEntry();
+        public PlayerEntry Player { get; } = new PlayerEntry();
 
-        public GameVersion _version = new GameVersion();
-        public GameVersion Version
+        private EnemyEntry[] _enemy = new EnemyEntry[8];
+        public EnemyEntry[] Enemy
         {
-            get => _version;
-            set
+            get
             {
-                if (_version.Code != value.Code)
+                if (_enemy[0] == null)
                 {
-                    _version = value;
+                    for (int i = 0; i < _enemy.Length; i++)
+                        _enemy[i] = new EnemyEntry(i);
                     OnPropertyChanged();
                 }
+
+                return _enemy;
             }
         }
 
-        public TimeEntry IGT { get; set; } = new TimeEntry();
-        public RoomEntry Room { get; set; } = new RoomEntry();
-        public PlayerEntry Player { get; set; } = new PlayerEntry();
-
-        public List<EnemyEntry> _enemy = new List<EnemyEntry>();
-        public List<EnemyEntry> Enemy
-        {
-            get => _enemy;
-            set
-            {
-                _enemy = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public DifficultyEnumeration _difficulty;
+        public DifficultyEnumeration _difficulty = DifficultyEnumeration.Normal;
         public DifficultyEnumeration Difficulty
         {
             get => _difficulty;
@@ -46,25 +37,38 @@ namespace SRTPluginProviderRECVX
                 if (_difficulty != value)
                 {
                     _difficulty = value;
+                    _difficultyName = GetDifficultyName();
+
                     OnPropertyChanged();
                     OnPropertyChanged("DifficultyName");
                 }
             }
         }
 
+        public string _difficultyName;
         public string DifficultyName
         {
-            get
+            get => _difficultyName != String.Empty ? _difficultyName : GetDifficultyName();
+            set
             {
-                switch (Difficulty)
+                if (_difficultyName != value)
                 {
-                    case DifficultyEnumeration.Easy:
-                        return "Easy";
-                    case DifficultyEnumeration.VeryEasy:
-                        return "Very Easy";
-                    default:
-                        return "Normal";
+                    _difficultyName = value;
+                    OnPropertyChanged();
                 }
+            }
+        }
+
+        private string GetDifficultyName()
+        {
+            switch (Difficulty)
+            {
+                case DifficultyEnumeration.Easy:
+                    return "Easy";
+                case DifficultyEnumeration.VeryEasy:
+                    return "Very Easy";
+                default:
+                    return "Normal";
             }
         }
     }

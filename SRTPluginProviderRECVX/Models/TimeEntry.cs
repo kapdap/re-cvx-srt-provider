@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace SRTPluginProviderRECVX.Models
 {
+    [DebuggerDisplay("{_DebuggerDisplay,nq}")]
     public class TimeEntry : BaseNotifyModel
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string _DebuggerDisplay
+        {
+            get => FormattedString;
+        }
+
         private const string TIMESPAN_STRING_FORMAT = @"hh\:mm\:ss";
 
         private int _runningTimer;
