@@ -2,6 +2,8 @@
 {
     public enum EnemyEnumeration : short
     {
+        Unknown = -2,
+        None = -1,
         Zombie = 1,
         GlupWorm = 2, // Boss
         BlackWidow = 3,
@@ -24,7 +26,6 @@
         //BabyBlackWidow = 24,
         AnatomistZombie = 26, // Boss
         Tenticle = 29,
-        AlexiaBaby = 30,
-        Unknown = 0x7FFF
+        AlexiaBaby = 30
     }
 }
