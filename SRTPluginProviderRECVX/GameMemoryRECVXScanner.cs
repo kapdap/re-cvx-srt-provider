@@ -13,7 +13,7 @@ namespace SRTPluginProviderRECVX
         public GameEmulator Emulator { get; private set; }
 
         private Process _process;
-        public bool ProcessRunning => _process != null && _process.IsRunning();
+        public bool ProcessRunning => _process != null && !_process.HasExited && _process.IsRunning();
         public int ProcessExitCode => _process != null ? _process.ExitCode() : 0;
 
         public bool HasScanned { get; private set; }
