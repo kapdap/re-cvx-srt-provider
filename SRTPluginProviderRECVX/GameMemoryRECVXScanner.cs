@@ -168,7 +168,7 @@ namespace SRTPluginProviderRECVX
         {
             IntPtr pointer = IntPtr.Add(Pointers.Inventory, (int)Memory.Player.Character * 0x40);
 
-            int index = 0;
+            int index = -1;
             int equip = 0;
             int position = 1;
 
@@ -180,7 +180,7 @@ namespace SRTPluginProviderRECVX
                     equip = BitConverter.ToInt32(data, 0);
                 else
                 {
-                    Memory.Player.Inventory[++index].UpdateEntry(data, position, equip == index);
+                    Memory.Player.Inventory[++index].UpdateEntry(data, position, equip == (index + 1));
 
                     position += Memory.Player.Inventory[index].SlotSize;
 

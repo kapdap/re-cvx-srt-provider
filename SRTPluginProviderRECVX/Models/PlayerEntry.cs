@@ -37,7 +37,7 @@ namespace SRTPluginProviderRECVX.Models
 
         public InventoryEntry Equipment { get; } = new InventoryEntry(0);
 
-        private InventoryEntry[] _inventory = new InventoryEntry[12];
+        private InventoryEntry[] _inventory = new InventoryEntry[11];
         public InventoryEntry[] Inventory
         {
             get
