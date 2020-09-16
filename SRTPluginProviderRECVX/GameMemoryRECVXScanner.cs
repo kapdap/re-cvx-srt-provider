@@ -185,20 +185,14 @@ namespace SRTPluginProviderRECVX
                     position += Memory.Player.Inventory[index].SlotSize;
 
                     if (Memory.Player.Inventory[index].IsEquipped)
-                    {
-                        Memory.Player.Inventory[0].UpdateEntry(data);
                         Memory.Player.Equipment.UpdateEntry(data);
-                    }
                 }
 
                 pointer = IntPtr.Add(pointer, 0x4);
             }
 
             if (equip <= 0)
-            {
-                Memory.Player.Inventory[0].UpdateEntry(new byte[4]);
                 Memory.Player.Equipment.UpdateEntry(new byte[4]);
-            }
         }
 
         public void RefreshEnemy()
