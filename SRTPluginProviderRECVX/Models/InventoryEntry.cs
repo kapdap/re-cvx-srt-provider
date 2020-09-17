@@ -17,13 +17,27 @@ namespace SRTPluginProviderRECVX.Models
             get
             {
                 if (!IsEmpty)
-                    return string.Format("[#{0}] Position {1} Item {2} Quantity {3} Infinite {4}", Slot, SlotPosition, Id, Quantity, IsInfinite);
+                    return string.Format("[#{0}] Slot {1} Item {2} Quantity {3} Infinite {4}", Index, Slot, Id, Quantity, IsInfinite);
                 else
-                    return string.Format("[#{0}] Empty Slot", Slot);
+                    return string.Format("[#{0}] Empty Slot", Index);
             }
         }
 
-        public int Slot { get; private set; }
+        public int Index { get; private set; }
+
+        private int _slot;
+        public int Slot
+        {
+            get => _slot;
+            private set
+            {
+                if (_slot != value)
+                {
+                    _slot = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private int _slotSize;
         public int SlotSize
@@ -62,20 +76,6 @@ namespace SRTPluginProviderRECVX.Models
                 if (_slotColumn != value)
                 {
                     _slotColumn = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private int _slotPosition;
-        public int SlotPosition
-        {
-            get => _slotPosition;
-            private set
-            {
-                if (_slotPosition != value)
-                {
-                    _slotPosition = value;
                     OnPropertyChanged();
                 }
             }
@@ -272,10 +272,10 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        public InventoryEntry(int slot) =>
-            Slot = slot;
+        public InventoryEntry(int index) =>
+            Index = index;
 
-        public void UpdateEntry(byte[] data, int position = 0, bool isEquipped = false)
+        public void UpdateEntry(byte[] data, int slot = 0, bool isEquipped = false)
         {
             if (data == null || data.Length < 4)
                 data = new byte[4];
@@ -294,9 +294,9 @@ namespace SRTPluginProviderRECVX.Models
             Quantity = BitConverter.ToInt16(Data, 0);
 
             SlotSize = GetSlotSize();
-            SlotPosition = position;
-            SlotColumn = SlotPosition % 2;
-            SlotRow = SlotPosition / 2;
+            Slot = slot;
+            SlotColumn = Slot % 2;
+            SlotRow = Slot / 2;
 
             IsEquipped = isEquipped;
 
@@ -713,13 +713,13 @@ namespace SRTPluginProviderRECVX.Models
 
         public bool Equals(InventoryEntry other) => 
             other != null &&
-            Slot == other.Slot &&
+            Index == other.Index &&
             EqualityComparer<byte[]>.Default.Equals(Data, other.Data);
 
         public override int GetHashCode()
         {
             int hashCode = -2005450498;
-            hashCode = hashCode * -1521134295 + Slot.GetHashCode();
+            hashCode = hashCode * -1521134295 + Index.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<byte[]>.Default.GetHashCode(Data);
             return hashCode;
         }
