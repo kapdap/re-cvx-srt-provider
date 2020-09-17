@@ -24,11 +24,12 @@ namespace SRTPluginProviderRECVX
                         _memoryScanner.Initialize(_emulator); // Re-initialize and attempt to continue.
                 }
 
+                if (_memoryScanner == null || !_memoryScanner.ProcessRunning)
+                    return false;
+
                 _memoryScanner.UpdateGameVersion();
 
-                return _memoryScanner != null &&
-                    _memoryScanner.ProcessRunning &&
-                    _memoryScanner.Memory.Version.Supported;
+                return _memoryScanner.Memory.Version.Supported;
             }
         }
 
