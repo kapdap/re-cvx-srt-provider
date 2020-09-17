@@ -11,6 +11,24 @@ namespace SRTPluginProviderRECVX
         public const string RPCS3 = "rpcs3";
         public const string PCSX2 = "pcsx2";
 
+        private static List<string> _emulatorList;
+        public static List<string> EmulatorList
+        {
+            get
+            {
+                if (_emulatorList == null)
+                {
+                    _emulatorList = new List<string>();
+
+                    foreach (FieldInfo field in typeof(GameEmulator).GetFields())
+                        if (field.IsLiteral && !field.IsInitOnly)
+                            _emulatorList.Add((string)field.GetValue(null));
+                }
+
+                return _emulatorList;
+            }
+        }
+
         public Process Process { get; private set; }
 
         public IntPtr VirtualMemoryPointer { get; private set; }
@@ -72,20 +90,9 @@ namespace SRTPluginProviderRECVX
             return IntPtr.Zero;
         }
 
-        public static List<string> GetEmulatorList()
-        {
-            List<string> list = new List<string>();
-
-            foreach (FieldInfo field in typeof(GameEmulator).GetFields())
-                if (field.IsLiteral && !field.IsInitOnly)
-                    list.Add((string)field.GetValue(null));
-
-            return list;
-        }
-
         public static GameEmulator DetectEmulator()
         {
-            foreach (string name in GetEmulatorList())
+            foreach (string name in EmulatorList)
             {
                 Process[] processes = System.Diagnostics.Process.GetProcessesByName(name);
 
