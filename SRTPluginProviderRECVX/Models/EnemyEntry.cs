@@ -316,7 +316,6 @@ namespace SRTPluginProviderRECVX.Models
             _status = 0;
             _model = 0;
             _type = EnemyEnumeration.None;
-            _room = null;
 
             IsEmpty = true;
 
@@ -335,7 +334,6 @@ namespace SRTPluginProviderRECVX.Models
             OnPropertyChanged("Type");
             OnPropertyChanged("TypeName");
             OnPropertyChanged("IsBoss");
-            OnPropertyChanged("Room");
             OnPropertyChanged("HealthMessage");
             OnPropertyChanged("DebugMessage");
 
