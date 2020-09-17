@@ -175,7 +175,7 @@ namespace SRTPluginProviderRECVX
 
             int index = -1;
             int equip = 0;
-            int position = 1;
+            int slot = 1;
 
             for (int i = 0; i < Memory.Player.Inventory.Length; ++i)
             {
@@ -185,9 +185,9 @@ namespace SRTPluginProviderRECVX
                     equip = BitConverter.ToInt32(data, 0);
                 else
                 {
-                    Memory.Player.Inventory[++index].UpdateEntry(data, position, equip == (index + 1));
+                    Memory.Player.Inventory[++index].UpdateEntry(data, slot, equip == (index + 1));
 
-                    position += Memory.Player.Inventory[index].SlotSize;
+                    slot += Memory.Player.Inventory[index].SlotSize;
 
                     if (Memory.Player.Inventory[index].IsEquipped)
                         Memory.Player.Equipment.UpdateEntry(data);
