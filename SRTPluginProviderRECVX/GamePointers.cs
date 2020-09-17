@@ -4,6 +4,8 @@ namespace SRTPluginProviderRECVX
 {
     public class GamePointers
     {
+        public GameVersion Version { get; } = new GameVersion();
+
         public IntPtr Time { get; set; }
         public IntPtr Room { get; set; }
         public IntPtr Status { get; set; }
