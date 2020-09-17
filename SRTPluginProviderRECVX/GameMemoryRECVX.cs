@@ -37,7 +37,6 @@ namespace SRTPluginProviderRECVX
                 if (_difficulty != value)
                 {
                     _difficulty = value;
-                    _difficultyName = GetDifficultyName();
 
                     OnPropertyChanged();
                     OnPropertyChanged("DifficultyName");
@@ -45,19 +44,8 @@ namespace SRTPluginProviderRECVX
             }
         }
 
-        public string _difficultyName;
-        public string DifficultyName
-        {
-            get => _difficultyName != String.Empty ? _difficultyName : GetDifficultyName();
-            set
-            {
-                if (_difficultyName != value)
-                {
-                    _difficultyName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public string DifficultyName =>
+            GetDifficultyName();
 
         private string GetDifficultyName()
         {
