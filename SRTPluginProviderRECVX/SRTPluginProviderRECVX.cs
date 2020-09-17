@@ -18,11 +18,7 @@ namespace SRTPluginProviderRECVX
             get
             {
                 if (_memoryScanner != null && !_memoryScanner.ProcessRunning)
-                {
-                    _emulator = GetEmulator();
-                    if (_emulator != null)
-                        _memoryScanner.Initialize(_emulator); // Re-initialize and attempt to continue.
-                }
+                    _memoryScanner.Initialize(GetEmulator());
 
                 if (_memoryScanner == null || !_memoryScanner.ProcessRunning)
                     return false;
