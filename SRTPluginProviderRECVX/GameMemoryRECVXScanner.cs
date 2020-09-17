@@ -39,7 +39,12 @@ namespace SRTPluginProviderRECVX
         {
             UpdateGameVersion();
 
-            switch (Memory.Version.Code)
+            if (Memory.Version.Equals(Pointers.Version))
+                return;
+
+            Pointers.Version.Update(Memory.Version.Code);
+
+            switch (Pointers.Version.Code)
             {
                 case GameVersion.SLPM_65022:
                     Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A0);
