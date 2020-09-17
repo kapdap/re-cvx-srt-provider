@@ -84,13 +84,13 @@ namespace SRTPluginProviderRECVX
             }
         }
 
-        public GameVersion() => Update("None");
+        public GameVersion() => Update();
 
         public GameVersion(string code) => Update(code);
 
         public void Update(string code = null)
         {
-            if (Code == code)
+            if (!String.IsNullOrEmpty(Code) && Code == code)
                 return;
 
             Code = String.IsNullOrEmpty(code) ? "None" : code;

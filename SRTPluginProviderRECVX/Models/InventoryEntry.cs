@@ -135,7 +135,7 @@ namespace SRTPluginProviderRECVX.Models
         private string _name;
         public string Name
         {
-            get => _name != String.Empty ? _name : GetItemName();
+            get => !String.IsNullOrEmpty(_name) ? _name : GetItemName();
             private set
             {
                 if (_name != value)
@@ -669,127 +669,6 @@ namespace SRTPluginProviderRECVX.Models
                 case ItemEnumeration.CrestKeyS:
                 case ItemEnumeration.CrestKeyG:
                     return true;
-
-                case ItemEnumeration.CombatKnife:
-                case ItemEnumeration.M93RPart:
-                case ItemEnumeration.FAidSpray:
-                case ItemEnumeration.GreenHerb:
-                case ItemEnumeration.RedHerb:
-                case ItemEnumeration.BlueHerb:
-                case ItemEnumeration.MixedHerb2Green:
-                case ItemEnumeration.MixedHerbRedGreen:
-                case ItemEnumeration.MixedHerbBlueGreen:
-                case ItemEnumeration.MixedHerb2GreenBlue:
-                case ItemEnumeration.MixedHerb3Green:
-                case ItemEnumeration.MixedHerbGreenBlueRed:
-                case ItemEnumeration.GasMask:
-                case ItemEnumeration.DuraluminCaseUnused:
-                case ItemEnumeration.AlexandersPierce:
-                case ItemEnumeration.AlexandersJewel:
-                case ItemEnumeration.AlfredsRing:
-                case ItemEnumeration.AlfredsJewel:
-                case ItemEnumeration.FamilyPicture:
-                case ItemEnumeration.Lockpick:
-                case ItemEnumeration.GlassEye:
-                case ItemEnumeration.PianoRoll:
-                case ItemEnumeration.SteeringWheel:
-                case ItemEnumeration.CraneKey:
-                case ItemEnumeration.Lighter:
-                case ItemEnumeration.EaglePlate:
-                case ItemEnumeration.SidePack:
-                case ItemEnumeration.MapRoll:
-                case ItemEnumeration.HawkEmblem:
-                case ItemEnumeration.QueenAntObject:
-                case ItemEnumeration.KingAntObject:
-                case ItemEnumeration.BiohazardCard:
-                case ItemEnumeration.DuraluminCaseM93RParts:
-                case ItemEnumeration.DuraluminCaseBowGunPowder:
-                case ItemEnumeration.DuraluminCaseMagnumRounds:
-                case ItemEnumeration.Detonator:
-                case ItemEnumeration.ControlLever:
-                case ItemEnumeration.GoldDragonfly:
-                case ItemEnumeration.SilverKey:
-                case ItemEnumeration.GoldKey:
-                case ItemEnumeration.ArmyProof:
-                case ItemEnumeration.NavyProof:
-                case ItemEnumeration.AirForceProof:
-                case ItemEnumeration.KeyWithTag:
-                case ItemEnumeration.IDCard:
-                case ItemEnumeration.Map:
-                case ItemEnumeration.AirportKey:
-                case ItemEnumeration.EmblemCard:
-                case ItemEnumeration.SkeletonPicture:
-                case ItemEnumeration.MusicBoxPlate:
-                case ItemEnumeration.GoldDragonflyNoWings:
-                case ItemEnumeration.Album:
-                case ItemEnumeration.Halberd:
-                case ItemEnumeration.Extinguisher:
-                case ItemEnumeration.Briefcase:
-                case ItemEnumeration.PadlockKey:
-                case ItemEnumeration.TG01:
-                case ItemEnumeration.SpAlloyEmblem:
-                case ItemEnumeration.ValveHandle:
-                case ItemEnumeration.OctaValveHandle:
-                case ItemEnumeration.MachineRoomKey:
-                case ItemEnumeration.MiningRoomKey:
-                case ItemEnumeration.BarCodeSticker:
-                case ItemEnumeration.SterileRoomKey:
-                case ItemEnumeration.DoorKnob:
-                case ItemEnumeration.BatteryPack:
-                case ItemEnumeration.HemostaticWire:
-                case ItemEnumeration.TurnTableKey:
-                case ItemEnumeration.ChemStorageKey:
-                case ItemEnumeration.ClementAlpha:
-                case ItemEnumeration.ClementSigma:
-                case ItemEnumeration.TankObject:
-                case ItemEnumeration.SpAlloyEmblemUnused:
-                case ItemEnumeration.ClementMixture:
-                case ItemEnumeration.RustedSword:
-                case ItemEnumeration.Hemostatic:
-                case ItemEnumeration.SecurityCard:
-                case ItemEnumeration.SecurityFile:
-                case ItemEnumeration.AlexiasChoker:
-                case ItemEnumeration.AlexiasJewel:
-                case ItemEnumeration.QueenAntRelief:
-                case ItemEnumeration.KingAntRelief:
-                case ItemEnumeration.RedJewel:
-                case ItemEnumeration.BlueJewel:
-                case ItemEnumeration.LugerReplica:
-                case ItemEnumeration.Socket:
-                case ItemEnumeration.SqValveHandle:
-                case ItemEnumeration.Serum:
-                case ItemEnumeration.EarthenwareVase:
-                case ItemEnumeration.PaperWeight:
-                case ItemEnumeration.SilverDragonflyNoWings:
-                case ItemEnumeration.SilverDragonfly:
-                case ItemEnumeration.Crystal:
-                case ItemEnumeration.GoldDragonfly1Wing:
-                case ItemEnumeration.GoldDragonfly2Wings:
-                case ItemEnumeration.GoldDragonfly3Wings:
-                case ItemEnumeration.File:
-                case ItemEnumeration.PlantPot:
-                case ItemEnumeration.PictureB:
-                case ItemEnumeration.PlayingManual:
-                case ItemEnumeration.PrisonersDiary:
-                case ItemEnumeration.DirectorsMemo:
-                case ItemEnumeration.Instructions:
-                case ItemEnumeration.AlfredsMemo:
-                case ItemEnumeration.BoardClip:
-                case ItemEnumeration.Card:
-                case ItemEnumeration.EmptyExtinguisher:
-                case ItemEnumeration.FileFolders:
-                case ItemEnumeration.Memo:
-                case ItemEnumeration.NewspaperClip:
-                case ItemEnumeration.SquareSocket:
-                case ItemEnumeration.RemoteController:
-                case ItemEnumeration.QueenAntReliefComplete:
-                case ItemEnumeration.QuestionA:
-                case ItemEnumeration.QuestionB:
-                case ItemEnumeration.QuestionC:
-                case ItemEnumeration.QuestionD:
-                case ItemEnumeration.QuestionE:
-                case ItemEnumeration.Unknown:
-                case ItemEnumeration.None:
                 default:
                     return false;
             }

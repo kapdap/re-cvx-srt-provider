@@ -51,7 +51,16 @@ namespace SRTPluginProviderRECVX.Models
 		private string _name;
 		public string Name
 		{
-			get => _name;
+			get
+            {
+				if (String.IsNullOrEmpty(_name))
+				{
+					_name = GetName();
+					OnPropertyChanged();
+				}
+
+				return _name;
+			}
 			set
 			{
 				if (_name != value)

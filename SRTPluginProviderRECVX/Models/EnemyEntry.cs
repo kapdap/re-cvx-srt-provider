@@ -270,7 +270,7 @@ namespace SRTPluginProviderRECVX.Models
         private string _typeName;
         public string TypeName
         {
-            get => _typeName != String.Empty ? _typeName : GetTypeName();
+            get => !String.IsNullOrEmpty(_typeName) ? _typeName : GetTypeName();
             set
             {
                 if (_typeName != value)
@@ -411,19 +411,6 @@ namespace SRTPluginProviderRECVX.Models
                 case EnemyEnumeration.AlbinoidAdult:
                 case EnemyEnumeration.GiantBlackWidow:
                     return true;
-
-                case EnemyEnumeration.Unknown:
-                case EnemyEnumeration.None:
-                case EnemyEnumeration.Zombie:
-                case EnemyEnumeration.BlackWidow:
-                case EnemyEnumeration.ZombieDog:
-                case EnemyEnumeration.Hunter:
-                case EnemyEnumeration.Moth:
-                case EnemyEnumeration.Bat:
-                case EnemyEnumeration.Bandersnatch:
-                case EnemyEnumeration.AlbinoidInfant:
-                case EnemyEnumeration.Tenticle:
-                case EnemyEnumeration.AlexiaBaby:
                 default:
                     return false;
             }
