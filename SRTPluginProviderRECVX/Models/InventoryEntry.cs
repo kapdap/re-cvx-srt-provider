@@ -290,13 +290,13 @@ namespace SRTPluginProviderRECVX.Models
             Type = GetItemType();
             IsEmpty = Type == ItemEnumeration.None;
 
-            HasQuantity = GetHasQuantity();
             Quantity = BitConverter.ToInt16(Data, 0);
+            HasQuantity = GetHasQuantity();
 
-            SlotSize = GetSlotSize();
             Slot = slot;
-            SlotColumn = Slot % 2;
             SlotRow = Slot / 2;
+            SlotColumn = Slot % 2;
+            SlotSize = GetSlotSize();
 
             IsEquipped = isEquipped;
 
