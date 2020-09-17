@@ -203,7 +203,11 @@ namespace SRTPluginProviderRECVX
         public void RefreshEnemy()
         {
             if (!Memory.Room.IsLoaded)
+            {
+                for (int i = 0; i < Memory.Enemy.Length; i++)
+                    Memory.Enemy[i].Clear();
                 return;
+            }
 
             IntPtr pointer = new IntPtr(Pointers.Enemy.ToInt64());
 
@@ -309,10 +313,6 @@ namespace SRTPluginProviderRECVX
 
                 pointer = IntPtr.Add(pointer, entryOffset);
             }
-
-            if (index <= 0)
-                for (int i = 0; i < index; i++)
-                    Memory.Enemy[i].Clear();
 
             for (int i = index; i < Memory.Enemy.Length; i++)
                 Memory.Enemy[i].Clear();
