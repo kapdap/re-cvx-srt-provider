@@ -177,7 +177,7 @@ namespace SRTPluginProviderRECVX
             int equip = 0;
             int slot = 1;
 
-            for (int i = 0; i < Memory.Player.Inventory.Length; ++i)
+            for (int i = 0; i < Memory.Player.Inventory.Length + 1; ++i)
             {
                 byte[] data = _process.ReadBytes(pointer, 4, Emulator.IsBigEndian);
 
