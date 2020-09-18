@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace SRTPluginProviderRECVX
 {
-    public class GameEmulator
+    public class GameEmulator : IDisposable
     {
         public const string RPCS3 = "rpcs3";
         public const string PCSX2 = "pcsx2";
@@ -57,33 +57,35 @@ namespace SRTPluginProviderRECVX
             }
         }
 
-        public IntPtr FindGameWindowHandle()
+        public IntPtr FindGameWindowHandle(string windowFilter = null)
         {
-            List<IntPtr> windowHandles = WindowHelper.EnumerateProcessWindowHandles(Process.Id);
-            foreach (IntPtr windowHandle in windowHandles)
+            if (Process != null)
             {
-                // TODO: Let user change window title filter
+                List<IntPtr> windowHandles = WindowHelper.EnumerateProcessWindowHandles(Process.Id);
 
-                // https://forums.pcsx2.net/Thread-can-someone-help-PCSX2-s-ClassName
-                // How to return the PCSX2 game window handle (Post #4)
-                // 1. Find all parent window handles having the "wxWindowClassNR" class name.
-                // 2. Compare the leftmost window text of them with a string "GSdx".
-                if (Process.ProcessName == PCSX2)
+                foreach (IntPtr windowHandle in windowHandles)
                 {
-                    string title = WindowHelper.GetWindowTitle(windowHandle);
+                    // https://forums.pcsx2.net/Thread-can-someone-help-PCSX2-s-ClassName
+                    // How to return the PCSX2 game window handle (Post #4)
+                    // 1. Find all parent window handles having the "wxWindowClassNR" class name.
+                    // 2. Compare the leftmost window text of them with a string "GSdx".
+                    if (Process.ProcessName == PCSX2)
+                    {
+                        string windowTitle = WindowHelper.GetWindowTitle(windowHandle);
 
-                    if (title.Contains("GSdx"))
-                        return windowHandle;
-                }
-                else // RPCS3
-                {
-                    if (WindowHelper.GetClassName(windowHandle) != "Qt5QWindowIcon")
-                        continue;
+                        if ((!String.IsNullOrEmpty(windowFilter) && windowTitle.Contains(windowFilter)) || windowTitle.Contains("GSdx"))
+                            return windowHandle;
+                    }
+                    else // RPCS3
+                    {
+                        if (WindowHelper.GetClassName(windowHandle) != "Qt5QWindowIcon")
+                            continue;
 
-                    string windowTitle = WindowHelper.GetWindowTitle(windowHandle);
+                        string windowTitle = WindowHelper.GetWindowTitle(windowHandle);
 
-                    if (windowTitle.StartsWith("FPS") || windowTitle.EndsWith("| SRT"))
-                        return windowHandle;
+                        if ((!String.IsNullOrEmpty(windowFilter) && windowTitle.Contains(windowFilter)) || windowTitle.StartsWith("FPS"))
+                            return windowHandle;
+                    }
                 }
             }
 
@@ -103,6 +105,31 @@ namespace SRTPluginProviderRECVX
             }
 
             return null;
+        }
+
+        private bool disposedValue;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Process?.Dispose();
+                    Process = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
