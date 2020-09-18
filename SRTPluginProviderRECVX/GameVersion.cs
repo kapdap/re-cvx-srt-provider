@@ -90,10 +90,13 @@ namespace SRTPluginProviderRECVX
 
         public void Update(string code = null)
         {
-            if (!String.IsNullOrEmpty(Code) && Code == code)
+            if (String.IsNullOrEmpty(code))
+                code = "None";
+
+            if (Code == code)
                 return;
 
-            Code = String.IsNullOrEmpty(code) ? "None" : code;
+            Code = code;
             Supported = true;
 
             switch (Code)
