@@ -13,6 +13,7 @@ namespace SRTPluginProviderRECVX
         public GameEmulator Emulator { get; private set; }
 
         private Process _process;
+
         public bool ProcessRunning => _process != null && !_process.HasExited && _process.IsRunning();
         public int ProcessExitCode => _process != null ? _process.ExitCode() : 0;
 
@@ -25,11 +26,23 @@ namespace SRTPluginProviderRECVX
         {
             if ((Emulator = emulator) == null)
                 return;
-
             _process = Emulator.Process;
+            if (ProcessRunning) Update();
+        }
 
-            if (ProcessRunning)
-                UpdatePointerAddresses();
+        public void Update()
+        {
+            UpdateGameWindowHandle();
+            UpdateGameVersion();
+            UpdatePointerAddresses();
+        }
+
+        public void UpdateGameWindowHandle()
+        {
+            if (Memory.Emulator.DetectGameWindowHandle)
+                Memory.Emulator.GameWindowHandle = Emulator.FindGameWindowHandle(Memory.Emulator.GameWindowTitleFilter);
+            else
+                Memory.Emulator.GameWindowHandle = IntPtr.Zero;
         }
 
         public void UpdateGameVersion() =>
@@ -37,8 +50,6 @@ namespace SRTPluginProviderRECVX
 
         public void UpdatePointerAddresses()
         {
-            UpdateGameVersion();
-
             if (Memory.Version.Equals(Pointers.Version))
                 return;
 
@@ -359,16 +370,15 @@ namespace SRTPluginProviderRECVX
             return 0x00002041; // PS2
         }
 
-        #region IDisposable Support
         private bool disposedValue;
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects)
+                    Emulator?.Dispose();
+                    Emulator = null;
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
@@ -377,19 +387,11 @@ namespace SRTPluginProviderRECVX
             }
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~GameMemoryRECVXScanner()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
-
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-        #endregion IDisposable Support
     }
 }

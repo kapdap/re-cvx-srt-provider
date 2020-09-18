@@ -71,7 +71,7 @@ namespace SRTPluginProviderRECVX
 
                 if (_stopwatch.ElapsedMilliseconds >= 2000L)
                 {
-                    _memoryScanner.UpdatePointerAddresses();
+                    _memoryScanner.Update();
                     _stopwatch.Restart();
                 }
 
