@@ -7,7 +7,6 @@ namespace SRTPluginProviderRECVX
 {
     public class SRTPluginProviderRECVX : IPluginProvider
     {
-        private GameEmulator _emulator;
         private GameMemoryRECVXScanner _memoryScanner;
         private Stopwatch _stopwatch;
         private IPluginHostDelegates _hostDelegates;
@@ -31,21 +30,36 @@ namespace SRTPluginProviderRECVX
 
         public int Startup(IPluginHostDelegates hostDelegates)
         {
-            _hostDelegates = hostDelegates;
-            _emulator = GetEmulator();
-            _memoryScanner = new GameMemoryRECVXScanner(_emulator);
-            _stopwatch = new Stopwatch();
-            _stopwatch.Start();
-            return 0;
+            try
+            {
+                _hostDelegates = hostDelegates;
+                _memoryScanner = new GameMemoryRECVXScanner(GetEmulator());
+                _stopwatch = new Stopwatch();
+                _stopwatch.Start();
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                _hostDelegates.ExceptionMessage(ex);
+                return 1;
+            }
         }
 
         public int Shutdown()
         {
-            _memoryScanner?.Dispose();
-            _memoryScanner = null;
-            _stopwatch?.Stop();
-            _stopwatch = null;
-            return 0;
+            try
+            {
+                _memoryScanner?.Dispose();
+                _memoryScanner = null;
+                _stopwatch?.Stop();
+                _stopwatch = null;
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                _hostDelegates.ExceptionMessage(ex);
+                return 1;
+            }
         }
 
         public object PullData()
@@ -71,7 +85,6 @@ namespace SRTPluginProviderRECVX
                 // (i.e. switching back to main menu).
                 if (ex.NativeErrorCode != 0x0000012B)
                     _hostDelegates.ExceptionMessage(ex);
-
                 return null;
             }
             catch (Exception ex)

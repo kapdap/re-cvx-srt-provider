@@ -1,12 +1,11 @@
 ﻿using SRTPluginProviderRECVX.Enumerations;
 using SRTPluginProviderRECVX.Models;
-using System;
 
 namespace SRTPluginProviderRECVX
 {
     public class GameMemoryRECVX : BaseNotifyModel, IGameMemoryRECVX
     {
-        public ProcessEntry Process { get; } = new ProcessEntry();
+        public EmulatorEntry Emulator { get; } = new EmulatorEntry();
         public GameVersion Version { get; } = new GameVersion();
         public TimeEntry IGT { get; } = new TimeEntry();
         public RoomEntry Room { get; } = new RoomEntry();

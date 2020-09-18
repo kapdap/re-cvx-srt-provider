@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace SRTPluginProviderRECVX.Models
 {
     [DebuggerDisplay("{_DebuggerDisplay,nq}")]
-    public class ProcessEntry : BaseNotifyModel, IEquatable<ProcessEntry>
+    public class EmulatorEntry : BaseNotifyModel, IEquatable<EmulatorEntry>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string _DebuggerDisplay
@@ -41,10 +41,52 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        public override bool Equals(object obj) => 
-            Equals(obj as ProcessEntry);
+        private IntPtr _gameWindowHandle;
+        public IntPtr GameWindowHandle
+        {
+            get => _gameWindowHandle;
+            set
+            {
+                if (_gameWindowHandle != value)
+                {
+                    _gameWindowHandle = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public bool Equals(ProcessEntry other) => 
+        private string _gameWindowTitleFilter;
+        public string GameWindowTitleFilter
+        {
+            get => _gameWindowTitleFilter;
+            set
+            {
+                if (_gameWindowTitleFilter != value)
+                {
+                    _gameWindowTitleFilter = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _detectGameWindowHandle;
+        public bool DetectGameWindowHandle
+        {
+            get => _detectGameWindowHandle;
+            set
+            {
+                if (_detectGameWindowHandle != value)
+                {
+                    _detectGameWindowHandle = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public override bool Equals(object obj) =>
+            Equals(obj as EmulatorEntry);
+
+        public bool Equals(EmulatorEntry other) =>
             other != null &&
             Id == other.Id &&
             ProcessName == other.ProcessName;
