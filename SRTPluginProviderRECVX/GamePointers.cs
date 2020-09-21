@@ -19,7 +19,8 @@ namespace SRTPluginProviderRECVX
         public IntPtr Retry { get; set; }
         public IntPtr FAS { get; set; }
         public IntPtr Map { get; set; }
-        public IntPtr Events { get; set; }
+        public IntPtr Steve { get; set; }
+        public IntPtr Rodrigo { get; set; }
         public IntPtr RDXHeader { get; set; }
     }
 }

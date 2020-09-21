@@ -69,6 +69,10 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C8C);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C80);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314AA);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A8);
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E50);
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430CA0);
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C9C);
                     Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CC80);
                     break;
 
@@ -84,6 +88,10 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0043318C);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00433180);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004339AA);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004339A8);
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00433350);
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004331A0);
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0043319C);
                     Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x012502C0);
                     break;
 
@@ -99,6 +107,10 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004499BC);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004499B0);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0044A1DA);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0044A1D8);
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00449B80);
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004499D0);
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004499CC);
                     Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x01270580);
                     break;
 
@@ -114,6 +126,10 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB36A4);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3598);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3DC2);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
                     Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BDE0EC);
                     break;
 
@@ -129,6 +145,10 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BC38A4);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BC3898);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BC40C2);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
                     Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BEE3EC);
                     break;
 
@@ -144,6 +164,10 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3624);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3618);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3E42);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
                     Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BDE16C);
                     break;
             }
@@ -166,6 +190,7 @@ namespace SRTPluginProviderRECVX
             Memory.Player.Status = _process.ReadValue<byte>(Pointers.Status);
             Memory.Player.Saves = _process.ReadValue<int>(Pointers.Saves, Emulator.IsBigEndian);
             Memory.Player.Retry = _process.ReadValue<short>(Pointers.Retry, Emulator.IsBigEndian);
+            Memory.Player.FAS = _process.ReadValue<short>(Pointers.FAS, Emulator.IsBigEndian);
 
             if (Memory.Version.Country == CountryEnumeration.JP)
                 Memory.Player.MaximumHP = Memory.Difficulty == DifficultyEnumeration.VeryEasy ? 400 : 200;
@@ -327,6 +352,25 @@ namespace SRTPluginProviderRECVX
 
             for (int i = index; i < Memory.Enemy.Length; i++)
                 Memory.Enemy[i].Clear();
+        }
+
+        public void RefreshRank()
+        {
+            Memory.Player.Map[0] = _process.ReadValue<int>(Pointers.Map, Emulator.IsBigEndian);
+            Memory.Player.Map[1] = _process.ReadValue<int>(IntPtr.Add(Pointers.Map, 8), Emulator.IsBigEndian);
+            Memory.Player.Map[2] = _process.ReadValue<int>(IntPtr.Add(Pointers.Map, 16), Emulator.IsBigEndian);
+
+            Memory.Player.Steve = _process.ReadValue<int>(Pointers.Steve, Emulator.IsBigEndian);
+            Memory.Player.Rodrigo = _process.ReadValue<int>(Pointers.Rodrigo, Emulator.IsBigEndian);
+
+            Memory.Rank.Time = RankEntry.PlayTimeScore(Memory.IGT.RunningTimer, (int)Memory.Difficulty, (int)Memory.Player.Character);
+            Memory.Rank.Saves = RankEntry.SaveCountScore(Memory.Player.Saves);
+            Memory.Rank.Retry = RankEntry.RetryCountScore(Memory.Player.Retry);
+            Memory.Rank.FAS = RankEntry.HealItemUseScore(Memory.Player.FAS);
+            Memory.Rank.Map = RankEntry.MapScore(Memory.Player.Map);
+            Memory.Rank.Steve = RankEntry.SteveEventScore(Memory.Player.Steve);
+            Memory.Rank.Rodrigo = RankEntry.RodrigoEventScore(Memory.Player.Rodrigo);
+            Memory.Rank.UpdateScore();
         }
 
         private DifficultyEnumeration GetDifficulty(byte data)

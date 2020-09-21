@@ -145,7 +145,6 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _retry = value;
                     OnPropertyChanged();
-                    UpdateScore();
                 }
             }
         }
@@ -160,12 +159,10 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _saves = value;
                     OnPropertyChanged();
-                    UpdateScore();
                 }
             }
         }
 
-        // ToDo
         private int _fas;
         public int FAS
         {
@@ -176,30 +173,14 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _fas = value;
                     OnPropertyChanged();
-                    UpdateScore();
                 }
             }
         }
 
-        // ToDo
-        private int _map;
-        public int Map
-        {
-            get => _map;
-            set
-            {
-                if (_map != value)
-                {
-                    _map = value;
-                    OnPropertyChanged();
-                    UpdateScore();
-                }
-            }
-        }
+        public int[] Map { get; } = new int[3];
 
-        // ToDo
-        private bool _steve;
-        public bool Steve
+        private int _steve;
+        public int Steve
         {
             get => _steve;
             set
@@ -208,14 +189,12 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _steve = value;
                     OnPropertyChanged();
-                    UpdateScore();
                 }
             }
         }
 
-        // ToDo
-        private bool _rodrigo;
-        public bool Rodrigo
+        private int _rodrigo;
+        public int Rodrigo
         {
             get => _rodrigo;
             set
@@ -224,33 +203,7 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _rodrigo = value;
                     OnPropertyChanged();
-                    UpdateScore();
                 }
-            }
-        }
-
-        // ToDo
-        private int _score;
-        public int Score
-        {
-            get => _score;
-            set
-            {
-                if (_score != value)
-                {
-                    _score = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("Rank");
-                }
-            }
-        }
-
-        // ToDo
-        public string Rank
-        {
-            get
-            {
-                return String.Empty;
             }
         }
 
@@ -309,12 +262,6 @@ namespace SRTPluginProviderRECVX.Models
                 else
                     return "Fine";
             }
-        }
-
-        // ToDo
-        private void UpdateScore()
-        {
-            Score = 0;
         }
     }
 }

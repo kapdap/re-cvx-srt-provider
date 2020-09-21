@@ -8,9 +8,7 @@ namespace SRTPluginProviderRECVX
         public EmulatorEntry Emulator { get; } = new EmulatorEntry();
         public GameVersion Version { get; } = new GameVersion();
         public TimeEntry IGT { get; } = new TimeEntry();
-        public RoomEntry Room { get; } = new RoomEntry();
         public PlayerEntry Player { get; } = new PlayerEntry();
-
         private EnemyEntry[] _enemy = new EnemyEntry[8];
         public EnemyEntry[] Enemy
         {
@@ -26,6 +24,8 @@ namespace SRTPluginProviderRECVX
                 return _enemy;
             }
         }
+        public RoomEntry Room { get; } = new RoomEntry();
+        public RankEntry Rank { get; } = new RankEntry();
 
         public DifficultyEnumeration _difficulty = DifficultyEnumeration.Normal;
         public DifficultyEnumeration Difficulty
