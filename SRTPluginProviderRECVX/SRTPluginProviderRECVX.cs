@@ -8,7 +8,7 @@ namespace SRTPluginProviderRECVX
     public class SRTPluginProviderRECVX : IPluginProvider
     {
         private GameMemoryRECVXScanner _memoryScanner;
-        private Stopwatch _stopwatch;
+        private Stopwatch[] _stopwatch;
         private IPluginHostDelegates _hostDelegates;
         public IPluginInfo Info => new PluginInfo();
 
@@ -34,8 +34,11 @@ namespace SRTPluginProviderRECVX
             {
                 _hostDelegates = hostDelegates;
                 _memoryScanner = new GameMemoryRECVXScanner(GetEmulator());
-                _stopwatch = new Stopwatch();
-                _stopwatch.Start();
+                _stopwatch = new Stopwatch[2];
+                _stopwatch[0] = new Stopwatch();
+                _stopwatch[0].Start();
+                _stopwatch[1] = new Stopwatch();
+                _stopwatch[1].Start();
                 return 0;
             }
             catch (Exception ex)
@@ -51,7 +54,10 @@ namespace SRTPluginProviderRECVX
             {
                 _memoryScanner?.Dispose();
                 _memoryScanner = null;
-                _stopwatch?.Stop();
+                _stopwatch[0]?.Stop();
+                _stopwatch[0] = null;
+                _stopwatch[1]?.Stop();
+                _stopwatch[1] = null;
                 _stopwatch = null;
                 return 0;
             }
@@ -69,13 +75,21 @@ namespace SRTPluginProviderRECVX
                 if (!GameRunning) // Not running? Bail out!
                     return null;
 
-                if (_stopwatch.ElapsedMilliseconds >= 2000L)
+                if (_stopwatch[0].ElapsedMilliseconds >= 2000L)
                 {
                     _memoryScanner.Update();
-                    _stopwatch.Restart();
+                    _stopwatch[0].Restart();
                 }
 
-                return _memoryScanner.Refresh();
+                IGameMemoryRECVX memory = _memoryScanner.Refresh();
+
+                if (_stopwatch[1].ElapsedMilliseconds >= 3000L)
+                {
+                    _memoryScanner.RefreshRank();
+                    _stopwatch[1].Restart();
+                }
+
+                return memory;
             }
             catch (Win32Exception ex)
             {
