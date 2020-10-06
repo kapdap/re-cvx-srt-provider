@@ -26,16 +26,7 @@ namespace SRTPluginProviderRECVX.Models
         public CharacterEnumeration Character
         {
             get => _character;
-            set
-            {
-                if (_character != value)
-                {
-                    _character = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("CharacterName");
-                    OnPropertyChanged("CharacterFirstName");
-                }
-            }
+            set => SetField(ref _character, value, "Character", "CharacterName", "CharacterFirstName");
         }
 
         public InventoryEntry Equipment { get; } = new InventoryEntry(0);
@@ -60,62 +51,37 @@ namespace SRTPluginProviderRECVX.Models
         public int MaximumHP
         {
             get => _maximumHP;
-            set
-            {
-                if (_maximumHP != value)
-                {
-                    _maximumHP = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("Percentage");
-                    OnPropertyChanged("HealthMessage");
-                }
-            }
+            set => SetField(ref _maximumHP, value, "MaximumHP", "Percentage", "HealthMessage");
         }
 
         private int _currentHP;
         public int CurrentHP
         {
             get => _currentHP;
-            set
-            {
-                if (_currentHP != value)
-                {
-                    _currentHP = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("IsAlive");
-                    OnPropertyChanged("IsFine");
-                    OnPropertyChanged("IsCautionYellow");
-                    OnPropertyChanged("IsCautionOrange");
-                    OnPropertyChanged("IsDanger");
-                    OnPropertyChanged("DisplayHP");
-                    OnPropertyChanged("Percentage");
-                    OnPropertyChanged("StatusName");
-                }
-            }
+            set => SetField(ref _currentHP, value, 
+                "CurrentHP", 
+                "HealthMessage", 
+                "IsAlive",
+                "IsFine",
+                "IsCautionYellow",
+                "IsCautionOrange",
+                "IsDanger",
+                "DisplayHP",
+                "Percentage",
+                "StatusName");
         }
 
         public int DisplayHP
             => Math.Max(CurrentHP, 0);
 
         public float Percentage
-            => IsAlive ? (float)DisplayHP / (float)MaximumHP : 0f;
+            => IsAlive ? (float)DisplayHP / MaximumHP : 0f;
 
         private byte _status;
         public byte Status
         {
             get => _status;
-            set
-            {
-                if (_status != value)
-                {
-                    _status = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("IsPoison");
-                    OnPropertyChanged("IsGassed");
-                    OnPropertyChanged("StatusName");
-                }
-            }
+            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "StatusName");
         }
 
         public bool IsPoison
@@ -144,42 +110,21 @@ namespace SRTPluginProviderRECVX.Models
         public int Retry
         {
             get => _retry;
-            set
-            {
-                if (_retry != value)
-                {
-                    _retry = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _retry, value);
         }
 
         private int _saves;
         public int Saves
         {
             get => _saves;
-            set
-            {
-                if (_saves != value)
-                {
-                    _saves = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _saves, value);
         }
 
         private int _fas;
         public int FAS
         {
             get => _fas;
-            set
-            {
-                if (_fas != value)
-                {
-                    _fas = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _fas, value);
         }
 
         public int[] Map { get; } = new int[3];
@@ -188,28 +133,14 @@ namespace SRTPluginProviderRECVX.Models
         public int Steve
         {
             get => _steve;
-            set
-            {
-                if (_steve != value)
-                {
-                    _steve = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _steve, value);
         }
 
         private int _rodrigo;
         public int Rodrigo
         {
             get => _rodrigo;
-            set
-            {
-                if (_rodrigo != value)
-                {
-                    _rodrigo = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _rodrigo, value);
         }
 
         public string CharacterName

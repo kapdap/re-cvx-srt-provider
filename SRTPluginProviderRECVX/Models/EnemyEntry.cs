@@ -34,28 +34,14 @@ namespace SRTPluginProviderRECVX.Models
         public bool IsEmpty
         {
             get => _isEmpty;
-            set
-            {
-                if (_isEmpty != value)
-                {
-                    _isEmpty = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _isEmpty, value);
         }
 
         private RoomEntry _room;
         public RoomEntry Room
         {
             get => _room;
-            set
-            {
-                if (_room == null)
-                {
-                    _room = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _room, value);
         }
 
         private int _currentHP;
@@ -64,15 +50,7 @@ namespace SRTPluginProviderRECVX.Models
             get => _currentHP;
             set
             {
-                bool hasChanged = false;
-
-                if (_currentHP != value)
-                {
-                    _currentHP = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("DisplayHP");
-                    hasChanged = true;
-                }
+                bool hasChanged = SetField(ref _currentHP, value, "CurrentHP", "DisplayHP");
 
                 if (!_hasMaxHP)
                 {
@@ -99,14 +77,7 @@ namespace SRTPluginProviderRECVX.Models
             get => _maximumHP;
             set
             {
-                bool hasChanged = false;
-
-                if (_maximumHP != value)
-                {
-                    _maximumHP = value;
-                    OnPropertyChanged();
-                    hasChanged = true;
-                }
+                bool hasChanged = SetField(ref _maximumHP, value);
 
                 if (!_hasMaxHP)
                 {
@@ -128,33 +99,14 @@ namespace SRTPluginProviderRECVX.Models
         public bool HasMaxHP
         {
             get => _hasMaxHP;
-            set
-            {
-                if (_hasMaxHP != value)
-                {
-                    _hasMaxHP = true;
-                    OnPropertyChanged("HasMaxHP");
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _hasMaxHP, value, "HasMaxHP", "HealthMessage", "DebugMessage");
         }
 
         private bool _isAlive;
         public bool IsAlive
         {
             get => _isAlive;
-            set
-            {
-                if (_isAlive != value)
-                {
-                    _isAlive = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("Percentage");
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _isAlive, value, "IsAlive", "Percentage", "HealthMessage", "DebugMessage");
         }
 
         public float Percentage
@@ -164,81 +116,35 @@ namespace SRTPluginProviderRECVX.Models
         public int Damage
         {
             get => _damage;
-            set
-            {
-                if (_damage != value)
-                {
-                    _damage = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _damage, value, "Damage", "HealthMessage", "DebugMessage");
         }
 
         private int _slot;
         public int Slot
         {
             get => _slot;
-            set
-            {
-                if (_slot != value)
-                {
-                    _slot = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _slot, value, "Slot", "HealthMessage", "DebugMessage");
         }
 
         private byte _action;
         public byte Action
         {
             get => _action;
-            set
-            {
-                if (_action != value)
-                {
-                    _action = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("Active");
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _action, value, "Action", "Active", "HealthMessage", "DebugMessage");
         }
 
         private byte _status;
         public byte Status
         {
             get => _status;
-            set
-            {
-                if (_status != value)
-                {
-                    _status = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _status, value, "Status", "HealthMessage", "DebugMessage");
         }
 
         private byte _model;
         public byte Model
         {
             get => _model;
-            set
-            {
-                if (_model != value)
-                {
-                    _model = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _model, value, "Model", "HealthMessage", "DebugMessage");
         }
 
         public bool Active => 
@@ -271,32 +177,14 @@ namespace SRTPluginProviderRECVX.Models
         public string TypeName
         {
             get => !String.IsNullOrEmpty(_typeName) ? _typeName : GetTypeName();
-            set
-            {
-                if (_typeName != value)
-                {
-                    _typeName = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _typeName, value, "TypeName", "HealthMessage", "DebugMessage");
         }
 
         private bool _isBoss;
         public bool IsBoss
         {
             get => _isBoss;
-            set
-            {
-                if (_isBoss != value)
-                {
-                    _isBoss = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("HealthMessage");
-                    OnPropertyChanged("DebugMessage");
-                }
-            }
+            set => SetField(ref _isBoss, value, "IsBoss", "HealthMessage", "DebugMessage");
         }
 
         public EnemyEntry(int index) =>

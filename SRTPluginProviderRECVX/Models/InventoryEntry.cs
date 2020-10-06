@@ -29,56 +29,28 @@ namespace SRTPluginProviderRECVX.Models
         public int Slot
         {
             get => _slot;
-            private set
-            {
-                if (_slot != value)
-                {
-                    _slot = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _slot, value);
         }
 
         private int _slotSize;
         public int SlotSize
         {
             get => _slotSize;
-            private set
-            {
-                if (_slotSize != value)
-                {
-                    _slotSize = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _slotSize, value);
         }
 
         private int _slotRow;
         public int SlotRow
         {
             get => _slotRow;
-            private set
-            {
-                if (_slotRow != value)
-                {
-                    _slotRow = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _slotRow, value);
         }
 
         private int _slotColumn;
         public int SlotColumn
         {
             get => _slotColumn;
-            private set
-            {
-                if (_slotColumn != value)
-                {
-                    _slotColumn = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _slotColumn, value);
         }
 
         private byte[] _data = new byte[4];
@@ -87,8 +59,6 @@ namespace SRTPluginProviderRECVX.Models
             get => _data != null ? _data : new byte[4];
             private set
             {
-                bool hasChanged = false;
-
                 if (value == null || value.Length < 4)
                     value = new byte[4];
 
@@ -96,11 +66,9 @@ namespace SRTPluginProviderRECVX.Models
                     if (_data[i] != value[i])
                     {
                         _data[i] = value[i];
-                        hasChanged = true;
+                        OnPropertyChanged();
+                        break;
                     }
-
-                if (hasChanged)
-                    OnPropertyChanged();
             }
         }
 
@@ -108,168 +76,89 @@ namespace SRTPluginProviderRECVX.Models
         public byte Id
         {
             get => _id;
-            private set
-            {
-                if (_id != value)
-                {
-                    _id = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _id, value);
         }
 
         private ItemEnumeration _type = ItemEnumeration.None;
         public ItemEnumeration Type
         {
             get => _type;
-            private set
-            {
-                if (_type != value)
-                {
-                    _type = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _type, value);
         }
 
         private string _name;
         public string Name
         {
-            get => !String.IsNullOrEmpty(_name) ? _name : GetItemName();
-            private set
+            get
             {
-                if (_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged();
-                }
+                if (String.IsNullOrEmpty(_name))
+                    SetField(ref _name, GetItemName());
+                return _name;
             }
+            private set => SetField(ref _name, value);
         }
 
         private ItemStatusEnumeration _ammoType = ItemStatusEnumeration.Normal;
         public ItemStatusEnumeration AmmoType
         {
             get => _ammoType;
-            private set
-            {
-                if (_ammoType != value)
-                {
-                    _ammoType = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _ammoType, value);
         }
 
         private int _quantity;
         public int Quantity
         {
             get => _quantity;
-            private set
-            {
-                if (_quantity != value)
-                {
-                    _quantity = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _quantity, value);
         }
 
         private bool _hasQuantity;
         public bool HasQuantity
         {
             get => _hasQuantity;
-            private set
-            {
-                if (_hasQuantity != value)
-                {
-                    _hasQuantity = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _hasQuantity, value);
         }
 
         private bool _isInfinite;
         public bool IsInfinite
         {
             get => _isInfinite;
-            private set
-            {
-                if (_isInfinite != value)
-                {
-                    _isInfinite = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _isInfinite, value);
         }
 
         private bool _isFlame;
         public bool IsFlame
         {
             get => _isFlame;
-            private set
-            {
-                if (_isFlame != value)
-                {
-                    _isFlame = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _isFlame, value);
         }
 
         private bool _isAcid;
         public bool IsAcid
         {
             get => _isAcid;
-            private set
-            {
-                if (_isAcid != value)
-                {
-                    _isAcid = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _isAcid, value);
         }
 
         private bool _isBOW;
         public bool IsBOW
         {
             get => _isBOW;
-            private set
-            {
-                if (_isBOW != value)
-                {
-                    _isBOW = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _isBOW, value);
         }
 
         private bool _isEquipped;
         public bool IsEquipped
         {
             get => _isEquipped;
-            private set
-            {
-                if (_isEquipped != value)
-                {
-                    _isEquipped = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _isEquipped, value);
         }
 
         private bool _isEmpty = true;
         public bool IsEmpty
         {
             get => _isEmpty;
-            private set
-            {
-                if (_isEmpty != value)
-                {
-                    _isEmpty = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _isEmpty, value);
         }
 
         public InventoryEntry(int index) =>

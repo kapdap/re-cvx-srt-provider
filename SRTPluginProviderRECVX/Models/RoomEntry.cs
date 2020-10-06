@@ -24,13 +24,8 @@ namespace SRTPluginProviderRECVX.Models
             get => _id;
             set
             {
-                if (_id != value)
-                {
-                    _id = value;
-                    OnPropertyChanged();
-
+                if (SetField(ref _id, value))
 					Name = GetName();
-                }
             }
         }
 
@@ -38,14 +33,7 @@ namespace SRTPluginProviderRECVX.Models
         public bool IsLoaded
         {
             get => _isLoaded;
-            set
-            {
-                if (_isLoaded != value)
-                {
-                    _isLoaded = value;
-                    OnPropertyChanged();
-                }
-            }
+			set => SetField(ref _isLoaded, value);
 		}
 
 		private string _name;
@@ -54,21 +42,10 @@ namespace SRTPluginProviderRECVX.Models
 			get
             {
 				if (String.IsNullOrEmpty(_name))
-				{
-					_name = GetName();
-					OnPropertyChanged();
-				}
-
+					SetField(ref _name, GetName());
 				return _name;
 			}
-			set
-			{
-				if (_name != value)
-				{
-					_name = value;
-					OnPropertyChanged();
-				}
-			}
+			set => SetField(ref _name, value);
 		}
 
 		private string GetName()

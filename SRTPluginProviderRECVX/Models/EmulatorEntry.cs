@@ -17,70 +17,35 @@ namespace SRTPluginProviderRECVX.Models
         public int Id
         {
             get => _id;
-            set
-            {
-                if (_id != value)
-                {
-                    _id = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _id, value);
         }
 
         private string _processName;
         public string ProcessName
         {
             get => _processName;
-            set
-            {
-                if (_processName != value)
-                {
-                    _processName = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _processName, value);
         }
 
         private IntPtr _gameWindowHandle;
         public IntPtr GameWindowHandle
         {
             get => _gameWindowHandle;
-            set
-            {
-                if (_gameWindowHandle != value)
-                {
-                    _gameWindowHandle = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _gameWindowHandle, value);
         }
 
         private string _gameWindowTitleFilter;
         public string GameWindowTitleFilter
         {
             get => _gameWindowTitleFilter;
-            set
-            {
-                if (_gameWindowTitleFilter != value)
-                {
-                    _gameWindowTitleFilter = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _gameWindowTitleFilter, value);
         }
 
         private bool _detectGameWindowHandle;
         public bool DetectGameWindowHandle
         {
             get => _detectGameWindowHandle;
-            set
-            {
-                if (_detectGameWindowHandle != value)
-                {
-                    _detectGameWindowHandle = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _detectGameWindowHandle, value);
         }
 
         public override bool Equals(object obj) =>

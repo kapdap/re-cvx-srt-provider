@@ -10,126 +10,63 @@ namespace SRTPluginProviderRECVX.Models
         public int Time
         {
             get => _time;
-            set
-            {
-                if (_time != value)
-                {
-                    _time = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _time, value);
         }
 
         private int _saves;
         public int Saves
         {
             get => _saves;
-            set
-            {
-                if (_saves != value)
-                {
-                    _saves = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _saves, value);
         }
 
         private int _retry;
         public int Retry
         {
             get => _retry;
-            set
-            {
-                if (_retry != value)
-                {
-                    _retry = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _retry, value);
         }
 
         private int _fas;
         public int FAS
         {
             get => _fas;
-            set
-            {
-                if (_fas != value)
-                {
-                    _fas = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _fas, value);
         }
 
         private int _map;
         public int Map
         {
             get => _map;
-            set
-            {
-                if (_map != value)
-                {
-                    _map = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _map, value);
         }
 
         private int _steve;
         public int Steve
         {
             get => _steve;
-            set
-            {
-                if (_steve != value)
-                {
-                    _steve = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _steve, value);
         }
 
         private int _rodrigo;
         public int Rodrigo
         {
             get => _rodrigo;
-            set
-            {
-                if (_rodrigo != value)
-                {
-                    _rodrigo = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _rodrigo, value);
         }
 
         private int _score;
         public int Score
         {
             get => _score;
-            set
-            {
-                if (_score != value)
-                {
-                    _score = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _score, value);
         }
 
         private int _name;
         public int Name
         {
             get => _name;
-            set
-            {
-                if (_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => SetField(ref _name, value);
         }
 
         public void UpdateScore()

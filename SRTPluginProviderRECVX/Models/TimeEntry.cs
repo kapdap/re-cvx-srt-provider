@@ -21,10 +21,8 @@ namespace SRTPluginProviderRECVX.Models
             get => _runningTimer;
             set
             {
-                _runningTimer = value;
-                OnPropertyChanged();
-
-                Calculated = _runningTimer / 60;
+                if (SetField(ref _runningTimer, value))
+                    Calculated = _runningTimer / 60;
             }
         }
 
@@ -32,16 +30,7 @@ namespace SRTPluginProviderRECVX.Models
         public int Calculated
         {
             get => _calculated;
-            private set
-            {
-                if (_calculated != value)
-                {
-                    _calculated = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged("TimeSpan");
-                    OnPropertyChanged("FormattedString");
-                }
-            }
+            private set => SetField(ref _calculated, value, "Calculated", "TimeSpan", "FormattedString");
         }
 
         public TimeSpan TimeSpan
