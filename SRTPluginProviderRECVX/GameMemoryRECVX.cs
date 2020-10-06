@@ -31,16 +31,7 @@ namespace SRTPluginProviderRECVX
         public DifficultyEnumeration Difficulty
         {
             get => _difficulty;
-            set
-            {
-                if (_difficulty != value)
-                {
-                    _difficulty = value;
-
-                    OnPropertyChanged();
-                    OnPropertyChanged("DifficultyName");
-                }
-            }
+            set => SetField(ref _difficulty, value, "Difficulty", "DifficultyName");
         }
 
         public string DifficultyName =>

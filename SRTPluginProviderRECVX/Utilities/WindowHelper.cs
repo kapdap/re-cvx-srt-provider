@@ -35,7 +35,7 @@ namespace SRTPluginProviderRECVX.Utilities
 
         public static string GetWindowTitle(IntPtr hWnd)
         {
-            int length = GetWindowTextLength(hWnd);
+            int length = GetWindowTextLength(hWnd) + 1;
             StringBuilder title = new StringBuilder(length);
             GetWindowText(hWnd, title, length);
             return title.ToString();

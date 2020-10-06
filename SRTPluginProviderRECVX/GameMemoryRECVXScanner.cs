@@ -164,7 +164,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3624);
                     Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3618);
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3E42);
-                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BB3E40);
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000);

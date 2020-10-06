@@ -340,9 +340,6 @@ namespace SRTPluginProviderRECVX.Models
             OnPropertyChanged("ClearEntry");
         }
 
-        public void SendUpdateEntryEvent() =>
-            OnPropertyChanged("UpdateEntry");
-
         private string GetTypeName()
         {
             switch (Type)

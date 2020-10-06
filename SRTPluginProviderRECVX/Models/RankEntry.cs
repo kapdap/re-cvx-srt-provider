@@ -76,7 +76,6 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-
         private int _steve;
         public int Steve
         {
@@ -90,7 +89,6 @@ namespace SRTPluginProviderRECVX.Models
                 }
             }
         }
-
 
         private int _rodrigo;
         public int Rodrigo
@@ -106,7 +104,6 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-
         private int _score;
         public int Score
         {
@@ -120,7 +117,6 @@ namespace SRTPluginProviderRECVX.Models
                 }
             }
         }
-
 
         private int _name;
         public int Name

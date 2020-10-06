@@ -18,70 +18,35 @@ namespace SRTPluginProviderRECVX
         public string Code
         {
             get => _code;
-            private set
-            {
-                if (_code != value)
-                {
-                    _code = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _code, value);
         }
 
         private string _name;
         public string Name
         {
             get => _name;
-            private set
-            {
-                if (_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _name, value);
         }
 
         private CountryEnumeration _country;
         public CountryEnumeration Country
         {
             get => _country;
-            private set
-            {
-                if (_country != value)
-                {
-                    _country = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _country, value);
         }
 
         private ConsoleEnumeration _console;
         public ConsoleEnumeration Console
         {
             get => _console;
-            private set
-            {
-                if (_console != value)
-                {
-                    _console = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _console, value);
         }
 
         private bool _supported;
         public bool Supported
         {
             get => _supported;
-            private set
-            {
-                if (_supported != value)
-                {
-                    _supported = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetField(ref _supported, value);
         }
 
         public GameVersion() => Update();

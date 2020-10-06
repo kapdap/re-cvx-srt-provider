@@ -108,7 +108,6 @@ namespace SRTPluginProviderRECVX
         }
 
         private bool disposedValue;
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

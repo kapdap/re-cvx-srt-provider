@@ -19,6 +19,9 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
+        public string HealthMessage =>
+            $"{DisplayHP} ({MaximumHP})";
+
         private CharacterEnumeration _character = CharacterEnumeration.Claire;
         public CharacterEnumeration Character
         {
@@ -64,6 +67,7 @@ namespace SRTPluginProviderRECVX.Models
                     _maximumHP = value;
                     OnPropertyChanged();
                     OnPropertyChanged("Percentage");
+                    OnPropertyChanged("HealthMessage");
                 }
             }
         }
@@ -78,6 +82,7 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _currentHP = value;
                     OnPropertyChanged();
+                    OnPropertyChanged("HealthMessage");
                     OnPropertyChanged("IsAlive");
                     OnPropertyChanged("IsFine");
                     OnPropertyChanged("IsCautionYellow");
