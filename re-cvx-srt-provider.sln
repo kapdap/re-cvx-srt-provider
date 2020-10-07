@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginProviderRECVX", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginBase", "..\SRTHost\SRTPluginBase\SRTPluginBase.csproj", "{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTHost", "..\SRTHost\SRTHost\SRTHost.csproj", "{C0135D3C-9A42-4450-806C-604809F3DD6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Debug|x64.Build.0 = Debug|Any CPU
 		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Release|x64.ActiveCfg = Release|Any CPU
 		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Release|x64.Build.0 = Release|Any CPU
+		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Debug|x64.ActiveCfg = Debug|x64
+		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Debug|x64.Build.0 = Debug|x64
+		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Release|x64.ActiveCfg = Release|x64
+		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SRTPluginProviderRECVX.Models
+﻿namespace SRTPluginProviderRECVX.Models
 {
     public class RankEntry : BaseNotifyModel
     {
@@ -62,8 +58,8 @@ namespace SRTPluginProviderRECVX.Models
             set => SetField(ref _score, value);
         }
 
-        private int _name;
-        public int Name
+        private string _name;
+        public string Name
         {
             get => _name;
             set => SetField(ref _name, value);
@@ -74,15 +70,15 @@ namespace SRTPluginProviderRECVX.Models
             Score = Time + Saves + Retry + FAS + Map + Steve + Rodrigo;
 
             if (Score < 1000)
-                Name = 4;
+                Name = "E";
             else if (Score < 4999)
-                Name = 3;
+                Name = "D";
             else if (Score < 6999)
-                Name = 2;
+                Name = "C";
             else if (Score < 9999)
-                Name = 1;
+                Name = "B";
             else
-                Name = 0;
+                Name = "S/A";
         }
 
         public static int PlayTimeScore(int timer, int difficulty, int character)
@@ -135,37 +131,34 @@ namespace SRTPluginProviderRECVX.Models
             return iScore;
         }
 
-        public static uint CheckFlag(int p1, uint p2)
+        public static int CheckFlag(int p1, int p2)
         {
-            uint r0 = p2 & 31;
-            uint r1 = p2 >> 5;
-            uint r2 = r1 * 4;
-            uint r3 = (uint)p1 + r2;
-            uint r4 = r0 & r3;
-            int r5 = 0x8000 >> (int)r4;
+            int r0 = p2 & 31;
+            int r1 = p2 >> 5;
+            int r2 = r1 * 4;
+            int r3 = p1 + r2;
+            int r4 = r0 & r3;
 
-            return (uint)r5;
+            return 0x8000 >> r4;
         }
 
         public static int MapScore(int[] p1)
         {
-            bool bClear = FlagCheck((uint)p1[0], 6) != 0 &&
-                          FlagCheck((uint)p1[0], 7) != 0 &&
-                          FlagCheck((uint)p1[1], 93) != 0 &&
-                          FlagCheck((uint)p1[1], 94) != 0 &&
-                          FlagCheck((uint)p1[2], 143) != 0;
-            return bClear ? 100 : 0;
+            return FlagCheck(p1[0], 6)   != 0 &&
+                   FlagCheck(p1[0], 7)   != 0 &&
+                   FlagCheck(p1[1], 93)  != 0 &&
+                   FlagCheck(p1[1], 94)  != 0 &&
+                   FlagCheck(p1[2], 143) != 0 ? 100 : 0;
         }
 
-        public static int FlagCheck(uint v1, uint a1, uint a2 = 0)
+        public static int FlagCheck(int p1, int p2, int p3 = 0)
         {
-            uint a0 = a1 & 0x1f;
-            uint v0 = a2 & 0xff;
-            int v2 = (int)(v1 << (int)a0);
-            int b1 = v2 < 0 ? 1 : 0;
-            int b2 = (int)(b1 ^ v0);
+            int r0 = p2 & 0x1f;
+            int r1 = p3 & 0xff;
+            int r2 = p1 << r0;
+            int r3 = r2 < 0 ? 1 : 0;
 
-            return b2;
+            return r3 ^ r1;
         }
     }
 }

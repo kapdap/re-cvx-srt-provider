@@ -32,8 +32,6 @@ using System.Text;
 
 namespace SRTPluginProviderRECVX.Utilities
 {
-    using SizeT = UIntPtr;
-
     public enum StringEnumType
     {
         AutoDetect,
@@ -66,175 +64,116 @@ namespace SRTPluginProviderRECVX.Utilities
             return exitCode;
         }
 
-        public static bool ReadValue<T>(this Process process, IntPtr addr, out T val, bool swapBytes = false) where T : struct
+        public static T ReadValue<T>(this Process process, IntPtr addr, bool swap = false, T default_ = default)
+            where T : struct
         {
-            var type = typeof(T);
-            type = type.IsEnum ? Enum.GetUnderlyingType(type) : type;
+            T value;
 
-            val = default(T);
-            object val2;
-            if (!ReadValue(process, addr, type, out val2, swapBytes))
-                return false;
+            if (!process.ReadValue(addr, out value, swap))
+                value = default_;
 
-            val = (T)val2;
-
-            return true;
+            return value;
         }
 
-        public static bool ReadValue(Process process, IntPtr addr, Type type, out object val, bool swapBytes = false)
+        public static bool ReadValue<T>(this Process process, IntPtr addr, out T value, bool swap = false)
+            where T : struct
         {
             byte[] bytes;
 
-            val = null;
+            object val;
+            value = default;
+
+            Type type = typeof(T);
+            type = type.IsEnum ? Enum.GetUnderlyingType(type) : type;
+
             int size = type == typeof(bool) ? 1 : Marshal.SizeOf(type);
-            if (!ReadBytes(process, addr, size, out bytes, swapBytes))
+
+            if (!ReadBytes(process, addr, size, out bytes, swap))
                 return false;
 
             val = ResolveToType(bytes, type);
+            value = (T)val;
 
             return true;
         }
 
-        public static bool ReadBytes(this Process process, IntPtr addr, int count, out byte[] val, bool swapBytes = false)
-        {
-            var bytes = new byte[count];
-
-            SizeT read;
-            val = null;
-            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
-                || read != (SizeT)bytes.Length)
-                return false;
-
-            if (swapBytes)
-                Array.Reverse(bytes);
-
-            val = bytes;
-
-            return true;
-        }
-
-        public static bool ReadPointer(this Process process, IntPtr addr, out IntPtr val, bool swapBytes = false)
-        {
-            return ReadPointer(process, addr, process.Is64Bit(), out val, swapBytes);
-        }
-
-        public static bool ReadPointer(this Process process, IntPtr addr, bool is64Bit, out IntPtr val, bool swapBytes = false)
-        {
-            var bytes = new byte[is64Bit ? 8 : 4];
-
-            SizeT read;
-            val = IntPtr.Zero;
-            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
-                || read != (SizeT)bytes.Length)
-                return false;
-
-            if (swapBytes)
-                Array.Reverse(bytes);
-
-            val = is64Bit ? (IntPtr)BitConverter.ToInt64(bytes, 0) : (IntPtr)BitConverter.ToUInt32(bytes, 0);
-
-            return true;
-        }
-
-        public static bool ReadString(this Process process, IntPtr addr, int numBytes, out string str, bool swapBytes = false)
-        {
-            return ReadString(process, addr, StringEnumType.AutoDetect, numBytes, out str, swapBytes);
-        }
-
-        public static bool ReadString(this Process process, IntPtr addr, StringEnumType type, int numBytes, out string str, bool swapBytes = false)
-        {
-            var sb = new StringBuilder(numBytes);
-            if (!ReadString(process, addr, type, sb, swapBytes))
-            {
-                str = string.Empty;
-                return false;
-            }
-
-            str = sb.ToString();
-
-            return true;
-        }
-
-        public static bool ReadString(this Process process, IntPtr addr, StringBuilder sb, bool swapBytes = false)
-        {
-            return ReadString(process, addr, StringEnumType.AutoDetect, sb, swapBytes);
-        }
-
-        public static bool ReadString(this Process process, IntPtr addr, StringEnumType type, StringBuilder sb, bool swapBytes = false)
-        {
-            var bytes = new byte[sb.Capacity];
-            SizeT read;
-            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, (SizeT)bytes.Length, out read)
-                || read != (SizeT)bytes.Length)
-                return false;
-
-            if (swapBytes)
-                Array.Reverse(bytes);
-
-            if (type == StringEnumType.AutoDetect)
-            {
-                if (read.ToUInt64() >= 2 && bytes[1] == '\x0')
-                    sb.Append(Encoding.Unicode.GetString(bytes));
-                else
-                    sb.Append(Encoding.UTF8.GetString(bytes));
-            }
-            else if (type == StringEnumType.UTF8)
-                sb.Append(Encoding.UTF8.GetString(bytes));
-            else if (type == StringEnumType.UTF16)
-                sb.Append(Encoding.Unicode.GetString(bytes));
-            else
-                sb.Append(Encoding.ASCII.GetString(bytes));
-
-            for (int i = 0; i < sb.Length; i++)
-            {
-                if (sb[i] == '\0')
-                {
-                    sb.Remove(i, sb.Length - i);
-                    break;
-                }
-            }
-
-            return true;
-        }
-
-        public static T ReadValue<T>(this Process process, IntPtr addr, bool swapBytes = false, T default_ = default(T)) where T : struct
-        {
-            T val;
-            if (!process.ReadValue(addr, out val, swapBytes))
-                val = default_;
-            return val;
-        }
-
-        public static byte[] ReadBytes(this Process process, IntPtr addr, int count, bool swapBytes = false)
+        public static byte[] ReadBytes(this Process process, IntPtr addr, int size, bool swap = false)
         {
             byte[] bytes;
-            if (!process.ReadBytes(addr, count, out bytes, swapBytes))
-                return new byte[count];
+
+            if (!process.ReadBytes(addr, size, out bytes, swap))
+                return new byte[size];
+
             return bytes;
         }
 
-        public static IntPtr ReadPointer(this Process process, IntPtr addr, bool swapBytes = false, IntPtr default_ = default(IntPtr))
+        public static bool ReadBytes(this Process process, IntPtr addr, int size, out byte[] value, bool swap = false)
         {
-            IntPtr ptr;
-            if (!process.ReadPointer(addr, out ptr, swapBytes))
-                return default_;
-            return ptr;
+            var bytes = new byte[size];
+            IntPtr read = IntPtr.Zero;
+
+            value = null;
+
+            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, size, out read))
+                return false;
+
+            if (swap)
+                Array.Reverse(bytes);
+
+            value = bytes;
+
+            return true;
         }
 
-        public static string ReadString(this Process process, IntPtr addr, int numBytes, bool swapBytes = false, string default_ = null)
+        public static string ReadString(this Process process, IntPtr addr, int size, bool swap = false, string default_ = null)
         {
             string str;
-            if (!process.ReadString(addr, numBytes, out str, swapBytes))
+
+            if (!process.ReadString(addr, size, out str, swap))
                 return default_;
+
             return str;
         }
 
-        public static string ReadString(this Process process, IntPtr addr, StringEnumType type, int numBytes, bool swapBytes = false, string default_ = null)
+        public static string ReadString(this Process process, IntPtr addr, StringEnumType type, int size, bool swap = false, string default_ = null)
         {
             string str;
-            if (!process.ReadString(addr, type, numBytes, out str, swapBytes))
+
+            if (!process.ReadString(addr, type, size, out str, swap))
                 return default_;
+
             return str;
+        }
+
+        public static bool ReadString(this Process process, IntPtr addr, int size, out string value, bool swap = false) =>
+            ReadString(process, addr, StringEnumType.AutoDetect, size, out value, swap);
+
+        public static bool ReadString(this Process process, IntPtr addr, StringEnumType type, int size, out string value, bool swap = false)
+        {
+            var bytes = new byte[size];
+            IntPtr read = IntPtr.Zero;
+
+            value = null;
+
+            if (!NativeWrappers.ReadProcessMemory(process.Handle, addr, bytes, size, out read))
+                return false;
+
+            if (swap)
+                Array.Reverse(bytes);
+
+            if (type == StringEnumType.AutoDetect)
+                if (read.ToInt64() >= 2 && bytes[1] == '\x0')
+                    value = Encoding.Unicode.GetString(bytes);
+                else
+                    value = Encoding.UTF8.GetString(bytes);
+            else if (type == StringEnumType.UTF8)
+                value = Encoding.UTF8.GetString(bytes);
+            else if (type == StringEnumType.UTF16)
+                value = Encoding.Unicode.GetString(bytes);
+            else
+                value = Encoding.ASCII.GetString(bytes);
+
+            return true;
         }
 
         private static object ResolveToType(byte[] bytes, Type type)
@@ -242,47 +181,28 @@ namespace SRTPluginProviderRECVX.Utilities
             object val;
 
             if (type == typeof(int))
-            {
                 val = BitConverter.ToInt32(bytes, 0);
-            }
             else if (type == typeof(uint))
-            {
                 val = BitConverter.ToUInt32(bytes, 0);
-            }
             else if (type == typeof(float))
-            {
                 val = BitConverter.ToSingle(bytes, 0);
-            }
             else if (type == typeof(double))
-            {
                 val = BitConverter.ToDouble(bytes, 0);
-            }
             else if (type == typeof(byte))
-            {
                 val = bytes[0];
-            }
             else if (type == typeof(bool))
-            {
                 if (bytes == null)
                     val = false;
                 else
                     val = (bytes[0] != 0);
-            }
             else if (type == typeof(short))
-            {
                 val = BitConverter.ToInt16(bytes, 0);
-            }
             else // probably a struct
             {
                 var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-                try
-                {
-                    val = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type);
-                }
-                finally
-                {
-                    handle.Free();
-                }
+
+                try { val = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type); }
+                finally { handle.Free(); }
             }
 
             return val;

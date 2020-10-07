@@ -164,7 +164,7 @@ namespace SRTPluginProviderRECVX.Models
         public InventoryEntry(int index) =>
             Index = index;
 
-        public void UpdateEntry(byte[] data, int slot = 0, bool isEquipped = false)
+        public void Update(byte[] data, int slot = 0, bool isEquipped = false)
         {
             if (data == null || data.Length < 4)
                 data = new byte[4];
@@ -197,7 +197,7 @@ namespace SRTPluginProviderRECVX.Models
             AmmoType = GetAmmoType();
             Name = GetItemName();
 
-            OnPropertyChanged("UpdateEntry");
+            SendUpdateEntryEvent();
         }
 
         private string GetItemName()

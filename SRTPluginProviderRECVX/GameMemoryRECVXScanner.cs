@@ -221,19 +221,19 @@ namespace SRTPluginProviderRECVX
                     equip = BitConverter.ToInt32(data, 0);
                 else
                 {
-                    Memory.Player.Inventory[++index].UpdateEntry(data, slot, equip == (index + 1));
+                    Memory.Player.Inventory[++index].Update(data, slot, equip == (index + 1));
 
                     slot += Memory.Player.Inventory[index].SlotSize;
 
                     if (Memory.Player.Inventory[index].IsEquipped)
-                        Memory.Player.Equipment.UpdateEntry(data);
+                        Memory.Player.Equipment.Update(data);
                 }
 
                 pointer = IntPtr.Add(pointer, 0x4);
             }
 
             if (equip <= 0)
-                Memory.Player.Equipment.UpdateEntry(new byte[4]);
+                Memory.Player.Equipment.Update(new byte[4]);
         }
 
         public void RefreshEnemy()
