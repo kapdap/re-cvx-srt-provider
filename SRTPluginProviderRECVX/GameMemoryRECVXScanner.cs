@@ -26,7 +26,9 @@ namespace SRTPluginProviderRECVX
         {
             if ((Emulator = emulator) == null)
                 return;
+
             _process = Emulator.Process;
+
             if (ProcessRunning) Update();
         }
 
@@ -215,12 +217,11 @@ namespace SRTPluginProviderRECVX
 
             for (int i = 0; i < Memory.Player.Inventory.Length + 1; ++i)
             {
-                byte[] data = _process.ReadBytes(pointer, 4, Emulator.IsBigEndian);
-
                 if (i <= 0)
-                    equip = BitConverter.ToInt32(data, 0);
+                    _process.ReadValue(pointer, out equip, Emulator.IsBigEndian);
                 else
                 {
+                    byte[] data = _process.ReadBytes(pointer, 4, Emulator.IsBigEndian);
                     Memory.Player.Inventory[++index].Update(data, slot, equip == (index + 1));
 
                     slot += Memory.Player.Inventory[index].SlotSize;
@@ -233,7 +234,7 @@ namespace SRTPluginProviderRECVX
             }
 
             if (equip <= 0)
-                Memory.Player.Equipment.Update(new byte[4]);
+                Memory.Player.Equipment.Update();
         }
 
         public void RefreshEnemy()

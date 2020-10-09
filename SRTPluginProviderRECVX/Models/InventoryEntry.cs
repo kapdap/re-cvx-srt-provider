@@ -1,4 +1,5 @@
 ﻿using SRTPluginProviderRECVX.Enumerations;
+using SRTPluginProviderRECVX.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,10 +30,17 @@ namespace SRTPluginProviderRECVX.Models
         public int Slot
         {
             get => _slot;
-            private set => SetField(ref _slot, value);
+            private set
+            {
+                if (SetField(ref _slot, value))
+                {
+                    SlotRow = Slot / 2;
+                    SlotColumn = Slot % 2;
+                }
+            }
         }
 
-        private int _slotSize;
+        private int _slotSize = 1;
         public int SlotSize
         {
             get => _slotSize;
@@ -59,6 +67,8 @@ namespace SRTPluginProviderRECVX.Models
             get => _data != null ? _data : new byte[4];
             private set
             {
+                bool hasChanged = false;
+
                 if (value == null || value.Length < 4)
                     value = new byte[4];
 
@@ -66,9 +76,11 @@ namespace SRTPluginProviderRECVX.Models
                     if (_data[i] != value[i])
                     {
                         _data[i] = value[i];
-                        OnPropertyChanged();
-                        break;
+                        hasChanged = true;
                     }
+
+                if (hasChanged)
+                    OnPropertyChanged();
             }
         }
 
@@ -76,14 +88,27 @@ namespace SRTPluginProviderRECVX.Models
         public byte Id
         {
             get => _id;
-            private set => SetField(ref _id, value);
+            private set
+            {
+                if (SetField(ref _id, value))
+                    Type = GetItemType();
+            }
         }
 
         private ItemEnumeration _type = ItemEnumeration.None;
         public ItemEnumeration Type
         {
             get => _type;
-            private set => SetField(ref _type, value);
+            private set
+            {
+                if (SetField(ref _type, value))
+                {
+                    IsEmpty = Type == ItemEnumeration.None;
+                    SlotSize = GetSlotSize();
+                    HasQuantity = GetHasQuantity();
+                    Name = GetItemName();
+                }
+            }
         }
 
         private string _name;
@@ -161,33 +186,25 @@ namespace SRTPluginProviderRECVX.Models
             private set => SetField(ref _isEmpty, value);
         }
 
-        public InventoryEntry(int index) =>
-            Index = index;
-
-        public void Update(byte[] data, int slot = 0, bool isEquipped = false)
+        public InventoryEntry(int index)
         {
+            Index = index;
+            Slot = Index;
+        }
+
+        public void Update(byte[] data = null, int slot = 0, bool isEquipped = false)
+        {
+            Slot = slot;
+
             if (data == null || data.Length < 4)
                 data = new byte[4];
 
-            if (data.Equals(Data))
+            if (NativeWrappers.ByteArrayCompare(Data, data))
                 return;
 
             Data = data;
-
             Id = Data[2];
-
-            Type = GetItemType();
-            IsEmpty = Type == ItemEnumeration.None;
-
             Quantity = BitConverter.ToInt16(Data, 0);
-            HasQuantity = GetHasQuantity();
-
-            Slot = slot;
-            SlotRow = Slot / 2;
-            SlotColumn = Slot % 2;
-            SlotSize = GetSlotSize();
-
-            IsEquipped = isEquipped;
 
             IsInfinite = (Data[3] & (byte)ItemStatusEnumeration.Infinite) != 0;
             IsFlame = (Data[3] & (byte)ItemStatusEnumeration.Flame) != 0 || Type == ItemEnumeration.FlameRounds || Type == ItemEnumeration.GunPowderArrow;
@@ -195,8 +212,7 @@ namespace SRTPluginProviderRECVX.Models
             IsBOW = (Data[3] & (byte)ItemStatusEnumeration.BOW) != 0 || Type == ItemEnumeration.BOWGasRounds;
 
             AmmoType = GetAmmoType();
-            Name = GetItemName();
-
+            IsEquipped = isEquipped;
             SendUpdateEntryEvent();
         }
 
@@ -603,7 +619,7 @@ namespace SRTPluginProviderRECVX.Models
         public bool Equals(InventoryEntry other) => 
             other != null &&
             Index == other.Index &&
-            EqualityComparer<byte[]>.Default.Equals(Data, other.Data);
+            NativeWrappers.ByteArrayCompare(Data, other.Data);
 
         public override int GetHashCode()
         {
