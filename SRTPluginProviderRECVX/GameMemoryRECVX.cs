@@ -9,7 +9,7 @@ namespace SRTPluginProviderRECVX
         public GameVersion Version { get; } = new GameVersion();
         public TimeEntry IGT { get; } = new TimeEntry();
         public PlayerEntry Player { get; } = new PlayerEntry();
-        private EnemyEntry[] _enemy = new EnemyEntry[8];
+        private readonly EnemyEntry[] _enemy = new EnemyEntry[8];
         public EnemyEntry[] Enemy
         {
             get
@@ -39,15 +39,12 @@ namespace SRTPluginProviderRECVX
 
         private string GetDifficultyName()
         {
-            switch (Difficulty)
+            return Difficulty switch
             {
-                case DifficultyEnumeration.Easy:
-                    return "Easy";
-                case DifficultyEnumeration.VeryEasy:
-                    return "Very Easy";
-                default:
-                    return "Normal";
-            }
+                DifficultyEnumeration.Easy => "Easy",
+                DifficultyEnumeration.VeryEasy => "Very Easy",
+                _ => "Normal",
+            };
         }
     }
 }

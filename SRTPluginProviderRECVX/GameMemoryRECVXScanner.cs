@@ -298,18 +298,18 @@ namespace SRTPluginProviderRECVX
 
                         case EnemyEnumeration.Nosferatu:
                             entry.MaximumHP = 600;
-                            entry.IsAlive = entry.Active && entry.CurrentHP == 0;
+                            entry.IsAlive = entry.Active && entry.Model == 0;
                             break;
 
                         case EnemyEnumeration.AlbinoidAdult:
                         case EnemyEnumeration.MutatedSteve:
                             entry.MaximumHP = 250;
-                            entry.IsAlive = entry.Active && entry.CurrentHP == 0;
+                            entry.IsAlive = entry.Active && entry.Model == 0;
                             break;
 
                         case EnemyEnumeration.GiantBlackWidow:
                             entry.MaximumHP = 250;
-                            entry.IsAlive = entry.Active && entry.CurrentHP > 0;
+                            entry.IsAlive = entry.Active && entry.Status > 0;
                             break;
 
                         case EnemyEnumeration.AlexiaAshford:
@@ -399,17 +399,13 @@ namespace SRTPluginProviderRECVX
         {
             if (Memory.Version.Console == ConsoleEnumeration.PS3)
             {
-                switch (Memory.Player.Character)
+                return Memory.Player.Character switch
                 {
-                    case CharacterEnumeration.Chris:
-                        return 0x0003C4FC;
-                    case CharacterEnumeration.Steve:
-                        return 0x0003A4D0;
-                    case CharacterEnumeration.Wesker:
-                        return 0x0003E814;
-                    default:
-                        return 0x0003D650;
-                }
+                    CharacterEnumeration.Chris => 0x0003C4FC,
+                    CharacterEnumeration.Steve => 0x0003A4D0,
+                    CharacterEnumeration.Wesker => 0x0003E814,
+                    _ => 0x0003D650,
+                };
             }
 
             return 0x00002041; // PS2
