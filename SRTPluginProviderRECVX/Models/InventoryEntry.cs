@@ -195,6 +195,7 @@ namespace SRTPluginProviderRECVX.Models
         public void Update(byte[] data = null, int slot = 0, bool isEquipped = false)
         {
             Slot = slot;
+            IsEquipped = isEquipped;
 
             if (data == null || data.Length < 4)
                 data = new byte[4];
@@ -212,7 +213,6 @@ namespace SRTPluginProviderRECVX.Models
             IsBOW = (Data[3] & (byte)ItemStatusEnumeration.BOW) != 0 || Type == ItemEnumeration.BOWGasRounds;
 
             AmmoType = GetAmmoType();
-            IsEquipped = isEquipped;
             SendUpdateEntryEvent();
         }
 
