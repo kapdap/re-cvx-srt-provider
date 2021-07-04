@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
     <LangVersion>latest</LangVersion>
     <Platforms>x64</Platforms>
@@ -9,15 +9,15 @@
     <Company>Kapdap</Company>
     <Product>Resident Evil: Code: Veronica Memory Provider Plugin</Product>
     <Description>A provider plugin for the SRT Host to provide memory values to other plugins.</Description>
-    <Copyright>Copyright © 2020 Kapdap</Copyright>
+    <Copyright>Copyright © 2021 Kapdap</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/kapdap/re-cvx-srt-provider</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>speedrun</PackageTags>
-    <Version>0.9.0.1</Version>
-    <FileVersion>0.9.0.1</FileVersion>
-    <AssemblyVersion>0.9.0.1</AssemblyVersion>
-    <CopyDestionationPath>$(SolutionDir)..\SRTHost\SRTHost\bin\$(Configuration)\netcoreapp3.1\plugins</CopyDestionationPath>
+    <Version>0.9.1.0</Version>
+    <FileVersion>0.9.1.0</FileVersion>
+    <AssemblyVersion>0.9.1.0</AssemblyVersion>
+    <CopyDestionationPath>$(SolutionDir)..\SRTHost\SRTHost\bin\$(Configuration)\net5.0-windows\plugins</CopyDestionationPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
