@@ -5,6 +5,8 @@ namespace SRTPluginProviderRECVX
 {
     public class GameMemoryRECVX : BaseNotifyModel, IGameMemoryRECVX
     {
+        public string GameName => "RECVX";
+
         public EmulatorEntry Emulator { get; } = new EmulatorEntry();
         public GameVersion Version { get; } = new GameVersion();
         public TimeEntry IGT { get; } = new TimeEntry();

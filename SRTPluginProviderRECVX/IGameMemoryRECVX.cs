@@ -5,6 +5,8 @@ namespace SRTPluginProviderRECVX
 {
     public interface IGameMemoryRECVX
     {
+        public string GameName { get; }
+
         public EmulatorEntry Emulator { get; }
         public GameVersion Version { get; }
         public TimeEntry IGT { get; }
