@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginProviderRECVX", "SRTPluginProviderRECVX\SRTPluginProviderRECVX.csproj", "{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginBase", "..\SRTHost\SRTPluginBase\SRTPluginBase.csproj", "{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTHost", "..\SRTHost\SRTHost\SRTHost.csproj", "{C0135D3C-9A42-4450-806C-604809F3DD6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginBase", "..\..\Squirrelies\SRTHost\SRTPluginBase\SRTPluginBase.csproj", "{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +17,10 @@ Global
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Debug|x64.Build.0 = Debug|x64
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Release|x64.ActiveCfg = Release|x64
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Release|x64.Build.0 = Release|x64
-		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Debug|x64.Build.0 = Debug|Any CPU
-		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Release|x64.ActiveCfg = Release|Any CPU
-		{88CAB0A8-7DB3-461A-916D-FE453BA88F3C}.Release|x64.Build.0 = Release|Any CPU
-		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Debug|x64.ActiveCfg = Debug|x64
-		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Debug|x64.Build.0 = Debug|x64
-		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Release|x64.ActiveCfg = Release|x64
-		{C0135D3C-9A42-4450-806C-604809F3DD6B}.Release|x64.Build.0 = Release|x64
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Release|x64.ActiveCfg = Release|Any CPU
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
