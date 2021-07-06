@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <OutputType>Library</OutputType>
     <LangVersion>latest</LangVersion>
     <Platforms>x64</Platforms>
@@ -14,10 +14,11 @@
     <RepositoryUrl>https://github.com/kapdap/re-cvx-srt-provider</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>speedrun</PackageTags>
-    <Version>0.9.1.0</Version>
-    <FileVersion>0.9.1.0</FileVersion>
-    <AssemblyVersion>0.9.1.0</AssemblyVersion>
-    <CopyDestionationPath>$(SolutionDir)..\SRTHost\SRTHost\bin\$(Configuration)\net5.0-windows\plugins</CopyDestionationPath>
+    <Version>0.9.2.0</Version>
+    <FileVersion>0.9.2.0</FileVersion>
+    <AssemblyVersion>0.9.2.0</AssemblyVersion>
+    <DebugType>embedded</DebugType>
+    <CopyDestionationPath>$(SolutionDir)..\..\Squirrelies\SRTHost\SRTHost\bin\$(Configuration)\net5.0-windows\plugins</CopyDestionationPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -29,10 +30,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SRTHost\SRTPluginBase\SRTPluginBase.csproj">
+    <ProjectReference Include="..\..\..\Squirrelies\SRTHost\SRTPluginBase\SRTPluginBase.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="GameWidgetRECVX.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="CopyOutputToDestination" AfterTargets="AfterBuild">
