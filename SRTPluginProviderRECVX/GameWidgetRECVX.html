@@ -2,60 +2,40 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>RECVX SRT Widget</title>
     <script>
-        const JSON_ADDRESS = '127.0.0.1';
-        const JSON_PORT = 7190;
-        const POLLING_RATE = 333;
-    </script>
-    <style>
-        body {
-            background-color: #000000;
-            color: #FFFFFF;
-            font-family: Arial;
-        }
+        const query = window.location.search;
+        const params = new URLSearchParams(query);
 
-        a {
-            color: #FFFFFF;
-        }
+        const token = params.get('token');
+        const endpoint = params.get('endpoint') ? params.get('endpoint') : token ? 'wss://relay.aricodes.net/ws' : 'http://127.0.0.1:7190';
+        const poll = params.get('poll') ? params.get('poll') : 333;
 
-        a:link {
-            text-decoration: none;
+        var config = {
+            showtimer: params.get('showtimer') == 'false' ? false : true,
+            showstatistics: params.get('showstatistics') == 'false' ? false : true,
+            showenemy: params.get('showenemy') == 'false' ? false : true,
+            showbosses: params.get('showbosses') == 'true' ? true : false,
+            debug: params.get('debug') == 'true' ? true : false,
+            debugenemy: params.get('debugenemy') == 'true' ? true : false
         }
-
-        a:visited {
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        a:active {
-            text-decoration: underline;
-        }
-
-        td {
-            text-align: right;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="SRT"></div>
-    <script>
-        const JSON_ENDPOINT = `http://${JSON_ADDRESS}:${JSON_PORT}/`;
 
         window.onload = function () {
-            getData();
-            setInterval(getData, POLLING_RATE);
+            if (!token) {
+                fetchData();
+                setInterval(fetchData, poll);
+            }
+            else {
+                var socket = new WebSocket(endpoint);
+                socket.onopen = () => socket.send(`listen:${token}`);
+                socket.onmessage = (event) => appendData(JSON.parse(event.data));
+            }
         }
 
-        function getData() {
-            fetch(JSON_ENDPOINT)
+        function fetchData() {
+            fetch(endpoint)
                 .then(function (response) {
                     return response.json();
                 })
@@ -63,46 +43,124 @@
                     appendData(data);
                 })
                 .catch(function (err) {
-                    console.log('Error: ' + err);
+                    console.log(err);
                 });
         }
 
         function appendData(gameMemory) {
-            var mainContainer = document.getElementById("SRT");
-            mainContainer.innerHTML = "";
-
-            var healthColor = "#7cfc00";
+            var statusClass = 'alive-bg';
 
             if (!gameMemory.Player.IsAlive)
-                healthColor = "#ff0000";
+                statusClass = 'dead-bg';
             else if (gameMemory.Player.IsPoison)
-                healthColor = "#800080";
+                statusClass = 'poison-bg';
             else if (gameMemory.Player.IsGassed)
-                healthColor = "#ee82ee";
+                statusClass = 'gassed-bg';
             else if (gameMemory.Player.IsCautionYellow)
-                healthColor = "#ffd700";
+                statusClass = 'caution-bg';
             else if (gameMemory.Player.IsCautionOrange)
-                healthColor = "#daa520";
+                statusClass = 'caution-dark-bg';
             else if (gameMemory.Player.IsDanger)
-                healthColor = "#ff0000";
+                statusClass = 'danger-bg';
 
-            mainContainer.innerHTML += '<font size="6" color="' + healthColor + '"><b>' + gameMemory.Player.HealthMessage + ' - ' + gameMemory.Player.StatusName + '</b></font><br>';
-            mainContainer.innerHTML += '<font size="6"><b>' + gameMemory.IGT.FormattedString + '</b></font><br>';
+            document.getElementById('Status').className = statusClass;
+            document.getElementById('Status').textContent = `${gameMemory.Player.HealthMessage} - ${gameMemory.Player.StatusName}`;
+            document.getElementById('Status').style.backgroundImage = `linear-gradient(to right, transparent, ${Math.round(gameMemory.Player.Percentage * 100)}%, #3c3c3c 0)`;
 
-            var table = document.createElement("table");
-            gameMemory.Enemy.forEach(function (item, index, arr) {
-                if (item.IsAlive) {
-                    table.innerHTML += `<tr>
-<td><font size="4" color="#ff0000"><b>${item.CurrentHP}</b></font></td>
-<td>${item.HasMaxHP ? `<font size="4" color="#ff0000"><b>${parseFloat(item.Percentage * 100).toFixed(1)}%</b></font>` : `&nbsp;`}</td>
-</tr>`;
-                }
-            });
+            document.getElementById('IGT').className = config.showtimer ? '' : 'hide';
+            document.getElementById('Debug').className = config.debug ? '' : 'hide';
+            document.getElementById('Stats').className = config.showstatistics ? '' : 'hide';
+            document.getElementById('Enemy').className = config.showenemy ? '' : 'hide';
 
-            mainContainer.innerHTML += '<font size="4" color="#ff0000"><b>Enemy HP</b></font><br>';
-            mainContainer.appendChild(table);
+            if (config.showtimer)
+                document.getElementById('IGT').textContent = gameMemory.IGT.FormattedString;
+
+            if (config.debug) {
+                document.getElementById('Timer').textContent = `T: ${gameMemory.IGT.RunningTimer}`;
+                document.getElementById('Version').textContent = `C: ${gameMemory.Version.Code}`;
+                document.getElementById('Process').textContent = `P: ${gameMemory.Emulator.ProcessName}`;
+                document.getElementById('Emulator').textContent = `I: ${gameMemory.Emulator.Id}`;
+            }
+
+            if (config.showstatistics) {
+                document.getElementById('Saves').textContent = `Saves: ${gameMemory.Player.Saves}`;
+                document.getElementById('Retry').textContent = `Retry: ${gameMemory.Player.Retry}`;
+                document.getElementById('FAS').textContent = `F.A.S: ${gameMemory.Player.FAS}`;
+            }
+
+            if (config.showenemy) {
+                var html = '<h1>Enemy HP</h1>';
+
+                gameMemory.Enemy.forEach(function (entry, index, arr) {
+                    if (entry.IsEmpty || (!config.debugenemy && !entry.IsAlive) || (config.showbosses && !entry.IsBoss))
+                        return;
+
+                    html += '<div ';
+                    html += `style="background-image: linear-gradient(to right, transparent, ${Math.round(entry.Percentage * 100)}%, #3c3c3c 0);"`;
+                    html += `title="${config.debugenemy ? `Slot:Damage:CurrentHP:MaximumHP:HasMaxHP:IsEmpty:IsAlive:Action:Status:Model:Type` : entry.TypeName}">`;
+                    html += `${config.debugenemy ? entry.DebugMessage : entry.HealthMessage}`;
+                    html += '</div>';
+                });
+
+                document.getElementById('Enemies').innerHTML = html;
+            }
         }
     </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-spacing: 0;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: Consolas, 'Courier New', Courier, monospace;
+            padding: 10px;
+        }
+
+        .hide { display: none; }
+
+        .alive-bg { background-color: #008000; }
+        .dead-bg { background-color: #3c3c3c; }
+        .poison-bg { background-color: #800080; }
+        .gassed-bg { background-color: #ee82ee; }
+        .caution-bg { background-color: #ffd700; }
+        .caution-dark-bg { background-color: #daa520; }
+        .danger-bg { background-color: #ff0000; }
+
+        #SRT { font-weight: bold; }
+        #Status { padding: 6px; }
+        #IGT { font-size: 32px; }
+        #Debug { margin-bottom: 6px; color: #808080; }
+        #Enemy { color: #FF0000; }
+        #Enemy h1 { margin: 6px 0; }
+        #Enemies div { padding: 6px; font-size: 14px; background-color: #8b0000; }
+    </style>
+</head>
+
+<body>
+    <div id="SRT">
+        <div id="Status"></div>
+        <div id="IGT"></div>
+        <div id="Debug">
+            <div id="Timer"></div>
+            <div id="Version"></div>
+            <div id="Process"></div>
+            <div id="Emulator"></div>
+        </div>
+        <div id="Stats">
+            <div id="Saves"></div>
+            <div id="Retry"></div>
+            <div id="FAS"></div>
+        </div>
+        <div id="Enemy">
+            <div id="Enemies"></div>
+        </div>
+    </div>
 </body>
 
 </html>
