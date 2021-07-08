@@ -7,20 +7,31 @@ namespace SRTPluginProviderRECVX.Models
     [DebuggerDisplay("{_DebuggerDisplay,nq}")]
     public class PlayerEntry : BaseNotifyModel
     {
+        public enum PlayerState
+        {
+            Dead,
+            Fine,
+            CautionYellow,
+            CautionOrange,
+            Danger,
+            Gassed,
+            Poisoned
+        }
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string _DebuggerDisplay
         {
             get
             {
                 if (IsAlive)
-                    return String.Format("{0} {1} / {2} ({3:P1})", CharacterName, CurrentHP, MaximumHP, Percentage);
+                    return String.Format("{0} {1} / {2} ({3:P1})", CharacterName, CurrentHP, MaxHP, Percentage);
                 else
                     return String.Format("{0} DEAD / DEAD (0%)", CharacterName);
             }
         }
 
         public string HealthMessage =>
-            $"{DisplayHP} ({MaximumHP})";
+            $"{DisplayHP} ({MaxHP})";
 
         private CharacterEnumeration _character = CharacterEnumeration.Claire;
         public CharacterEnumeration Character
@@ -48,10 +59,10 @@ namespace SRTPluginProviderRECVX.Models
         }
 
         private int _maximumHP;
-        public int MaximumHP
+        public int MaxHP
         {
             get => _maximumHP;
-            set => SetField(ref _maximumHP, value, "MaximumHP", "Percentage", "HealthMessage");
+            set => SetField(ref _maximumHP, value, "MaxHP", "Percentage", "HealthMessage");
         }
 
         private int _currentHP;
@@ -75,7 +86,7 @@ namespace SRTPluginProviderRECVX.Models
             => Math.Max(CurrentHP, 0);
 
         public float Percentage
-            => IsAlive ? (float)DisplayHP / MaximumHP : 0f;
+            => IsAlive ? (float)DisplayHP / MaxHP : 0f;
 
         private byte _status;
         public byte Status
@@ -93,17 +104,17 @@ namespace SRTPluginProviderRECVX.Models
         public bool IsAlive
             => CurrentHP >= 0;
 
-        public bool IsFine
-            => CurrentHP >= 120;
-
-        public bool IsCautionYellow
-            => CurrentHP < 120 && CurrentHP >= 60;
-
-        public bool IsCautionOrange
-            => CurrentHP < 60 && CurrentHP >= 30;
-
-        public bool IsDanger
-            => CurrentHP < 30;
+        public PlayerState HealthState
+        {
+            get =>
+                !IsAlive ? PlayerState.Dead :
+                IsGassed ? PlayerState.Gassed :
+                IsPoison ? PlayerState.Poisoned :
+                Percentage >= 0.60f ? PlayerState.Fine :
+                Percentage >= 0.30f ? PlayerState.CautionYellow :
+                Percentage >= 0.15f ? PlayerState.CautionOrange :
+                PlayerState.Danger;
+        }
 
         // S rank requirments
         private int _retry;
@@ -183,20 +194,7 @@ namespace SRTPluginProviderRECVX.Models
         {
             get
             {
-                if (!IsAlive)
-                    return "Dead";
-                else if (IsGassed)
-                    return "Gassed";
-                else if (IsPoison)
-                    return "Poison";
-                else if (IsDanger)
-                    return "Danger";
-                else if (IsCautionOrange)
-                    return "Caution";
-                else if (IsCautionYellow)
-                    return "Caution";
-                else
-                    return "Fine";
+                return HealthState.ToString();
             }
         }
     }
