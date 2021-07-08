@@ -10,6 +10,7 @@ namespace SRTPluginProviderRECVX
     {
         public const string RPCS3 = "rpcs3";
         public const string PCSX2 = "pcsx2";
+        public const string Dolphin = "dolphin";
 
         private static List<string> _emulatorList;
         public static List<string> EmulatorList
@@ -41,7 +42,27 @@ namespace SRTPluginProviderRECVX
             if ((Process = process) == null)
                 return;
 
-            if (Process.ProcessName == PCSX2)
+            UpdateVirtualMemoryPointer();
+        }
+
+        public void UpdateVirtualMemoryPointer()
+        {
+            if (Process == null)
+                return;
+
+            if (Process.ProcessName.ToLower() == Dolphin)
+            {
+                IntPtr pointer = IntPtr.Zero;
+
+                Dolphin.Memory.Access.Dolphin dolphin = new Dolphin.Memory.Access.Dolphin(Process);
+                dolphin.TryGetBaseAddress(out pointer);
+
+                VirtualMemoryPointer = pointer;
+                ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
+                ProductLength = 6;
+                IsBigEndian = true;
+            }
+            else if (Process.ProcessName.ToLower() == PCSX2)
             {
                 VirtualMemoryPointer = new IntPtr(0x20000000);
                 ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x00015B90);
@@ -57,34 +78,41 @@ namespace SRTPluginProviderRECVX
             }
         }
 
-        public IntPtr FindGameWindowHandle(string windowFilter = null)
+        public IntPtr FindGameWindowHandle(string filter = null)
         {
             if (Process != null)
             {
-                List<IntPtr> windowHandles = WindowHelper.EnumerateProcessWindowHandles(Process.Id);
+                List<IntPtr> handles = WindowHelper.EnumerateProcessWindowHandles(Process.Id);
 
-                foreach (IntPtr windowHandle in windowHandles)
+                foreach (IntPtr handle in handles)
                 {
+                    if (Process.ProcessName == Dolphin)
+                    {
+                        string title = WindowHelper.GetWindowTitle(handle);
+
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("Dolphin 5.0 | "))
+                            return handle;
+                    }
                     // https://forums.pcsx2.net/Thread-can-someone-help-PCSX2-s-ClassName
                     // How to return the PCSX2 game window handle (Post #4)
                     // 1. Find all parent window handles having the "wxWindowClassNR" class name.
                     // 2. Compare the leftmost window text of them with a string "GSdx".
-                    if (Process.ProcessName == PCSX2)
+                    else if (Process.ProcessName == PCSX2)
                     {
-                        string windowTitle = WindowHelper.GetWindowTitle(windowHandle);
+                        string title = WindowHelper.GetWindowTitle(handle);
 
-                        if ((!String.IsNullOrEmpty(windowFilter) && windowTitle.Contains(windowFilter)) || windowTitle.Contains("GSdx"))
-                            return windowHandle;
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.Contains("GSdx"))
+                            return handle;
                     }
                     else // RPCS3
                     {
-                        if (WindowHelper.GetClassName(windowHandle) != "Qt5QWindowIcon")
+                        if (WindowHelper.GetClassName(handle) != "Qt5QWindowIcon")
                             continue;
 
-                        string windowTitle = WindowHelper.GetWindowTitle(windowHandle);
+                        string title = WindowHelper.GetWindowTitle(handle);
 
-                        if ((!String.IsNullOrEmpty(windowFilter) && windowTitle.Contains(windowFilter)) || windowTitle.StartsWith("FPS"))
-                            return windowHandle;
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("FPS"))
+                            return handle;
                     }
                 }
             }

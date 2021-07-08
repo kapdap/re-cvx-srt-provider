@@ -13,6 +13,9 @@ namespace SRTPluginProviderRECVX
         public const string NPJB00135 = "NPJB00135";
         public const string NPUB30467 = "NPUB30467";
         public const string NPEB00553 = "NPEB00553";
+        public const string GCDJ08 = "GCDJ08";
+        public const string GCDE08 = "GCDE08";
+        public const string GCDP08 = "GCDP08";
 
         private string _code;
         public string Code
@@ -66,6 +69,24 @@ namespace SRTPluginProviderRECVX
 
             switch (Code)
             {
+                case GCDJ08:
+                    Name = "BioHazard: Code: Veronica Kanzenban";
+                    Country = CountryEnumeration.JP;
+                    Console = ConsoleEnumeration.GC;
+                    break;
+
+                case GCDE08:
+                    Name = "Resident Evil: Code: Veronica X";
+                    Country = CountryEnumeration.US;
+                    Console = ConsoleEnumeration.GC;
+                    break;
+
+                case GCDP08:
+                    Name = "Resident Evil: Code: Veronica X";
+                    Country = CountryEnumeration.EU;
+                    Console = ConsoleEnumeration.GC;
+                    break;
+
                 case SLPM_65022:
                     Name = "BioHazard: Code: Veronica Kanzenban";
                     Country = CountryEnumeration.JP;

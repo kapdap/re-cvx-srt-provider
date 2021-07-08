@@ -29,6 +29,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dolphin.Memory.Access" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Squirrelies\SRTHost\SRTPluginBase\SRTPluginBase.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
