@@ -22,6 +22,7 @@ namespace SRTPluginProviderRECVX
                 if (_memoryScanner == null || !_memoryScanner.ProcessRunning)
                     return false;
 
+                _memoryScanner.UpdateVirtualMemoryPointer();
                 _memoryScanner.UpdateGameVersion();
 
                 return _memoryScanner.Memory.Version.Supported;

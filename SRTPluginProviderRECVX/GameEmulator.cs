@@ -12,6 +12,8 @@ namespace SRTPluginProviderRECVX
         public const string PCSX2 = "pcsx2";
         public const string Dolphin = "dolphin";
 
+        private Dolphin.Memory.Access.Dolphin _dolphin;
+
         private static List<string> _emulatorList;
         public static List<string> EmulatorList
         {
@@ -42,23 +44,13 @@ namespace SRTPluginProviderRECVX
             if ((Process = process) == null)
                 return;
 
-            UpdateVirtualMemoryPointer();
-        }
-
-        public void UpdateVirtualMemoryPointer()
-        {
-            if (Process == null)
+            if (Process.HasExited)
                 return;
 
+            // ToDo: create an interface for emulators
             if (Process.ProcessName.ToLower() == Dolphin)
             {
-                IntPtr pointer = IntPtr.Zero;
-
-                Dolphin.Memory.Access.Dolphin dolphin = new Dolphin.Memory.Access.Dolphin(Process);
-                dolphin.TryGetBaseAddress(out pointer);
-
-                VirtualMemoryPointer = pointer;
-                ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
+                UpdateVirtualMemoryPointer();
                 ProductLength = 6;
                 IsBigEndian = true;
             }
@@ -78,6 +70,26 @@ namespace SRTPluginProviderRECVX
             }
         }
 
+        public void UpdateVirtualMemoryPointer()
+        {
+            if (Process == null)
+                return;
+
+            if (Process.HasExited)
+                return;
+
+            if (Process.ProcessName.ToLower() == Dolphin)
+            {
+                IntPtr pointer = IntPtr.Zero;
+
+                _dolphin = _dolphin ?? new Dolphin.Memory.Access.Dolphin(Process);
+                _dolphin.TryGetBaseAddress(out pointer);
+
+                VirtualMemoryPointer = pointer;
+                ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
+            }
+        }
+
         public IntPtr FindGameWindowHandle(string filter = null)
         {
             if (Process != null)
@@ -90,7 +102,7 @@ namespace SRTPluginProviderRECVX
                     {
                         string title = WindowHelper.GetWindowTitle(handle);
 
-                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("Dolphin 5.0 | "))
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("Dolphin 5.0 |"))
                             return handle;
                     }
                     // https://forums.pcsx2.net/Thread-can-someone-help-PCSX2-s-ClassName

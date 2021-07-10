@@ -64,60 +64,60 @@ namespace SRTPluginProviderRECVX
             switch (Pointers.Version.Code)
             {
                 case GameVersion.GCDJ08:
-                    Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A0); // ToDo: update address
-                    Pointers.Room = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314B4); // ToDo: update address
-                    Pointers.Status = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0042FE6A); // ToDo: update address
-                    Pointers.Health = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004301FC); // ToDo: update address
-                    Pointers.Character = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C84); // ToDo: update address
-                    Pointers.Inventory = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E70); // ToDo: update address
-                    Pointers.Enemy = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00403DE0); // ToDo: update address
-                    Pointers.EnemyCount = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CD88); // ToDo: update address
-                    Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C8C); // ToDo: update address
-                    Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C80); // ToDo: update address
-                    Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314AA); // ToDo: update address
-                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A8); // ToDo: update address
-                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E50); // ToDo: update address
-                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430CA0); // ToDo: update address
-                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C9C); // ToDo: update address
-                    Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CC80); // ToDo: update address
+                    Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Room = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Status = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Health = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Character = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Inventory = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Enemy = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.EnemyCount = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
                     break;
 
                 case GameVersion.GCDE08:
-                    Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A0); // ToDo: update address
-                    Pointers.Room = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314B4); // ToDo: update address
-                    Pointers.Status = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0042FE6A); // ToDo: update address
-                    Pointers.Health = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004301FC); // ToDo: update address
-                    Pointers.Character = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C84); // ToDo: update address
-                    Pointers.Inventory = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E70); // ToDo: update address
-                    Pointers.Enemy = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00403DE0); // ToDo: update address
-                    Pointers.EnemyCount = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CD88); // ToDo: update address
-                    Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C8C); // ToDo: update address
-                    Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C80); // ToDo: update address
-                    Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314AA); // ToDo: update address
-                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A8); // ToDo: update address
-                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E50); // ToDo: update address
-                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430CA0); // ToDo: update address
-                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C9C); // ToDo: update address
-                    Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CC80); // ToDo: update address
+                    Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Room = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Status = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Health = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Character = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Inventory = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Enemy = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.EnemyCount = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
                     break;
 
                 case GameVersion.GCDP08:
-                    Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A0); // ToDo: update address
-                    Pointers.Room = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314B4); // ToDo: update address
-                    Pointers.Status = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0042FE6A); // ToDo: update address
-                    Pointers.Health = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004301FC); // ToDo: update address
-                    Pointers.Character = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C84); // ToDo: update address
-                    Pointers.Inventory = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E70); // ToDo: update address
-                    Pointers.Enemy = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00403DE0); // ToDo: update address
-                    Pointers.EnemyCount = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CD88); // ToDo: update address
-                    Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C8C); // ToDo: update address
-                    Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C80); // ToDo: update address
-                    Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314AA); // ToDo: update address
-                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004314A8); // ToDo: update address
-                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E50); // ToDo: update address
-                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430CA0); // ToDo: update address
-                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C9C); // ToDo: update address
-                    Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CC80); // ToDo: update address
+                    Pointers.Time = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Room = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Status = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Health = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Character = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Inventory = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Enemy = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.EnemyCount = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Difficulty = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Saves = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.RDXHeader = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
                     break;
 
                 case GameVersion.SLPM_65022:
