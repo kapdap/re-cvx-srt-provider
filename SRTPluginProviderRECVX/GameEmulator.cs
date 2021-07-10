@@ -98,7 +98,7 @@ namespace SRTPluginProviderRECVX
 
                 foreach (IntPtr handle in handles)
                 {
-                    if (Process.ProcessName == Dolphin)
+                    if (Process.ProcessName.ToLower() == Dolphin)
                     {
                         string title = WindowHelper.GetWindowTitle(handle);
 
@@ -109,7 +109,7 @@ namespace SRTPluginProviderRECVX
                     // How to return the PCSX2 game window handle (Post #4)
                     // 1. Find all parent window handles having the "wxWindowClassNR" class name.
                     // 2. Compare the leftmost window text of them with a string "GSdx".
-                    else if (Process.ProcessName == PCSX2)
+                    else if (Process.ProcessName.ToLower() == PCSX2)
                     {
                         string title = WindowHelper.GetWindowTitle(handle);
 
