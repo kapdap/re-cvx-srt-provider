@@ -14,7 +14,7 @@ namespace SRTPluginProviderRECVX.Models
             get
             {
                 if (IsAlive)
-                    return String.Format("[#{0}] {1} / {2} ({3:P1}) {4}", Index, CurrentHP, MaximumHP, Percentage, TypeName);
+                    return String.Format("[#{0}] {1} / {2} ({3:P1}) {4}", Index, CurrentHP, MaxHP, Percentage, TypeName);
                 if (IsEmpty)
                     return String.Format("[#{0}] EMPTY / EMPTY (0%)", Index);
                 else
@@ -23,7 +23,7 @@ namespace SRTPluginProviderRECVX.Models
         }
 
         public string DebugMessage =>
-            $"{Slot}:{Damage}:{CurrentHP}:{MaximumHP}:{Convert.ToInt32(HasMaxHP)}:{Convert.ToInt32(IsEmpty)}:{Convert.ToInt32(IsAlive)}:{Action}:{Status}:{Model}:{Convert.ToInt32(Type)}";
+            $"{Slot}:{Damage}:{CurrentHP}:{MaxHP}:{Convert.ToInt32(HasMaxHP)}:{Convert.ToInt32(IsEmpty)}:{Convert.ToInt32(IsAlive)}:{Action}:{Status}:{Model}:{Convert.ToInt32(Type)}";
 
         public string HealthMessage =>
             HasMaxHP ? $"{DisplayHP} {Percentage:P1}" : $"{DisplayHP}";
@@ -54,8 +54,8 @@ namespace SRTPluginProviderRECVX.Models
 
                 if (!_hasMaxHP)
                 {
-                    _maximumHP = _currentHP; // Does not set HasMaxHP
-                    OnPropertyChanged("MaximumHP");
+                    _maxHP = _currentHP; // Does not set HasMaxHP
+                    OnPropertyChanged("MaxHP");
                     hasChanged = true;
                 }
 
@@ -71,13 +71,13 @@ namespace SRTPluginProviderRECVX.Models
         public int DisplayHP
             => Math.Max(CurrentHP, 0);
 
-        private int _maximumHP;
-        public int MaximumHP
+        private int _maxHP;
+        public int MaxHP
         {
-            get => _maximumHP;
+            get => _maxHP;
             set
             {
-                bool hasChanged = SetField(ref _maximumHP, value);
+                bool hasChanged = SetField(ref _maxHP, value);
 
                 if (!_hasMaxHP)
                 {
@@ -110,7 +110,7 @@ namespace SRTPluginProviderRECVX.Models
         }
 
         public float Percentage
-            => IsAlive && CurrentHP > 0 ? (float)DisplayHP / (float)MaximumHP : 0f;
+            => IsAlive && CurrentHP > 0 ? (float)DisplayHP / (float)MaxHP : 0f;
 
         private int _damage;
         public int Damage
@@ -166,7 +166,7 @@ namespace SRTPluginProviderRECVX.Models
                     OnPropertyChanged();
                     OnPropertyChanged("TypeName");
                     OnPropertyChanged("IsBoss");
-                    OnPropertyChanged("MaximumHP");
+                    OnPropertyChanged("MaxHP");
                     OnPropertyChanged("HealthMessage");
                     OnPropertyChanged("DebugMessage");
                 }
@@ -196,7 +196,7 @@ namespace SRTPluginProviderRECVX.Models
 
             _isAlive = false;
             _currentHP = 0;
-            _maximumHP = 0;
+            _maxHP = 0;
             _hasMaxHP = false;
             _damage = 0;
             _slot = 0;
@@ -210,7 +210,7 @@ namespace SRTPluginProviderRECVX.Models
             OnPropertyChanged("IsAlive");
             OnPropertyChanged("CurrentHP");
             OnPropertyChanged("DisplayHP");
-            OnPropertyChanged("MaximumHP");
+            OnPropertyChanged("MaxHP");
             OnPropertyChanged("HasMaxHP");
             OnPropertyChanged("Percentage");
             OnPropertyChanged("Damage");

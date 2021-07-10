@@ -48,23 +48,8 @@
         }
 
         function appendData(gameMemory) {
-            var statusClass = 'alive-bg';
-
-            if (!gameMemory.Player.IsAlive)
-                statusClass = 'dead-bg';
-            else if (gameMemory.Player.IsPoison)
-                statusClass = 'poison-bg';
-            else if (gameMemory.Player.IsGassed)
-                statusClass = 'gassed-bg';
-            else if (gameMemory.Player.IsCautionYellow)
-                statusClass = 'caution-bg';
-            else if (gameMemory.Player.IsCautionOrange)
-                statusClass = 'caution-dark-bg';
-            else if (gameMemory.Player.IsDanger)
-                statusClass = 'danger-bg';
-
-            document.getElementById('Status').className = statusClass;
-            document.getElementById('Status').textContent = `${gameMemory.Player.HealthMessage} - ${gameMemory.Player.StatusName}`;
+            document.getElementById('Status').className = gameMemory.Player.StatusName.toLowerCase();
+            document.getElementById('Status').textContent = `${gameMemory.Player.HealthMessage} - ${gameMemory.Player.StatusMessage}`;
             document.getElementById('Status').style.backgroundImage = `linear-gradient(to right, transparent, ${Math.round(gameMemory.Player.Percentage * 100)}%, #3c3c3c 0)`;
 
             document.getElementById('IGT').className = config.showtimer ? '' : 'hide';
@@ -124,13 +109,13 @@
 
         .hide { display: none; }
 
-        .alive-bg { background-color: #008000; }
-        .dead-bg { background-color: #3c3c3c; }
-        .poison-bg { background-color: #800080; }
-        .gassed-bg { background-color: #ee82ee; }
-        .caution-bg { background-color: #ffd700; }
-        .caution-dark-bg { background-color: #daa520; }
-        .danger-bg { background-color: #ff0000; }
+        .fine { background-color: #008000; }
+        .dead { background-color: #3c3c3c; }
+        .poisoned { background-color: #800080; }
+        .gassed { background-color: #ee82ee; }
+        .cautionyellow { background-color: #ffd700; }
+        .cautionorange { background-color: #daa520; }
+        .danger { background-color: #ff0000; }
 
         #SRT { font-weight: bold; }
         #Status { padding: 6px; }

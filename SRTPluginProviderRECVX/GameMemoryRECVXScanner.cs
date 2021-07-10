@@ -256,9 +256,9 @@ namespace SRTPluginProviderRECVX
             Memory.Player.FAS = _process.ReadValue<short>(Pointers.FAS, Emulator.IsBigEndian);
 
             if (Memory.Version.Country == CountryEnumeration.JP)
-                Memory.Player.MaximumHP = Memory.Difficulty == DifficultyEnumeration.VeryEasy ? 400 : 200;
+                Memory.Player.MaxHP = Memory.Difficulty == DifficultyEnumeration.VeryEasy ? 400 : 200;
             else
-                Memory.Player.MaximumHP = 160;
+                Memory.Player.MaxHP = 160;
 
             RefreshInventory();
             RefreshEnemy();
@@ -338,53 +338,53 @@ namespace SRTPluginProviderRECVX
                     switch (entry.Type)
                     {
                         case EnemyEnumeration.Tenticle:
-                            entry.MaximumHP = 160;
+                            entry.MaxHP = 160;
                             entry.IsAlive = entry.Active && entry.CurrentHP >= 0 && entry.Model == 0 && entry.Room.Id != 0x091E;
                             break;
 
                         case EnemyEnumeration.GlupWorm:
-                            entry.MaximumHP = 300;
+                            entry.MaxHP = 300;
                             entry.IsAlive = entry.Active && entry.Status > 0;
                             break;
 
                         case EnemyEnumeration.AnatomistZombie:
-                            entry.MaximumHP = 200;
+                            entry.MaxHP = 200;
                             entry.IsAlive = entry.Active && entry.Status > 0;
                             break;
 
                         case EnemyEnumeration.Tyrant:
-                            entry.MaximumHP = entry.Room.Id == 0x0501 ? 700 : 500;
+                            entry.MaxHP = entry.Room.Id == 0x0501 ? 700 : 500;
                             entry.IsAlive = entry.Active && entry.CurrentHP >= 0;
                             break;
 
                         case EnemyEnumeration.Nosferatu:
-                            entry.MaximumHP = 600;
+                            entry.MaxHP = 600;
                             entry.IsAlive = entry.Active && entry.Model == 0;
                             break;
 
                         case EnemyEnumeration.AlbinoidAdult:
                         case EnemyEnumeration.MutatedSteve:
-                            entry.MaximumHP = 250;
+                            entry.MaxHP = 250;
                             entry.IsAlive = entry.Active && entry.Model == 0;
                             break;
 
                         case EnemyEnumeration.GiantBlackWidow:
-                            entry.MaximumHP = 250;
+                            entry.MaxHP = 250;
                             entry.IsAlive = entry.Active && entry.Status > 0;
                             break;
 
                         case EnemyEnumeration.AlexiaAshford:
-                            entry.MaximumHP = 300;
+                            entry.MaxHP = 300;
                             entry.IsAlive = entry.Active && entry.Room.Id != 0x091E;
                             break;
 
                         case EnemyEnumeration.AlexiaAshfordB:
-                            entry.MaximumHP = 700;
+                            entry.MaxHP = 700;
                             entry.IsAlive = entry.Active;
                             break;
 
                         case EnemyEnumeration.AlexiaAshfordC:
-                            entry.MaximumHP = 400;
+                            entry.MaxHP = 400;
                             entry.IsAlive = !Memory.Enemy[0].IsAlive;
                             break;
 

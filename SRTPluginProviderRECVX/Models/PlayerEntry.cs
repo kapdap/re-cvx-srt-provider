@@ -58,11 +58,11 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        private int _maximumHP;
+        private int _maxHP;
         public int MaxHP
         {
-            get => _maximumHP;
-            set => SetField(ref _maximumHP, value, "MaxHP", "Percentage", "HealthMessage");
+            get => _maxHP;
+            set => SetField(ref _maxHP, value, "MaxHP", "Percentage", "HealthMessage");
         }
 
         private int _currentHP;
@@ -79,7 +79,9 @@ namespace SRTPluginProviderRECVX.Models
                 "IsDanger",
                 "DisplayHP",
                 "Percentage",
-                "StatusName");
+                "HealthState",
+                "StatusName",
+                "StatusMessage");
         }
 
         public int DisplayHP
@@ -92,7 +94,7 @@ namespace SRTPluginProviderRECVX.Models
         public byte Status
         {
             get => _status;
-            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "StatusName");
+            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "HealthState", "StatusName", "StatusMessage");
         }
 
         public bool IsPoison
@@ -195,6 +197,14 @@ namespace SRTPluginProviderRECVX.Models
             get
             {
                 return HealthState.ToString();
+            }
+        }
+
+        public string StatusMessage
+        {
+            get
+            {
+                return StatusName.StartsWith("Caution") ? "Caution" : StatusName;
             }
         }
     }
