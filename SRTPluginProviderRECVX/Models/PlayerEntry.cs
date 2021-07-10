@@ -106,6 +106,22 @@ namespace SRTPluginProviderRECVX.Models
         public bool IsAlive
             => CurrentHP >= 0;
 
+		// Deprecated
+        public bool IsFine
+            => CurrentHP >= 120;
+
+		// Deprecated
+        public bool IsCautionYellow
+            => CurrentHP < 120 && CurrentHP >= 60;
+
+		// Deprecated
+        public bool IsCautionOrange
+            => CurrentHP < 60 && CurrentHP >= 30;
+
+		// Deprecated
+        public bool IsDanger
+            => CurrentHP < 30;
+
         public PlayerState HealthState
         {
             get =>
