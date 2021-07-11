@@ -85,6 +85,7 @@ namespace SRTPluginProviderRECVX
                 _dolphin = _dolphin ?? new Dolphin.Memory.Access.Dolphin(Process);
                 _dolphin.TryGetBaseAddress(out pointer);
 
+                //VirtualMemoryPointer = (IntPtr)(0x200000000 + (long)pointer);
                 VirtualMemoryPointer = pointer;
                 ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
             }
