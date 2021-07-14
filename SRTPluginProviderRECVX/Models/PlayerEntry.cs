@@ -24,14 +24,14 @@ namespace SRTPluginProviderRECVX.Models
             get
             {
                 if (IsAlive)
-                    return String.Format("{0} {1} / {2} ({3:P1})", CharacterName, CurrentHP, MaxHP, Percentage);
+                    return String.Format("{0} {1} / {2} ({3:P1})", CharacterName, CurrentHP, MaximumHP, Percentage);
                 else
                     return String.Format("{0} DEAD / DEAD (0%)", CharacterName);
             }
         }
 
         public string HealthMessage =>
-            $"{DisplayHP} ({MaxHP})";
+            $"{DisplayHP} ({MaximumHP})";
 
         private CharacterEnumeration _character = CharacterEnumeration.Claire;
         public CharacterEnumeration Character
@@ -58,12 +58,14 @@ namespace SRTPluginProviderRECVX.Models
             }
         }
 
-        private int _maxHP;
-        public int MaxHP
+        private int _maximumHP;
+        public int MaximumHP
         {
-            get => _maxHP;
-            set => SetField(ref _maxHP, value, "MaxHP", "Percentage", "HealthMessage");
+            get => _maximumHP;
+            set => SetField(ref _maximumHP, value, "MaximumHP", "MaxHP", "Percentage", "HealthMessage");
         }
+        
+        public int MaxHP { get => _maximumHP; }
 
         private int _currentHP;
         public int CurrentHP
@@ -88,7 +90,7 @@ namespace SRTPluginProviderRECVX.Models
             => Math.Max(CurrentHP, 0);
 
         public float Percentage
-            => IsAlive ? (float)DisplayHP / MaxHP : 0f;
+            => IsAlive ? (float)DisplayHP / MaximumHP : 0f;
 
         private byte _status;
         public byte Status

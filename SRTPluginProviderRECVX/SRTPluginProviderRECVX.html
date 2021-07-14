@@ -14,12 +14,12 @@
         const poll = params.get('poll') ? params.get('poll') : 333;
 
         var config = {
-            showtimer: params.get('showtimer') == 'false' ? false : true,
-            showstatistics: params.get('showstatistics') == 'false' ? false : true,
-            showenemy: params.get('showenemy') == 'false' ? false : true,
-            showbosses: params.get('showbosses') == 'true' ? true : false,
-            debug: params.get('debug') == 'true' ? true : false,
-            debugenemy: params.get('debugenemy') == 'true' ? true : false
+            showtimer: params.get('showtimer') != 'false',
+            showstats: params.get('showstats') != 'false',
+            showenemy: params.get('showenemy') != 'false',
+            bossonly: params.get('bossonly') == 'true',
+            debug: params.get('debug') == 'true',
+            debugenemy: params.get('debugenemy') == 'true'
         }
 
         window.onload = function () {
@@ -52,10 +52,10 @@
             document.getElementById('Status').textContent = `${gameMemory.Player.HealthMessage} - ${gameMemory.Player.StatusMessage}`;
             document.getElementById('Status').style.backgroundImage = `linear-gradient(to right, transparent, ${Math.round(gameMemory.Player.Percentage * 100)}%, #3c3c3c 0)`;
 
-            document.getElementById('IGT').className = config.showtimer ? '' : 'hide';
-            document.getElementById('Debug').className = config.debug ? '' : 'hide';
-            document.getElementById('Stats').className = config.showstatistics ? '' : 'hide';
-            document.getElementById('Enemy').className = config.showenemy ? '' : 'hide';
+            document.getElementById('IGT').hide = !config.showtimer;
+            document.getElementById('Stats').hide = !config.showstats;
+            document.getElementById('Enemy').hide = !config.showenemy || config.bossonly;
+            document.getElementById('Debug').hide = !config.debug;
 
             if (config.showtimer)
                 document.getElementById('IGT').textContent = gameMemory.IGT.FormattedString;
@@ -67,17 +67,17 @@
                 document.getElementById('Emulator').textContent = `I: ${gameMemory.Emulator.Id}`;
             }
 
-            if (config.showstatistics) {
+            if (config.showstats) {
                 document.getElementById('Saves').textContent = `Saves: ${gameMemory.Player.Saves}`;
                 document.getElementById('Retry').textContent = `Retry: ${gameMemory.Player.Retry}`;
                 document.getElementById('FAS').textContent = `F.A.S: ${gameMemory.Player.FAS}`;
             }
 
-            if (config.showenemy) {
+            if (config.showenemy || config.bossonly) {
                 var html = '<h1>Enemy HP</h1>';
 
                 gameMemory.Enemy.forEach(function (entry, index, arr) {
-                    if (entry.IsEmpty || (!config.debugenemy && !entry.IsAlive) || (config.showbosses && !entry.IsBoss))
+                    if (entry.IsEmpty || (!config.debugenemy && !entry.IsAlive) || (config.bossonly && !entry.IsBoss))
                         return;
 
                     html += '<div ';
@@ -106,8 +106,6 @@
             font-family: Consolas, 'Courier New', Courier, monospace;
             padding: 10px;
         }
-
-        .hide { display: none; }
 
         .fine { background-color: #008000; }
         .dead { background-color: #3c3c3c; }
