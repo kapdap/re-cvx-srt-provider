@@ -119,7 +119,8 @@ namespace SRTPluginProviderRECVX
                     }
                     else // RPCS3
                     {
-                        if (WindowHelper.GetClassName(handle) != "Qt5QWindowIcon")
+                        if (WindowHelper.GetClassName(handle) != "Qt5QWindowIcon" &&
+                            WindowHelper.GetClassName(handle) != "Qt5152QWindowIcon")
                             continue;
 
                         string title = WindowHelper.GetWindowTitle(handle);
