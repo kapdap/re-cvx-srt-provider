@@ -85,7 +85,6 @@ namespace SRTPluginProviderRECVX
                 _dolphin = _dolphin ?? new Dolphin.Memory.Access.Dolphin(Process);
                 _dolphin.TryGetBaseAddress(out pointer);
 
-                //VirtualMemoryPointer = (IntPtr)(0x200000000 + (long)pointer);
                 VirtualMemoryPointer = pointer;
                 ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
             }
@@ -117,12 +116,8 @@ namespace SRTPluginProviderRECVX
                         if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.Contains("GSdx"))
                             return handle;
                     }
-                    else // RPCS3
+                    else if(!WindowHelper.GetClassName(handle).EndsWith("QWindowIcon")) // RPCS3
                     {
-                        if (WindowHelper.GetClassName(handle) != "Qt5QWindowIcon" &&
-                            WindowHelper.GetClassName(handle) != "Qt5152QWindowIcon")
-                            continue;
-
                         string title = WindowHelper.GetWindowTitle(handle);
 
                         if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("FPS"))
