@@ -14,8 +14,8 @@
     <RepositoryUrl>https://github.com/kapdap/re-cvx-srt-provider</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>speedrun</PackageTags>
-    <Version>0.9.1.0</Version>
-    <FileVersion>0.9.1.0</FileVersion>
+    <Version>0.9.1.1</Version>
+    <FileVersion>0.9.1.1</FileVersion>
     <AssemblyVersion>0.9.1.0</AssemblyVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
