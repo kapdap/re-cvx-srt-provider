@@ -56,6 +56,7 @@ namespace SRTPluginProviderRECVX.Models
                 {
                     _maximumHP = _currentHP; // Does not set HasMaxHP
                     OnPropertyChanged("MaximumHP");
+                    OnPropertyChanged("MaxHP");
                     hasChanged = true;
                 }
 
@@ -88,12 +89,15 @@ namespace SRTPluginProviderRECVX.Models
 
                 if (hasChanged)
                 {
+                    OnPropertyChanged("MaxHP");
                     OnPropertyChanged("Percentage");
                     OnPropertyChanged("HealthMessage");
                     OnPropertyChanged("DebugMessage");
                 }
             }
         }
+
+        public int MaxHP { get => _maximumHP; }
 
         private bool _hasMaxHP;
         public bool HasMaxHP
@@ -166,6 +170,7 @@ namespace SRTPluginProviderRECVX.Models
                     OnPropertyChanged();
                     OnPropertyChanged("TypeName");
                     OnPropertyChanged("IsBoss");
+                    OnPropertyChanged("MaxHP");
                     OnPropertyChanged("MaximumHP");
                     OnPropertyChanged("HealthMessage");
                     OnPropertyChanged("DebugMessage");
@@ -211,6 +216,7 @@ namespace SRTPluginProviderRECVX.Models
             OnPropertyChanged("CurrentHP");
             OnPropertyChanged("DisplayHP");
             OnPropertyChanged("MaximumHP");
+            OnPropertyChanged("MaxHP");
             OnPropertyChanged("HasMaxHP");
             OnPropertyChanged("Percentage");
             OnPropertyChanged("Damage");

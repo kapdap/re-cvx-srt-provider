@@ -24,14 +24,14 @@ namespace SRTPluginProviderRECVX.Models
             get
             {
                 if (IsAlive)
-                    return String.Format("{0} {1} / {2} ({3:P1})", CharacterName, CurrentHP, MaxHP, Percentage);
+                    return String.Format("{0} {1} / {2} ({3:P1})", CharacterName, CurrentHP, MaximumHP, Percentage);
                 else
                     return String.Format("{0} DEAD / DEAD (0%)", CharacterName);
             }
         }
 
         public string HealthMessage =>
-            $"{DisplayHP} ({MaxHP})";
+            $"{DisplayHP} ({MaximumHP})";
 
         private CharacterEnumeration _character = CharacterEnumeration.Claire;
         public CharacterEnumeration Character
@@ -59,11 +59,13 @@ namespace SRTPluginProviderRECVX.Models
         }
 
         private int _maximumHP;
-        public int MaxHP
+        public int MaximumHP
         {
             get => _maximumHP;
-            set => SetField(ref _maximumHP, value, "MaxHP", "Percentage", "HealthMessage");
+            set => SetField(ref _maximumHP, value, "MaximumHP", "MaxHP", "Percentage", "HealthMessage");
         }
+        
+        public int MaxHP { get => _maximumHP; }
 
         private int _currentHP;
         public int CurrentHP
@@ -79,20 +81,22 @@ namespace SRTPluginProviderRECVX.Models
                 "IsDanger",
                 "DisplayHP",
                 "Percentage",
-                "StatusName");
+                "HealthState",
+                "StatusName",
+                "StatusMessage");
         }
 
         public int DisplayHP
             => Math.Max(CurrentHP, 0);
 
         public float Percentage
-            => IsAlive ? (float)DisplayHP / MaxHP : 0f;
+            => IsAlive ? (float)DisplayHP / MaximumHP : 0f;
 
         private byte _status;
         public byte Status
         {
             get => _status;
-            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "StatusName");
+            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "HealthState", "StatusName", "StatusMessage");
         }
 
         public bool IsPoison
@@ -103,6 +107,22 @@ namespace SRTPluginProviderRECVX.Models
 
         public bool IsAlive
             => CurrentHP >= 0;
+
+		// Deprecated
+        public bool IsFine
+            => CurrentHP >= 120;
+
+		// Deprecated
+        public bool IsCautionYellow
+            => CurrentHP < 120 && CurrentHP >= 60;
+
+		// Deprecated
+        public bool IsCautionOrange
+            => CurrentHP < 60 && CurrentHP >= 30;
+
+		// Deprecated
+        public bool IsDanger
+            => CurrentHP < 30;
 
         public PlayerState HealthState
         {
@@ -197,6 +217,14 @@ namespace SRTPluginProviderRECVX.Models
             get
             {
                 return HealthState.ToString();
+            }
+        }
+
+        public string StatusMessage
+        {
+            get
+            {
+                return StatusName.StartsWith("Caution") ? "Caution" : StatusName;
             }
         }
     }
