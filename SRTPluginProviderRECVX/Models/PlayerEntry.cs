@@ -135,6 +135,8 @@ namespace SRTPluginProviderRECVX.Models
                 Percentage >= 0.15f ? PlayerState.CautionOrange :
                 PlayerState.Danger;
         }
+        
+        public string CurrentHealthState => HealthState.ToString();
 
         // S rank requirments
         private int _retry;
