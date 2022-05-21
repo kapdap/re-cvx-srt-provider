@@ -96,7 +96,7 @@ namespace SRTPluginProviderRECVX.Models
         public byte Status
         {
             get => _status;
-            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "HealthState", "StatusName", "StatusMessage");
+            set => SetField(ref _status, value, "Status", "IsPoison", "IsGassed", "HealthState", "CurrentHealthState", "StatusName", "StatusMessage");
         }
 
         public bool IsPoison
