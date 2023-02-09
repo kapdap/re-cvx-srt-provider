@@ -11,8 +11,8 @@ namespace SRTPluginProviderRECVX.Models
         {
             Dead,
             Fine,
-            CautionYellow,
-            CautionOrange,
+            FineToo,
+            Caution,
             Danger,
             Gassed,
             Poisoned
@@ -131,8 +131,8 @@ namespace SRTPluginProviderRECVX.Models
                 IsGassed ? PlayerState.Gassed :
                 IsPoison ? PlayerState.Poisoned :
                 Percentage >= 0.60f ? PlayerState.Fine :
-                Percentage >= 0.30f ? PlayerState.CautionYellow :
-                Percentage >= 0.15f ? PlayerState.CautionOrange :
+                Percentage >= 0.30f ? PlayerState.FineToo :
+                Percentage >= 0.15f ? PlayerState.Caution :
                 PlayerState.Danger;
         }
         
