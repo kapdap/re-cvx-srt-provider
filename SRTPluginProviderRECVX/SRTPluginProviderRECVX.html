@@ -14,6 +14,7 @@
         const poll = params.get('poll') ? params.get('poll') : 333;
 
         var config = {
+            showroom: params.get('showroom') != 'false',
             showtimer: params.get('showtimer') != 'false',
             showstats: params.get('showstats') != 'false',
             showenemy: params.get('showenemy') != 'false',
@@ -59,6 +60,9 @@
 
             if (config.showtimer)
                 document.getElementById('IGT').textContent = gameMemory.IGT.FormattedString;
+
+            if (config.showroom)
+                document.getElementById('Room').textContent = `${gameMemory.Room.Name}`;
 
             if (config.debug) {
                 document.getElementById('Timer').textContent = `T: ${gameMemory.IGT.RunningTimer}`;
@@ -129,6 +133,7 @@
     <div id="SRT">
         <div id="Status"></div>
         <div id="IGT"></div>
+        <div id="Room"></div>
         <div id="Debug">
             <div id="Timer"></div>
             <div id="Version"></div>
