@@ -10,6 +10,11 @@ namespace SRTPluginProviderRECVX
     {
         public const string RPCS3 = "rpcs3";
         public const string PCSX2 = "pcsx2";
+        public const string PCSX2QT = "pcsx2-qt";
+        public const string PCSX264QT = "pcsx2-qtx64";
+        public const string PCSX264QTAV = "pcsx2-qtx64-avx2";
+        public const string PCSX264WX = "pcsx2x64";
+        public const string PCSX264WXAV = "pcsx2x64-avx2";
         public const string Dolphin = "dolphin";
 
         private Dolphin.Memory.Access.Dolphin _dolphin;
@@ -47,17 +52,15 @@ namespace SRTPluginProviderRECVX
             if (Process.HasExited)
                 return;
 
-            // ToDo: create an interface for emulators
             if (Process.ProcessName.ToLower() == Dolphin)
             {
                 UpdateVirtualMemoryPointer();
                 ProductLength = 6;
                 IsBigEndian = true;
             }
-            else if (Process.ProcessName.ToLower() == PCSX2)
+            else if (Process.ProcessName.ToLower().StartsWith(PCSX2))
             {
-                VirtualMemoryPointer = new IntPtr(0x20000000);
-                ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x00015B90);
+                UpdateVirtualMemoryPointer();
                 ProductLength = 11;
                 IsBigEndian = false;
             }
@@ -88,6 +91,30 @@ namespace SRTPluginProviderRECVX
                 VirtualMemoryPointer = pointer;
                 ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
             }
+            else if (Process.ProcessName.ToLower().StartsWith(PCSX2))
+            {
+                if (Process.ProcessName.ToLower() == PCSX2) // PCSX2 1.6 and earlier
+                {
+                    VirtualMemoryPointer = new IntPtr(0x20000000);
+                    ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x00015B90);
+                }
+                else // PCSX2 1.7+
+                {
+                    // https://forums.pcsx2.net/Thread-PCSX2-1-7-Cheat-Engine-Script-Compatibility
+                    IntPtr process = NativeWrappers.LoadLibrary(Process.MainModule.FileName);
+                    IntPtr address = NativeWrappers.GetProcAddress(process, "EEmem");
+
+                    VirtualMemoryPointer = (IntPtr)Process.ReadValue<long>(address);
+
+                    if (Process.ProcessName.ToLower() == PCSX264WX ||
+                        Process.ProcessName.ToLower() == PCSX264WXAV)
+                        ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x000155D0);
+                    else
+                        ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x00012610);
+
+                    NativeWrappers.FreeLibrary(process);
+                }
+            }
         }
 
         public IntPtr FindGameWindowHandle(string filter = null)
@@ -109,14 +136,17 @@ namespace SRTPluginProviderRECVX
                     // How to return the PCSX2 game window handle (Post #4)
                     // 1. Find all parent window handles having the "wxWindowClassNR" class name.
                     // 2. Compare the leftmost window text of them with a string "GSdx".
-                    else if (Process.ProcessName.ToLower() == PCSX2)
+                    else if (Process.ProcessName.ToLower().StartsWith(PCSX2))
                     {
                         string title = WindowHelper.GetWindowTitle(handle);
 
-                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.Contains("GSdx"))
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) ||
+                            title.Contains("GS:") ||
+                            title.Contains("BioHazard") ||
+                            title.Contains("Resident Evil"))
                             return handle;
                     }
-                    else if(!WindowHelper.GetClassName(handle).EndsWith("QWindowIcon")) // RPCS3
+                    else if (!WindowHelper.GetClassName(handle).EndsWith("QWindowIcon")) // RPCS3
                     {
                         string title = WindowHelper.GetWindowTitle(handle);
 
