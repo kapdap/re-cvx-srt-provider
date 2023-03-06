@@ -54,6 +54,7 @@
             document.getElementById('Status').style.backgroundImage = `linear-gradient(to right, transparent, ${Math.round(gameMemory.Player.Percentage * 100)}%, #3c3c3c 0)`;
 
             document.getElementById('IGT').hide = !config.showtimer;
+            document.getElementById('Room').hide = !config.showroom;
             document.getElementById('Stats').hide = !config.showstats;
             document.getElementById('Enemy').hide = !config.showenemy || config.bossonly;
             document.getElementById('Debug').hide = !config.debug;
