@@ -1,4 +1,6 @@
-﻿using SRTPluginProviderRECVX.Utilities;
+﻿using Reloaded.Memory.Sigscan;
+using Reloaded.Memory.Sigscan.Definitions.Structs;
+using SRTPluginProviderRECVX.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -67,7 +69,6 @@ namespace SRTPluginProviderRECVX
             else // RPCS3
             {
                 VirtualMemoryPointer = new IntPtr(0x300000000);
-                ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x20010251);
                 ProductLength = 9;
                 IsBigEndian = true;
             }
@@ -114,6 +115,14 @@ namespace SRTPluginProviderRECVX
 
                     NativeWrappers.FreeLibrary(process);
                 }
+            }
+            else // RPCS3
+            {
+                Scanner scanner = new Scanner(Process, Process.MainModule);
+                PatternScanResult result = scanner.FindPattern("50 53 33 5F 47 41 4D 45 00 00 00 00 00 00 00 00 08 00 00 00 00 00 00 00 0F 00 00 00 00 00 00 00 30 30");
+                
+                IntPtr pointer = IntPtr.Add(Process.MainModule.BaseAddress, result.Offset);
+                ProductPointer = result.Offset != 0 ? IntPtr.Add(pointer, -0xE0) : IntPtr.Zero;
             }
         }
 
