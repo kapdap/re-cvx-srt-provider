@@ -39,7 +39,7 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
     <ProjectReference Include="..\..\Dolphin.Memory.Access\dolphin.memory.access\Dolphin.Memory.Access.csproj">
-      <Private>false</Private>
+      <Private>True</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
   </ItemGroup>
