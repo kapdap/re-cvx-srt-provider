@@ -1,26 +1,46 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30413.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginProviderRECVX", "SRTPluginProviderRECVX\SRTPluginProviderRECVX.csproj", "{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SRTPluginBase", "..\..\Squirrelies\SRTHost\SRTPluginBase\SRTPluginBase.csproj", "{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dolphin.Memory.Access", "..\Dolphin.Memory.Access\dolphin.memory.access\Dolphin.Memory.Access.csproj", "{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Debug|Any CPU.Build.0 = Debug|x64
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Debug|x64.ActiveCfg = Debug|x64
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Debug|x64.Build.0 = Debug|x64
+		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Release|Any CPU.ActiveCfg = Release|x64
+		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Release|Any CPU.Build.0 = Release|x64
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Release|x64.ActiveCfg = Release|x64
 		{82E0FD5F-9719-46D0-9935-F28DC4B92BFD}.Release|x64.Build.0 = Release|x64
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Release|x64.ActiveCfg = Release|Any CPU
 		{DF26C0A9-7CDF-41E6-AE19-B3736FE61C2C}.Release|x64.Build.0 = Release|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Debug|x64.Build.0 = Debug|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Release|x64.ActiveCfg = Release|Any CPU
+		{691FA862-DF2D-40DC-8FE2-A1D19AC991ED}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
