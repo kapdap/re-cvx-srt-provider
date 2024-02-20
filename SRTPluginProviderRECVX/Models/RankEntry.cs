@@ -126,7 +126,7 @@ namespace SRTPluginProviderRECVX.Models
             CheckFlag(p1, 96) == 0 ? -1000 : 250;
 
         public static int SteveEventScore(int p1) =>
-            CheckFlag(p1, 155) == 0 && CheckFlag(p1, 156) != 0 ? -1000 : 0;
+            CheckFlag(p1, 155) != 0 ? 400 : CheckFlag(p1, 156) != 0 ? -1000 : 0;
 
         public static bool RocketUsed(int p1) =>
             CheckFlag(p1, 75) != 0;
