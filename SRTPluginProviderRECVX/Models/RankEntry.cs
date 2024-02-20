@@ -116,49 +116,27 @@
         public static int RodrigoEventScore(int p1) =>
             CheckFlag(p1, 96) == 0 ? -1000 : 250;
 
-        public static int SteveEventScore(int p1)
-        {
-            int iScore = 400;
+        public static int SteveEventScore(int p1) =>
+            CheckFlag(p1, 155) == 0 && CheckFlag(p1, 156) != 0 ? -1000 : 0;
 
-            if (CheckFlag(p1, 155) == 0)
-            {
-                iScore = -1000;
-
-                if (CheckFlag(p1, 156) == 0)
-                    iScore = 0;
-            }
-
-            return iScore;
-        }
-
-        public static int CheckFlag(int p1, int p2)
-        {
-            int r0 = p2 & 31;
-            int r1 = p2 >> 5;
-            int r2 = r1 * 4;
-            int r3 = p1 + r2;
-            int r4 = r0 & r3;
-
-            return 0x8000 >> r4;
-        }
+        public static int CheckFlag(int p1, int p2) =>
+            (int)(0x80000000 >> (p2 & 31) & p1);
 
         public static int MapScore(int[] p1)
         {
-            return FlagCheck(p1[0], 6)   != 0 &&
-                   FlagCheck(p1[0], 7)   != 0 &&
-                   FlagCheck(p1[1], 93)  != 0 &&
-                   FlagCheck(p1[1], 94)  != 0 &&
+            return FlagCheck(p1[0], 6) != 0 &&
+                   FlagCheck(p1[0], 7) != 0 &&
+                   FlagCheck(p1[1], 93) != 0 &&
+                   FlagCheck(p1[1], 94) != 0 &&
                    FlagCheck(p1[2], 143) != 0 ? 100 : 0;
         }
 
         public static int FlagCheck(int p1, int p2, int p3 = 0)
         {
-            int r0 = p2 & 0x1f;
-            int r1 = p3 & 0xff;
-            int r2 = p1 << r0;
-            int r3 = r2 < 0 ? 1 : 0;
+            int r1 = p1 << (p2 & 31);
+            int r2 = r1 < 0 ? 1 : 0;
 
-            return r3 ^ r1;
+            return p3 ^ r2;
         }
     }
 }
