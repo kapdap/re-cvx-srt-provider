@@ -176,6 +176,13 @@ namespace SRTPluginProviderRECVX.Models
             set => SetField(ref _rodrigo, value);
         }
 
+        private int _rocket;
+        public int Rocket
+        {
+            get => _rocket;
+            set => SetField(ref _rocket, value);
+        }
+
         public string CharacterName
         {
             get

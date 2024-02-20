@@ -21,6 +21,7 @@ namespace SRTPluginProviderRECVX
         public IntPtr Map { get; set; }
         public IntPtr Steve { get; set; }
         public IntPtr Rodrigo { get; set; }
+        public IntPtr Rocket { get; set; }
         public IntPtr RDX { get; set; }
     }
 }

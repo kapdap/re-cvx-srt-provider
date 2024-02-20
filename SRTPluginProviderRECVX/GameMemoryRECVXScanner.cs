@@ -1,4 +1,5 @@
-﻿using SRTPluginProviderRECVX.Enumerations;
+﻿using Reloaded.Memory;
+using SRTPluginProviderRECVX.Enumerations;
 using SRTPluginProviderRECVX.Models;
 using SRTPluginProviderRECVX.Utilities;
 using System;
@@ -77,8 +78,9 @@ namespace SRTPluginProviderRECVX
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00438BA6);
                     Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00438BA4);
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0043854C);
-                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
-                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0); // ToDo: update address
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0078B900);
                     break;
 
@@ -96,8 +98,9 @@ namespace SRTPluginProviderRECVX
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004345C6);
                     Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004345C4);
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00433F6C);
-                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00); // ToDo: update address
-                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00); // ToDo: update address
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0077ADC0);
                     break;
 
@@ -115,8 +118,9 @@ namespace SRTPluginProviderRECVX
                     Pointers.Retry = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00438B66);
                     Pointers.FAS = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00438B64);
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0043850C);
-                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00); // ToDo: update address
-                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00); // ToDo: update address
+                    Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x007A64C0);
                     break;
 
@@ -136,6 +140,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430E50);
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430CA0);
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00430C9C);
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0124CC80);
                     break;
 
@@ -155,6 +160,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00433350);
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004331A0);
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x0043319C);
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00433198);
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x012502C0);
                     break;
 
@@ -174,6 +180,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00449B80);
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004499D0);
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x004499CC);
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x01270580);
                     break;
 
@@ -193,6 +200,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BDE0EC);
                     break;
 
@@ -212,6 +220,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BEE3EC);
                     break;
 
@@ -231,6 +240,7 @@ namespace SRTPluginProviderRECVX
                     Pointers.Map = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.Steve = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.Rodrigo = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
+                    Pointers.Rocket = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00000000); // ToDo: update address
                     Pointers.RDX = IntPtr.Add(Emulator.VirtualMemoryPointer, 0x00BDE16C);
                     break;
             }
@@ -428,15 +438,18 @@ namespace SRTPluginProviderRECVX
 
             Memory.Player.Steve = _process.ReadValue<int>(Pointers.Steve, Emulator.IsBigEndian);
             Memory.Player.Rodrigo = _process.ReadValue<int>(Pointers.Rodrigo, Emulator.IsBigEndian);
+            Memory.Player.Rocket = _process.ReadValue<int>(Pointers.Rocket, Emulator.IsBigEndian);
 
-            Memory.Rank.Time = RankEntry.PlayTimeScore(Memory.IGT.RunningTimer, (int)Memory.Difficulty, (int)Memory.Player.Character);
+            Memory.Rank.Time = RankEntry.PlayTimeScore(Memory.IGT.RunningTimer);
             Memory.Rank.Saves = RankEntry.SaveCountScore(Memory.Player.Saves);
             Memory.Rank.Retry = RankEntry.RetryCountScore(Memory.Player.Retry);
             Memory.Rank.FAS = RankEntry.HealItemUseScore(Memory.Player.FAS);
             Memory.Rank.Map = RankEntry.MapScore(Memory.Player.Map);
             Memory.Rank.Steve = RankEntry.SteveEventScore(Memory.Player.Steve);
             Memory.Rank.Rodrigo = RankEntry.RodrigoEventScore(Memory.Player.Rodrigo);
-            Memory.Rank.UpdateScore();
+            Memory.Rank.Rocket = RankEntry.RocketUsed(Memory.Player.Rocket);
+
+            Memory.Rank.UpdateScore(Memory.Difficulty);
         }
 
         private DifficultyEnumeration GetDifficulty(byte data)

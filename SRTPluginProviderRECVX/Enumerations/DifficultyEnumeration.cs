@@ -5,5 +5,6 @@
         Normal = 0,
         Easy = 1,
         VeryEasy = 2,
+        Battle = 3,
     }
 }

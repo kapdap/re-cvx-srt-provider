@@ -1,4 +1,6 @@
-﻿namespace SRTPluginProviderRECVX.Models
+﻿using SRTPluginProviderRECVX.Enumerations;
+
+namespace SRTPluginProviderRECVX.Models
 {
     public class RankEntry : BaseNotifyModel
     {
@@ -51,6 +53,13 @@
             set => SetField(ref _rodrigo, value);
         }
 
+        private bool _rocket;
+        public bool Rocket
+        {
+            get => _rocket;
+            set => SetField(ref _rocket, value);
+        }
+
         private int _score;
         public int Score
         {
@@ -65,27 +74,27 @@
             set => SetField(ref _name, value);
         }
 
-        public void UpdateScore()
+        // TODO: Battle Mode
+        public void UpdateScore(DifficultyEnumeration difficulty)
         {
             Score = Time + Saves + Retry + FAS + Map + Steve + Rodrigo;
 
+            if (difficulty != DifficultyEnumeration.Normal)
+                Name = "F";
             if (Score < 1000)
                 Name = "E";
             else if (Score < 4999)
                 Name = "D";
             else if (Score < 6999)
                 Name = "C";
-            else if (Score < 9999)
+            else if (Score < 9999 || Rocket)
                 Name = "B";
             else
                 Name = "S/A";
         }
 
-        public static int PlayTimeScore(int timer, int difficulty, int character)
+        public static int PlayTimeScore(int timer)
         {
-            if (difficulty > 0)
-                return 0;
-
             if (timer < 972060)
                 return 8250;
             else if(timer < 1080060)
@@ -118,6 +127,9 @@
 
         public static int SteveEventScore(int p1) =>
             CheckFlag(p1, 155) == 0 && CheckFlag(p1, 156) != 0 ? -1000 : 0;
+
+        public static bool RocketUsed(int p1) =>
+            CheckFlag(p1, 75) != 0;
 
         public static int CheckFlag(int p1, int p2) =>
             (int)(0x80000000 >> (p2 & 31) & p1);
