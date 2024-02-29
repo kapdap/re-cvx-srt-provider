@@ -1,5 +1,4 @@
-﻿using Reloaded.Memory;
-using SRTPluginProviderRECVX.Enumerations;
+﻿using SRTPluginProviderRECVX.Enumerations;
 using SRTPluginProviderRECVX.Models;
 using SRTPluginProviderRECVX.Utilities;
 using System;
@@ -268,7 +267,7 @@ namespace SRTPluginProviderRECVX
             if (Memory.Version.Country == CountryEnumeration.JP)
                 Memory.Player.MaximumHP = Memory.Difficulty == DifficultyEnumeration.VeryEasy ? 400 : 200;
             else
-                Memory.Player.MaximumHP = 160;
+                Memory.Player.MaximumHP = Memory.Difficulty == DifficultyEnumeration.VeryEasy ? 320 : 160;
 
             RefreshInventory();
             RefreshEnemy();
