@@ -52,6 +52,17 @@ namespace SRTPluginProviderRECVX
             private set => SetField(ref _supported, value);
         }
 
+        public static bool IsValid(string code) => 
+            code == GCDJ08 ||
+            code == GCDE08 ||
+            code == GCDP08 ||
+            code == SLPM_65022 ||
+            code == SLUS_20184 ||
+            code == SLES_50306 ||
+            code == NPJB00135 ||
+            code == NPUB30467 ||
+            code == NPEB00553;
+
         public GameVersion() => Update();
 
         public GameVersion(string code) => Update(code);

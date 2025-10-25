@@ -9,7 +9,7 @@
     <Company>Kapdap</Company>
     <Product>Resident Evil: Code: Veronica Memory Provider Plugin</Product>
     <Description>A provider plugin for the SRT Host to provide memory values to other plugins.</Description>
-    <Copyright>Copyright © 2024 Kapdap</Copyright>
+    <Copyright>Copyright © 2025 Kapdap</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/kapdap/re-cvx-srt-provider</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -28,10 +28,6 @@
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <DebugType>None</DebugType>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Reloaded.Memory.Sigscan" Version="3.1.8" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Squirrelies\SRTHost\SRTPluginBase\SRTPluginBase.csproj">

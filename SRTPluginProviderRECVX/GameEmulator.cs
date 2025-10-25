@@ -1,6 +1,4 @@
-﻿using Reloaded.Memory.Sigscan;
-using Reloaded.Memory.Sigscan.Definitions.Structs;
-using SRTPluginProviderRECVX.Utilities;
+﻿using SRTPluginProviderRECVX.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,7 +66,7 @@ namespace SRTPluginProviderRECVX
             }
             else // RPCS3
             {
-                VirtualMemoryPointer = new IntPtr(0x300000000);
+                UpdateVirtualMemoryPointer();
                 ProductLength = 9;
                 IsBigEndian = true;
             }
@@ -90,14 +88,12 @@ namespace SRTPluginProviderRECVX
                 _dolphin.TryGetBaseAddress(out pointer);
 
                 VirtualMemoryPointer = pointer;
-                ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x0);
             }
             else if (Process.ProcessName.ToLower().StartsWith(PCSX2))
             {
                 if (Process.ProcessName.ToLower() == PCSX2) // PCSX2 1.6 and earlier
                 {
                     VirtualMemoryPointer = new IntPtr(0x20000000);
-                    ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x00015B90);
                 }
                 else // PCSX2 1.7+
                 {
@@ -107,22 +103,12 @@ namespace SRTPluginProviderRECVX
 
                     VirtualMemoryPointer = (IntPtr)Process.ReadValue<long>(address);
 
-                    if (Process.ProcessName.ToLower() == PCSX264WX ||
-                        Process.ProcessName.ToLower() == PCSX264WXAV)
-                        ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x000155D0);
-                    else
-                        ProductPointer = IntPtr.Add(VirtualMemoryPointer, 0x00012610);
-
                     NativeWrappers.FreeLibrary(process);
                 }
             }
             else // RPCS3
             {
-                Scanner scanner = new Scanner(Process, Process.MainModule);
-                PatternScanResult result = scanner.FindPattern("50 53 33 5F 47 41 4D 45 00 00 00 00 00 00 00 00 08 00 00 00 00 00 00 00 0F 00 00 00 00 00 00 00 30 30");
-                
-                IntPtr pointer = IntPtr.Add(Process.MainModule.BaseAddress, result.Offset);
-                ProductPointer = result.Offset != 0 ? IntPtr.Add(pointer, -0xE0) : IntPtr.Zero;
+                VirtualMemoryPointer = new IntPtr(0x300000000);
             }
         }
 
