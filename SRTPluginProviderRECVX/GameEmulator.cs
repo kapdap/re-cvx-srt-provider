@@ -124,10 +124,13 @@ namespace SRTPluginProviderRECVX
                 {
                     if (Process.ProcessName.ToLower() == Dolphin)
                     {
-                        string title = WindowHelper.GetWindowTitle(handle);
+                        string title = WindowHelper.GetWindowTitle(handle).ToLower();
 
-                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("dolphin"))
-                            return handle;
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) ||
+							title.Contains("gcdj08") ||
+							title.Contains("gcde08") ||
+							title.Contains("gcdp08"))
+							return handle;
                     }
                     // https://forums.pcsx2.net/Thread-can-someone-help-PCSX2-s-ClassName
                     // How to return the PCSX2 game window handle (Post #4)
