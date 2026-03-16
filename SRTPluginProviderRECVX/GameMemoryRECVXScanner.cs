@@ -59,21 +59,24 @@ namespace SRTPluginProviderRECVX
                 : process.StartsWith(GameEmulator.PCSX2)
                     ? [0x00015B90, 0x000155D0, 0x00012610]
                     : [0x10010251]; // RPCS3
+            bool isValid = false;
 
-            for (int i = 0; i < offsets.Length; i++)
+			for (int i = 0; i < offsets.Length; i++)
             {
                 IntPtr pointer = IntPtr.Add(Emulator.VirtualMemoryPointer, offsets[i]);
                 string product = _process.ReadString(pointer, Emulator.ProductLength);
 
-                if (!GameVersion.IsValid(product) && i == offsets.Length - 1)
-                    Memory.Version.Update(String.Empty);
-                else
+                if (GameVersion.IsValid(product))
                 {
-                    Memory.Version.Update(product);
+                    isValid = true;
+					Memory.Version.Update(product);
                     break;
                 }
             }
-        }
+
+            if (!isValid)
+				Memory.Version.Update(String.Empty);
+		}
 
         public void UpdatePointerAddresses()
         {
