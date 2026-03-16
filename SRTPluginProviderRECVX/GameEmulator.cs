@@ -28,9 +28,9 @@ namespace SRTPluginProviderRECVX
                 {
                     _emulatorList = new List<string>();
 
-                    foreach (FieldInfo field in typeof(GameEmulator).GetFields())
-                        if (field.IsLiteral && !field.IsInitOnly)
-                            _emulatorList.Add((string)field.GetValue(null));
+					foreach (FieldInfo info in typeof(GameEmulator).GetFields())
+                        if (info.IsLiteral && !info.IsInitOnly)
+                            _emulatorList.Add((string)info.GetValue(null));
                 }
 
                 return _emulatorList;
@@ -114,7 +114,9 @@ namespace SRTPluginProviderRECVX
 
         public IntPtr FindGameWindowHandle(string filter = null)
         {
-            if (Process != null)
+            filter = filter?.ToLower();
+
+			if (Process != null)
             {
                 List<IntPtr> handles = WindowHelper.EnumerateProcessWindowHandles(Process.Id);
 
@@ -124,7 +126,7 @@ namespace SRTPluginProviderRECVX
                     {
                         string title = WindowHelper.GetWindowTitle(handle);
 
-                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("Dolphin 5.0 |"))
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("dolphin"))
                             return handle;
                     }
                     // https://forums.pcsx2.net/Thread-can-someone-help-PCSX2-s-ClassName
@@ -133,20 +135,23 @@ namespace SRTPluginProviderRECVX
                     // 2. Compare the leftmost window text of them with a string "GSdx".
                     else if (Process.ProcessName.ToLower().StartsWith(PCSX2))
                     {
-                        string title = WindowHelper.GetWindowTitle(handle);
+                        string title = WindowHelper.GetWindowTitle(handle).ToLower();
 
                         if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) ||
-                            title.Contains("GS:") ||
-                            title.Contains("BioHazard") ||
-                            title.Contains("Resident Evil"))
+                            title.Contains("gs:") ||
+                            title.Contains("biohazard") ||
+                            title.Contains("resident evil"))
                             return handle;
                     }
-                    else if (!WindowHelper.GetClassName(handle).EndsWith("QWindowIcon")) // RPCS3
+                    else if (WindowHelper.GetClassName(handle).EndsWith("QWindowIcon")) // RPCS3
                     {
-                        string title = WindowHelper.GetWindowTitle(handle);
+                        string title = WindowHelper.GetWindowTitle(handle).ToLower();
 
-                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || title.StartsWith("FPS"))
-                            return handle;
+                        if ((!String.IsNullOrEmpty(filter) && title.Contains(filter)) || 
+                            title.StartsWith("fps") ||
+							title.Contains("biohazard") || 
+                            title.Contains("resident evil"))
+							return handle;
                     }
                 }
             }
